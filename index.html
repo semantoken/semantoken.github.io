@@ -48,7 +48,12 @@
   .btn.disabled { background: #b5b5b5; cursor: default; }
   .btn svg { width: 16px; height: 16px; fill: currentColor; }
 
-  .tldr { max-width: 820px; margin: 18px auto 0; font-size: 17px; text-align: center; color: #33373d; }
+  .tldr { max-width: 860px; margin: 18px auto 0; text-align: left; display: flex; gap: 14px; align-items: flex-start;
+          background: #f6f2fb; border: 1px solid #e3d8f2; border-left: 4px solid var(--ours); border-radius: 10px; padding: 12px 16px; }
+  .tldr p { margin: 0; font-size: 16px; color: #33373d; }
+  .tldr-tag { flex: none; font: 700 12px/1 "Noto Sans", sans-serif; letter-spacing: .08em; color: #fff; background: var(--ours);
+              border-radius: 5px; padding: 5px 7px; margin-top: 2px; }
+  .sub { font-size: 13.5px; color: var(--mute); margin: 0 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   /* ---------- sections ---------- */
   section { padding: 30px 0 6px; scroll-margin-top: 44px; }
@@ -70,6 +75,8 @@
   .clip .rl { position: absolute; left: -30px; width: 30px; transform: translateY(-50%) rotate(180deg); text-align: center;
               writing-mode: vertical-rl; font-size: 11.5px; line-height: 1.15; white-space: nowrap; }
   .clip .rl b { font-weight: 700; }
+  .clip .mt { position: absolute; transform: translateX(-50%); font-size: 10.5px; text-align: center; color: var(--mute); white-space: nowrap; line-height: 1.2; }
+  .clip .mt b { color: var(--ink); }
   .clip .cl { position: absolute; top: -19px; transform: translateX(-50%); font-size: 12.5px; color: var(--mute); white-space: nowrap; }
   .clip video { width: 100%; height: auto; display: block; cursor: pointer; background: #fff; }
   .teaser { display: grid; gap: 26px; align-items: start; }
@@ -167,6 +174,8 @@
     .stats { grid-template-columns: repeat(2, 1fr); }
     .teaser { grid-template-columns: 1fr !important; }
     .chips .grp { min-width: 0; width: 100%; text-align: center; }
+    .tldr { flex-direction: column; gap: 8px; }
+    .sub { white-space: normal; }
     .arch-points, .split, .pair { grid-template-columns: 1fr; }
     .container { padding: 0 16px; }
   }
@@ -195,10 +204,12 @@
     <a class="btn" href="#videos"><svg viewBox="0 0 24 24"><path d="M3 5h13v14H3zM17 10l5-3v10l-5-3z"/></svg>Videos</a>
     <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
   </div>
-  <p class="tldr">Flexible video tokenizers let an autoregressive (AR) model stop at any token budget.
-    <span class="ours">SemanTok</span> makes the <em>first</em> tokens carry what the clip is about, so they are
-    cheaper to predict, and a small AR model matches or beats a
-    <span class="base">VideoFlexTok</span> model 3.4&times; its size.</p>
+  <div class="tldr"><span class="tldr-tag">TL;DR</span>
+    <p>Flexible, coarse-to-fine video tokenizers let an autoregressive (AR) model generate only the first <i>k</i> tokens per frame.
+    <span class="ours">SemanTok</span> adds semantic supervision from a frozen DINOv2 teacher, so these short token prefixes carry the clip's semantics.
+    The prefixes are cheaper to predict, and a 201M SemanTok AR model matches or beats a
+    <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
+  </div>
 </header>
 
 <nav class="topnav"><div class="container">
@@ -210,33 +221,36 @@
   <div class="container">
     <h2>Results</h2>
     <div class="legend">
-      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
       <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
+      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
       <div><i>k</i> = tokens per latent frame (coarse &rarr; fine)</div>
     </div>
 
-    <div class="teaser" style="grid-template-columns: 44fr 66fr">
+    <!-- Column widths follow the two grids' pixel widths (+30 px row labels) so both grids get the same height. -->
+    <div class="teaser" style="grid-template-columns: minmax(0, 554fr) minmax(0, 810fr)">
       <div>
-        <h3>Text-to-video <span>&middot; &ldquo;A small orange basketball on a plaid tablecloth&rdquo;</span></h3>
+        <h3>Text-to-video <span>&middot; uCO3D</span></h3>
+        <p class="sub">Prompt: &ldquo;A small orange basketball on a plaid tablecloth&rdquo;</p>
         <div data-clip="GenerationUCO3D_Basketball"></div>
-        <p class="caption">With <i>k</i>=4 tokens per frame, the 201M SemanTok model already keeps the ball's shape.
-          VideoFlexTok loses it at the same size and is unstable up to <i>k</i>=64 even at 11&times; the size.</p>
+        <p class="caption">With a budget of only <i>k</i>=4, the 201M SemanTok AR model keeps the ball's shape and appearance through the orbit.
+          At the same AR size, VideoFlexTok's ball is semantically misaligned, and even an 11&times; larger AR model (2.29B) leaves its shape unstable up to <i>k</i>=64.</p>
       </div>
       <div>
-        <h3>Class-to-video <span>&middot; &ldquo;yoga&rdquo;, both 2.29B (equal cost)</span></h3>
+        <h3>Class-to-video <span>&middot; Kinetics-600</span></h3>
+        <p class="sub">Class: &ldquo;yoga&rdquo; &middot; both AR models 2.29B (equal cost)</p>
         <div data-clip="GenerationK600_Yoga"></div>
-        <p class="caption">SemanTok keeps the body motion stable from <i>k</i>=16; more tokens refine it.
-          VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16.</p>
+        <p class="caption">SemanTok keeps a complex body motion stable from <i>k</i>=16, and larger <i>k</i> refines its appearance and motion.
+          VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16. Visually matched pair from 24 samples per tokenizer.</p>
       </div>
     </div>
 
     <div class="stats">
-      <div class="stat"><b>3.4&times;</b><span>smaller SemanTok AR model matches or beats VideoFlexTok</span></div>
-      <div class="stat"><b>+25&ndash;61%</b><span>class accuracy on Kinetics-600 at equal AR size</span></div>
-      <div class="stat"><b>&minus;32%</b><span>bits per token to predict the <i>k</i>=16 prefix</span></div>
-      <div class="stat"><b>49M &gt; 2.29B</b><span>smallest SemanTok beats the largest VideoFlexTok in semantic alignment</span></div>
+      <div class="stat"><b>3.4&times;</b><span>a 201M SemanTok AR model matches or beats a VideoFlexTok AR model 3.4&times; its size</span></div>
+      <div class="stat"><b>+25&ndash;61%</b><span>class accuracy on Kinetics-600 vs. the same-size VideoFlexTok AR model</span></div>
+      <div class="stat"><b>&minus;11&ndash;24%</b><span>gFVD on Kinetics-600 vs. the same-size VideoFlexTok AR model</span></div>
+      <div class="stat"><b>+29%</b><span>class accuracy on uCO3D classes held out from training (201M AR, <i>k</i>=16)</span></div>
     </div>
-
+    <p class="caption" style="margin-top:6px">Kinetics-600 ranges span the seven AR sizes (49M&ndash;2.29B), with each tokenizer at its best <i>k</i>.</p>
   </div>
 </section>
 
@@ -244,29 +258,33 @@
 <section id="method">
   <div class="container">
     <h2>How it works</h2>
-    <p class="lead">A coarse-to-fine tokenizer turns each latent frame into up to 256 tokens; any prefix of <i>k</i>
-      tokens decodes to a video. An AR model then predicts only the prefix the application asks for.</p>
+    <p class="lead">The tokenizer encodes each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
+      decodes to a video. The AR model predicts tokens coarse to fine, up to the budget <i>k</i> chosen at inference.</p>
     <figure>
       <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
     </figure>
 
     <div class="arch-points">
-      <div><b>DINO in</b>Frozen DINOv2 features are fed into the encoder next to the video latents.</div>
-      <div><b>DINO out, from the prefix only</b>Two light heads must rebuild the DINO features from each kept token prefix, never seeing the noisy latent.</div>
-      <div><b>Nothing else changes</b>Same codebook, sequence length, decoder, and AR recipe as <span class="base">VideoFlexTok</span>.</div>
+      <div><b>DINOv2 features in the encoder</b>Frozen DINOv2 patch features are concatenated with each VAE latent patch before the input projection.
+        A zero-initialized projection of each frame's DINO class token is added to that frame's first register token.</div>
+      <div><b>DINOv2 targets for every prefix</b>A Dense and a Class DINO head, each two cross-attention layers, reconstruct the DINO patch features and class token
+        from the kept token prefix alone. Unlike decoder REPA, they never see the noised latent, so only the tokens can lower their loss.</div>
+      <div><b>Same token interface</b>SemanTok keeps VideoFlexTok's FSQ codebook (64k codes), sequence length, nested dropout, native decoder and its losses.
+        Both tokenizers are therefore compared under the same AR models and training recipe.</div>
     </div>
-    <p class="caption">No loss assigns semantics to specific tokens. Nested dropout alone pushes the most useful information into the earliest ones.</p>
+    <p class="caption">No loss assigns information to particular tokens; nested dropout concentrates the most relevant information in the earliest ones.</p>
 
     <details class="more">
-      <summary>Full architecture</summary>
+      <summary>Full SemanTok tokenizer</summary>
       <div class="inner">
-        <object class="svgfig" type="image/svg+xml" data="static/img/architecture.svg" style="aspect-ratio: 1462.27 / 500.62" aria-label="Full SemanTok architecture."></object>
+        <object class="svgfig" type="image/svg+xml" data="static/img/architecture.svg" style="aspect-ratio: 1462.27 / 500.62" aria-label="Full SemanTok tokenizer."></object>
         <p class="caption" style="text-align:left;margin-left:0">
-          <span class="base">Orange</span>: the VideoFlexTok path (VAE &rarr; time-causal encoder &rarr; FSQ &rarr; nested dropout &rarr;
-          time-causal flow decoder, trained with flow matching + decoder REPA).
-          <span class="ours">Purple</span>: SemanTok's additions: DINOv2 patches concatenated to each VAE patch, the
-          DINO class token added to the first register token, and Dense / Class DINO heads that cross-attend to
-          the kept prefix of frames &le; <i>t</i> (cosine losses, weight 0.5 each).</p>
+          <span class="base">Orange</span>: the VideoFlexTok path. A frozen VidTok VAE maps the clip to latents; a time-causal encoder
+          reads patches and <i>K</i>=256 learnable register tokens per frame; FSQ quantizes the register outputs; nested dropout keeps a
+          token prefix that conditions a time-causal rectified-flow decoder, trained with flow matching and decoder REPA.
+          <span class="ours">Purple</span>: SemanTok's semantic supervision. DINOv2 patch features are concatenated with each VAE patch,
+          the frame's DINO class token is added to register token <i>r</i><sub><i>t</i>,0</sub>, and the Dense and Class DINO heads
+          cross-attend to the kept prefix of frames &le; <i>t</i> (cosine losses, weight 0.5 each).</p>
       </div>
     </details>
   </div>
@@ -276,18 +294,18 @@
 <section id="findings">
   <div class="container">
     <h2>Seven findings</h2>
-    <p class="lead">We compare the two tokenizers across seven AR sizes (49M&ndash;2.29B) and all token budgets, on
-      class-to-video (Kinetics-600) and text-to-video (uCO3D), measuring
+    <p class="lead">We compare the two tokenizers at seven AR sizes (49M&ndash;2.29B) and token budgets <i>k</i>=1&ndash;256, on
+      class-to-video (Kinetics-600) and text-to-video (uCO3D), for
       <span class="fid">fidelity</span> (gFVD, gFID) and <span class="sem">semantic alignment</span> (class accuracy, ViCLIP, ClipV).</p>
 
     <nav class="toc">
-      <a href="#f1"><span class="badge" style="background:var(--f1)">1</span><span class="t">High semantic alignment and fidelity at every AR size</span></a>
-      <a href="#f2"><span class="badge" style="background:var(--f2)">2</span><span class="t">Scaling the AR model further improves fidelity</span></a>
-      <a href="#f3"><span class="badge" style="background:var(--f3)">3</span><span class="t">Semantics hold on out-of-distribution classes</span></a>
-      <a href="#f4"><span class="badge" style="background:var(--f4)">4</span><span class="t">Higher decoder-REPA alignment at every noise level</span></a>
-      <a href="#f5"><span class="badge" style="background:var(--f5)">5</span><span class="t">Strong in reconstruction and in generation</span></a>
-      <a href="#f6"><span class="badge" style="background:var(--f6)">6</span><span class="t">Earlier tokens are cheaper to predict and carry the gain</span></a>
-      <a href="#f7"><span class="badge" style="background:var(--f7)">7</span><span class="t">One token per frame is too few for every objective</span></a>
+      <a href="#f1"><span class="badge" style="background:var(--f1)">1</span><span class="t">High semantic alignment and video fidelity at every AR model size</span></a>
+      <a href="#f2"><span class="badge" style="background:var(--f2)">2</span><span class="t">Increasing the AR model size further improves fidelity</span></a>
+      <a href="#f3"><span class="badge" style="background:var(--f3)">3</span><span class="t">Semantic alignment is maintained on out-of-distribution classes</span></a>
+      <a href="#f4"><span class="badge" style="background:var(--f4)">4</span><span class="t">Higher decoder-REPA semantic alignment at all noise levels</span></a>
+      <a href="#f5"><span class="badge" style="background:var(--f5)">5</span><span class="t">High fidelity in reconstruction as well as generation</span></a>
+      <a href="#f6"><span class="badge" style="background:var(--f6)">6</span><span class="t">The fidelity gain comes from earlier tokens, which are cheaper to predict</span></a>
+      <a href="#f7"><span class="badge" style="background:var(--f7)">7</span><span class="t">With one token per frame, SemanTok struggles to serve every objective</span></a>
     </nav>
     <p class="hint" style="text-align:center">Click a <span style="color:var(--f1)">&#9679;</span> point to see the numbers behind it.</p>
 
@@ -297,20 +315,21 @@
         <h3 style="color:var(--f1)">SemanTok exhibits high semantic alignment and video fidelity at every AR model size.</h3></div>
       <figure class="fig">
         <object class="svgfig" type="image/svg+xml" data="static/img/ar_scaling_flops_v2.svg" style="aspect-ratio: 396.00 / 163.64" aria-label="Generation metrics versus AR inference FLOPs for both tokenizers."></object>
-        <p class="caption">Generation vs. AR inference FLOPs. Faded curves: one AR size sweeping <i>k</i> = 1&hellip;256.
-          Solid black: SemanTok's best at each compute; dashed: VideoFlexTok's.</p>
+        <p class="caption">Generation vs. AR inference FLOPs per clip. Each faded curve is one AR size sweeping <i>k</i> from 1 to 256.
+          Black: the best score each tokenizer reaches at a given compute. SemanTok's envelope is better over most of the compute range.</p>
       </figure>
       <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Every SemanTok AR model beats the same-size VideoFlexTok model on both datasets.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">With each tokenizer at its best <i>k</i>, on Kinetics-600: gFVD &minus;11&ndash;24%, gFID &minus;5&ndash;17%,
-            class accuracy +25&ndash;61%, largest for the smallest models. On uCO3D: +2&ndash;13%, +5&ndash;8% and +22&ndash;30%.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">An 85M SemanTok model at <i>k</i>=16 beats VideoFlexTok of <em>every</em> size, up to 2.29B, in gFID.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">This holds on both datasets, and also in gFVD on Kinetics-600. On uCO3D it matches that model
-            in gFVD and beats it in class accuracy.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Even the 49M SemanTok model out-scores the best VideoFlexTok model in semantic alignment.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">In class accuracy, ClipV and ViCLIP, on both datasets. Kinetics-600 class accuracy: 0.631 vs 0.560 for the 2.29B VideoFlexTok model.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok stays good over longer prefixes.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">More tokens cost more AR compute and eventually hurt gFVD. VideoFlexTok degrades after <i>k</i>=16, SemanTok only after <i>k</i>=32.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">With each tokenizer at its best <i>k</i>, every SemanTok AR model reaches lower gFVD and gFID and higher class accuracy than the VideoFlexTok AR model of the same size.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">On Kinetics-600, SemanTok lowers gFVD by 11&ndash;24% and gFID by 5&ndash;17% and raises class accuracy by 25&ndash;61%, with the largest gains for the smallest AR models.
+            On uCO3D, it improves gFVD, gFID and class accuracy by 2&ndash;13%, 5&ndash;8% and 22&ndash;30%.
+            In paired bootstrap tests, every metric's gain excludes zero at every size, except uCO3D gFVD (two of seven sizes).</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">At the single budget <i>k</i>=16, an 85M SemanTok AR model beats VideoFlexTok AR models of every size and budget, up to 2.29B, in gFID.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">This holds on both datasets, and in gFVD on Kinetics-600. The 85M SemanTok AR model matches that VideoFlexTok AR model in uCO3D gFVD and beats it in class accuracy on both datasets.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Even the smallest SemanTok AR model (49M) beats the best VideoFlexTok AR model of any size in semantic alignment.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">In class accuracy, ClipV and ViCLIP, on both datasets. On Kinetics-600, SemanTok's class accuracy is 0.631, against 0.560 for the 2.29B VideoFlexTok AR model.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's gFVD degrades only at longer token prefixes than VideoFlexTok's.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">More tokens cost more AR compute, and beyond a certain budget generations degrade in gFVD.
+            VideoFlexTok's gFVD worsens after <i>k</i>=16, SemanTok's only after <i>k</i>=32.</div></div></li>
       </ul>
     </article>
 
@@ -321,21 +340,21 @@
       <div class="split">
         <figure class="fig">
           <object class="svgfig" type="image/svg+xml" data="static/img/ar_size_halfwidth.svg" style="aspect-ratio: 188.84 / 171.99" aria-label="Best-k metrics versus AR model size."></object>
-          <p class="caption">Best-<i>k</i> scores vs. AR size. Fidelity improves with size for both; the semantic gap does not close.</p>
+          <p class="caption">Best-<i>k</i> scores vs. AR model size. Fidelity scales with AR size for both tokenizers, while the semantic-alignment gap between them does not close.</p>
         </figure>
         <ul class="points">
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Bigger AR models sharpen fidelity for both tokenizers, and SemanTok gets there with fewer parameters.</span><span class="chev">&#9656;</span></button>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Fidelity improves with AR model size for both tokenizers, and SemanTok reaches a given fidelity with fewer parameters.</span><span class="chev">&#9656;</span></button>
             <div class="detail"><div class="d">From 49M to 2.29B, SemanTok's best-<i>k</i> gFVD falls from 224 to 202 on Kinetics-600 and from 218 to 197 on uCO3D.
-              Scale mostly trims the error that compounds during the token rollout.</div></div></li>
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Semantic alignment barely moves with scale, because the first tokens, which come from the tokenizer, already decide what the clip shows.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">SemanTok's best-<i>k</i> class accuracy and ClipV lie above VideoFlexTok at every size.
-              The advantage is largest where AR capacity is scarce: at <i>k</i>=64 the gFID gain halves from 49M to 2.29B.</div></div></li>
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Training longer behaves like scaling up: 5&times; more training buys VideoFlexTok some fidelity, but not semantics.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">1.33B model on Kinetics-600: SemanTok's gFVD lead shrinks from 28% to 9% by 26B tokens, then holds at 11&ndash;14%.
-              Its class-accuracy lead is still 30% after 65.5B tokens.
+              Larger AR models mostly trim the compounding error of the token rollout.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The same scaling gains less in semantic alignment: what the clip shows is largely decided by the first tokens, which come from the tokenizer.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">SemanTok's best-<i>k</i> class accuracy and ClipV lie above VideoFlexTok's at every size.
+              SemanTok's benefit is largest where AR capacity is scarce: at <i>k</i>=64, its gFID gain over VideoFlexTok halves from 49M to 2.29B.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Training budget behaves like model size: 5&times; more training buys VideoFlexTok some fidelity, but not semantic alignment.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">For the 1.33B AR model on Kinetics-600, SemanTok's best-<i>k</i> gFVD lead shrinks from 28% to 9% by 26B training tokens, then holds at 11&ndash;14%.
+              Its class-accuracy lead is still 30% after 65.5B tokens. On uCO3D, SemanTok's ClipV nearly saturates by 13B tokens and stays above VideoFlexTok's.
               <object class="svgfig" type="image/svg+xml" data="static/img/ar_trainD_tokens.svg" style="aspect-ratio: 189.23 / 159.68" aria-label="Metrics versus AR training tokens."></object></div></div></li>
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">One rollout: scaling to 2.29B sharpens both, SemanTok keeps its lead.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">Playing guitar at 201M and 2.29B. At 201M, SemanTok degrades slowly over time, while VideoFlexTok is sharp only at <i>t</i>=1.
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">In one rollout, scaling to 2.29B sharpens the videos of both tokenizers, and SemanTok keeps the lead.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">Class-to-video, &ldquo;playing guitar&rdquo;. At 201M, SemanTok degrades slowly over time, while VideoFlexTok is sharp only at <i>t</i>=1.
               <div style="margin-top:10px"><b style="font-size:13px">201M</b><div data-clip="GenerationK600_Guitar_201M"></div></div>
               <div style="margin-top:8px"><b style="font-size:13px">2.29B</b><div data-clip="GenerationK600_Guitar_2.29B"></div></div></div></div></li>
         </ul>
@@ -346,42 +365,49 @@
     <article class="finding" id="f3" style="--c:var(--f3)">
       <div class="finding-head"><span class="badge" style="background:var(--f3)">3</span>
         <h3 style="color:var(--f3)">SemanTok is able to maintain semantic alignment over out-of-distribution classes.</h3></div>
-      <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/recon_idood.svg" style="aspect-ratio: 396.00 / 194.60" aria-label="uCO3D reconstructions from ground-truth tokens for in- and out-of-distribution clips."></object>
-        <p class="caption">uCO3D reconstructions from ground-truth tokens: SemanTok recovers the object class at a smaller <i>k</i>, on seen (ID) and unseen (OOD) categories.</p>
-      </figure>
-      <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok prefixes recover <em>what</em> the object is earlier, and trade some pixel accuracy for it.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=16 on uCO3D, SemanTok's reconstructions score higher ClipV and class accuracy than VideoFlexTok's, but about 2.7 dB lower PSNR.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The lead carries over to generation on categories never seen in training.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">201M AR model at <i>k</i>=16: class accuracy +24% on ID clips and +29% on OOD classes, ClipV better on both.
-            ViCLIP favours SemanTok from <i>k</i>=16 on, but not at <i>k</i>=4.
-            <table class="mini">
-              <tr><th>ID / OOD, 201M</th><th><i>k</i>=4</th><th><i>k</i>=16</th><th><i>k</i>=256</th></tr>
-              <tr><td>Class acc. &middot; VideoFlexTok</td><td>0.23 / 0.16</td><td>0.27 / 0.18</td><td>0.24 / 0.16</td></tr>
-              <tr><td>Class acc. &middot; SemanTok</td><td><b>0.27 / 0.18</b></td><td><b>0.34 / 0.23</b></td><td><b>0.27 / 0.18</b></td></tr>
-              <tr><td>ClipV &middot; VideoFlexTok</td><td>0.70 / <b>0.63</b></td><td>0.73 / 0.65</td><td>0.70 / 0.63</td></tr>
-              <tr><td>ClipV &middot; SemanTok</td><td><b>0.70</b> / 0.62</td><td><b>0.75 / 0.66</b></td><td><b>0.73 / 0.65</b></td></tr>
-            </table></div></div></li>
-      </ul>
+      <div class="split" style="grid-template-columns: 1.55fr 1fr">
+        <figure class="fig">
+          <p class="sub" style="margin:0"><b>Banana</b> &middot; in-distribution class (ID)</p>
+          <div data-clip="F3_Banana_ID"></div>
+          <p class="sub" style="margin:10px 0 0"><b>Almond</b> &middot; out-of-distribution class (OOD)</p>
+          <div data-clip="F3_Almond_OOD"></div>
+          <p class="caption">uCO3D reconstructions from ground-truth tokens. Under each clip: PSNR (dB) and ClipV against the VAE ground truth; bold is better at that <i>k</i>.</p>
+        </figure>
+        <ul class="points">
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's token prefixes recover the original object class at a lower <i>k</i> than VideoFlexTok's, on both ID and OOD clips.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">OOD object classes are never seen in training. At <i>k</i>=16 on uCO3D, SemanTok's reconstructions score higher ClipV and class accuracy than VideoFlexTok's, but about 2.7 dB lower PSNR.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The lead carries over to AR generation, on seen and held-out classes.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">With a 201M AR model at <i>k</i>=16, SemanTok raises generated class accuracy over VideoFlexTok by 24% on ID clips and by 29% on OOD classes, and improves ClipV on both.
+              ViCLIP favours SemanTok from <i>k</i>=16 on, but not at <i>k</i>=4.
+              <table class="mini">
+                <tr><th>ID / OOD, 201M AR</th><th><i>k</i>=4</th><th><i>k</i>=16</th><th><i>k</i>=256</th></tr>
+                <tr><td>Class acc. &middot; VideoFlexTok</td><td>0.23 / 0.16</td><td>0.27 / 0.18</td><td>0.24 / 0.16</td></tr>
+                <tr><td>Class acc. &middot; SemanTok</td><td><b>0.27 / 0.18</b></td><td><b>0.34 / 0.23</b></td><td><b>0.27 / 0.18</b></td></tr>
+                <tr><td>ClipV &middot; VideoFlexTok</td><td>0.70 / <b>0.63</b></td><td>0.73 / 0.65</td><td>0.70 / 0.63</td></tr>
+                <tr><td>ClipV &middot; SemanTok</td><td><b>0.70</b> / 0.62</td><td><b>0.75 / 0.66</b></td><td><b>0.73 / 0.65</b></td></tr>
+              </table></div></div></li>
+        </ul>
+      </div>
     </article>
 
     <!-- 4 -->
     <article class="finding" id="f4" style="--c:var(--f4)">
       <div class="finding-head"><span class="badge" style="background:var(--f4)">4</span>
-        <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including pure noise.</h3></div>
+        <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including the pure noise setting.</h3></div>
       <figure class="fig">
         <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg" style="aspect-ratio: 390.61 / 87.57" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
-        <p class="caption">DINOv2 cosine of the decoder's REPA readout vs. <i>k</i>, for decoder inputs from pure noise (&sigma;=1) to mostly clean (&sigma;=0.25). Panels (b, d): how much a cleaner latent helps.</p>
+        <p class="caption">DINOv2 cosine similarity of the decoder's REPA readout vs. <i>k</i>, with decoder inputs from pure noise (&sigma;=1) to a mostly clean latent (&sigma;=0.25).
+          (b, d): how much a cleaner latent adds. SemanTok's readout depends less on the noised latent.</p>
       </figure>
       <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA alone is a weak signal for the tokens: the decoder can read part of the target from its noisy input.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">Existing flexible tokenizers align an early decoder layer with DINOv2. But that layer also sees the partly noised latent, which at low noise meets the target almost regardless of the tokens.
-            SemanTok's heads read <em>only</em> the tokens, so only the tokens can lower their loss.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">From pure noise, as in generation, SemanTok's readout is closer to DINOv2 at every <i>k</i>.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=32 on uCO3D, SemanTok from pure noise (0.718) matches VideoFlexTok given a 75%-clean latent (0.716) (circled).</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's semantics live in the tokens, not in the latent.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=256, a cleaner latent adds almost nothing to SemanTok's readout, but nearly 9&times; more to VideoFlexTok's.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA can be partly satisfied by the decoder's noised input rather than by the tokens.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">Decoder REPA aligns an early decoder layer with DINOv2 features, but that layer also sees a partly noised latent, which can supply part of the target without the tokens.
+            SemanTok keeps decoder REPA and adds the DINO heads, which read only the tokens.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">For generation from pure noise, SemanTok's readout has a higher DINOv2 cosine similarity than VideoFlexTok's at every <i>k</i>.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=32 on uCO3D, SemanTok's pure-noise readout reaches the similarity that VideoFlexTok reaches only with a 75%-clean latent (0.718 vs. 0.716, circled).</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">A cleaner latent adds much less to SemanTok's readout than to VideoFlexTok's.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=256 the latent adds almost nothing to SemanTok's readout, but nearly 9&times; more to VideoFlexTok's.
+            The exception is the smallest budgets with a mostly clean latent (<a href="#f7">Finding 7</a>).</div></div></li>
       </ul>
     </article>
 
@@ -392,16 +418,16 @@
       <div class="split">
         <figure class="fig">
           <object class="svgfig" type="image/svg+xml" data="static/img/recon_ar_k.svg" style="aspect-ratio: 188.86 / 166.60" aria-label="Reconstruction versus generation metrics across k."></object>
-          <p class="caption">Black: reconstruction from ground-truth tokens. Red: AR generation at three sizes. The gap between them is what generation loses.</p>
+          <p class="caption">Black: reconstruction from ground-truth tokens. Red: AR generation at three AR sizes.
+            SemanTok loses less fidelity and semantic alignment from reconstruction to generation than VideoFlexTok.</p>
         </figure>
         <ul class="points">
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">VideoFlexTok reconstructs a bit better, but loses more when an AR model has to generate the tokens.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">VideoFlexTok wins on reconstruction PSNR and rFVD, yet its realization gap, from reconstruction to generation, is wider.
-              Detail that the AR model cannot predict never reaches a generated video.</div></div></li>
-          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok has the lower gFVD at every AR size, at both <i>k</i>=64 and <i>k</i>=128.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">So a better reconstruction score alone does not rank tokenizers for AR generation.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">VideoFlexTok reconstructs somewhat better in PSNR and rFVD, but it loses more fidelity in generation, so its realization gap is wider.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">The realization gap is what a tokenizer loses from reconstruction (ground-truth tokens) to generation (AR-sampled tokens).</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok has the lower gFVD at every AR size, at both <i>k</i>=64 and <i>k</i>=128, and hence the smaller realization gap.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">Larger AR models narrow the gap between generation and reconstruction for both tokenizers, but none closes it.</div></div></li>
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Why can generated class accuracy exceed reconstruction?</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">On Kinetics-600 the AR model is conditioned on the class label, which a reconstruction never sees.</div></div></li>
+            <div class="detail"><div class="d">On Kinetics-600, the AR model sees the class label; a reconstruction does not.</div></div></li>
         </ul>
       </div>
     </article>
@@ -412,17 +438,19 @@
         <h3 style="color:var(--f6)">SemanTok's generation fidelity gain comes from its earlier tokens, which are cheaper to predict.</h3></div>
       <figure class="fig">
         <object class="svgfig" type="image/svg+xml" data="static/img/ar_two_term.svg" style="aspect-ratio: 396.00 / 99.74" aria-label="Teacher forcing, cross-entropy per position, and generation versus reconstruction."></object>
-        <p class="caption">Kinetics-600. (a) gFVD advantage after forcing the first <i>m</i> ground-truth tokens. (b) AR cross-entropy per token position (201M). (c) Larger AR models narrow, but never close, the generation&ndash;reconstruction gap.</p>
+        <p class="caption">Kinetics-600. (a) &Delta;gFVD after teacher-forcing the first <i>m</i> ground-truth tokens per frame and free-running to <i>k</i>=256.
+          (b) Cross-entropy per token position under a 201M AR model: SemanTok's is lower for the first 128 positions and higher over 129&ndash;192.
+          (c) Larger AR models narrow the gap between generation and reconstruction for both tokenizers, but none closes it.</p>
       </figure>
       <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The gain is in the first tokens: give both models those, and SemanTok's lead disappears.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">With nothing forced, SemanTok's gFVD is 23% lower at 201M. Once the first 16&ndash;64 ground-truth tokens are forced, the lead vanishes, and VideoFlexTok's better-reconstructing tail edges ahead.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's prefix needs 32% fewer bits per token to predict at <i>k</i>=16.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">8.8 vs 12.9 bits at 201M. The marginal entropy is only ~1 bit lower, so most of the saving comes from context: the tokens are easier to predict from what came before.
-            It is not repetition; SemanTok repeats tokens less often overall.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Semantics first, pixel detail deferred, not discarded.</span><span class="chev">&#9656;</span></button>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Teacher-forcing only the first 16&ndash;64 ground-truth tokens per frame removes SemanTok's gFVD lead.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">With nothing forced, SemanTok's gFVD is 23% lower than VideoFlexTok's at 201M. Once the first 16&ndash;64 tokens are forced, the lead vanishes, and VideoFlexTok's better-reconstructing tail edges ahead.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's prefix is cheaper to predict: at <i>k</i>=16 it needs 32% fewer bits per token under the same AR model.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">Cross-entropy of 8.8 vs. 12.9 bits per token at 201M. SemanTok's marginal entropy is only about one bit lower, so most of the saving comes from context.
+            It does not come from repetition: SemanTok repeats tokens less often overall than VideoFlexTok.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's cheap prefix keeps the semantics and defers pixel detail to later tokens.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">SemanTok's first 4 tokens cost 37 bits per frame, yet nearly match the class accuracy of VideoFlexTok's first 32 tokens (405 bits).
-            Later tokens restore part of the detail, and the generative decoder fills in the rest.</div></div></li>
+            Later tokens restore part of that detail, and the generative decoder fills in the rest.</div></div></li>
       </ul>
     </article>
 
@@ -432,19 +460,21 @@
         <h3 style="color:var(--f7)">SemanTok with one token per frame struggles to serve every objective.</h3></div>
       <figure class="fig">
         <object class="svgfig" type="image/svg+xml" data="static/img/ci_diff_strip.svg" style="aspect-ratio: 396.00 / 108.00" aria-label="SemanTok's advantage over VideoFlexTok versus k with 95% bootstrap intervals."></object>
-        <p class="caption">SemanTok's advantage over VideoFlexTok at equal AR size (positive = SemanTok better), with 95% paired-bootstrap intervals.</p>
+        <p class="caption">SemanTok's advantage over VideoFlexTok at equal AR size vs. <i>k</i>, signed so that positive values favour SemanTok.
+          Bands: 95% paired-bootstrap intervals over evaluation clips; the grey line marks no difference.</p>
       </figure>
       <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The only significant losses are on uCO3D at <i>k</i> &le; 4, mostly gFID and ClipV at <i>k</i>=1.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">On Kinetics-600, SemanTok is never significantly worse. Its fidelity lead takes over at larger budgets (<a href="#f1">&#9312;</a>).</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's losses to VideoFlexTok that clear the bootstrap intervals are all on uCO3D at <i>k</i> &le; 4, mostly gFID and ClipV at <i>k</i>=1.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">On Kinetics-600, SemanTok is never significantly worse. SemanTok's fidelity lead follows at larger budgets (<a href="#f1">Finding 1</a>).</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA shows the same budget limit.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=1, the pure-noise lead is only 0.01 DINOv2 cosine, vs 0.04&ndash;0.07 from <i>k</i>=16. With a mostly clean latent (&sigma;=0.25), SemanTok's readout is lower up to <i>k</i>=4 on uCO3D and <i>k</i>=8 on Kinetics-600.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">One token holds ~16 bits, too few for flow matching, decoder REPA and semantic supervision at once, yet class accuracy never falls behind.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">SemanTok keeps its class-accuracy lead at every budget and every AR size.</div></div></li>
+          <div class="detail"><div class="d">At <i>k</i>=1, SemanTok's pure-noise readout leads by only 0.01 DINOv2 cosine, against 0.04&ndash;0.07 from <i>k</i>=16.
+            With a mostly clean latent (&sigma;=0.25), SemanTok's readout is lower up to <i>k</i>=4 on uCO3D and <i>k</i>=8 on Kinetics-600.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">A token carries at most about 16 bits, too few to satisfy flow matching, decoder REPA and semantic supervision at the same time.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">SemanTok still never falls behind in class accuracy, at any budget or AR size.</div></div></li>
       </ul>
     </article>
 
-    <p class="limit"><b>Limitation.</b> Because SemanTok puts semantics before reconstruction, at small token budgets it does not always reproduce exact colours and appearance details.</p>
+    <p class="limit"><b>Limitation.</b> Because SemanTok prioritizes semantic alignment over reconstruction, it struggles to reconstruct the same colours and appearance details at lower token budgets.</p>
   </div>
 </section>
 
@@ -453,8 +483,8 @@
   <div class="container">
     <h2>More videos</h2>
     <div class="legend">
-      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
       <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
+      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
       <div>Click a video for controls.</div>
     </div>
     <div id="chips"></div>
@@ -517,8 +547,22 @@
     var cols = L.cols.map(function (c) {
       return '<div class="cl" style="left:' + pct(c.x + L.tile / 2, L.W) + '">' + c.label + '</div>';
     }).join("");
+    var mts = "";
+    if (L.metrics) {
+      L.rows.forEach(function (r) {
+        var other = r.arm === "levers" ? "native" : "levers";
+        L.cols.forEach(function (c) {
+          var m = L.metrics[r.arm][c.key], o = L.metrics[other][c.key];
+          if (!m) return;
+          var ps = m.psnr.toFixed(1) + " dB", cv = "ClipV " + m.clipv.toFixed(2);
+          if (m.psnr > o.psnr) ps = "<b>" + ps + "</b>";
+          if (m.clipv > o.clipv) cv = "<b>" + cv + "</b>";
+          mts += '<div class="mt" style="left:' + pct(c.x + L.tile / 2, L.W) + ';top:' + pct(r.y + L.tile + 3, L.H) + '">' + ps + "<br>" + cv + "</div>";
+        });
+      });
+    }
     host.className = "clip";
-    host.innerHTML = '<div class="box">' + rows + cols +
+    host.innerHTML = '<div class="box">' + rows + cols + mts +
       '<video data-src="static/clips/' + L.name + '.mp4" poster="static/clips/' + L.name + '.jpg" muted loop playsinline preload="none" width="' +
       L.W + '" height="' + L.H + '"></video></div>';
     var v = host.querySelector("video");
@@ -543,11 +587,11 @@
   var GALLERY = [
     ["Generation", [
       ["GenerationUCO3D_FireExtinguisher", "Fire extinguisher", "Text-to-video, 201M AR model. Prompt: “A red fire extinguisher with a black handle and silver nozzle, sits on a countertop.”"],
-      ["GenerationK600_Guitar_201M", "Guitar · 201M", "Class-to-video (“playing guitar”), 201M AR model. SemanTok degrades slowly over time; VideoFlexTok is sharp only in the first frame."],
-      ["GenerationK600_Guitar_2.29B", "Guitar · 2.29B", "Same class and seed at 2.29B. Scaling improves both tokenizers; SemanTok stays ahead."],
+      ["GenerationK600_Guitar_201M", "Guitar · 201M", "Class-to-video (“playing guitar”), 201M AR model; visually matched pair from 24 samples per tokenizer. SemanTok degrades slowly over time, while VideoFlexTok is sharp only at t = 1."],
+      ["GenerationK600_Guitar_2.29B", "Guitar · 2.29B", "Same class, AR seed and sample indices at 2.29B. Scaling the AR model improves both tokenizers, and SemanTok keeps the lead."],
       ["GenerationK600_Guitar_49M", "Guitar · 49M", "Class-to-video with the smallest (49M) AR model: one rollout per tokenizer, decoded from its first k tokens per frame."]]],
     ["AR model size", [
-      ["GenerationK600_CookingEgg_k16-64_ARsize", "Cooking egg", "Class-to-video (“cooking egg”) across all seven AR sizes, at k = 16, 32 and 64 tokens per frame."],
+      ["GenerationK600_CookingEgg_k16-64_ARsize", "Cooking egg", "Class-to-video (“cooking egg”) across all seven AR sizes, at k = 16, 32 and 64. SemanTok: each model’s first evaluation rollout (not selected); VideoFlexTok: the same-class rollout closest to it in ViCLIP."],
       ["GenerationUCO3D_Barbell_ARsize_x_k", "Dumbbell (unseen)", "Text-to-video on a held-out uCO3D category across all AR sizes, at k = 8, 32 and 256."],
       ["GenerationK600_Bike_k4_ARsize", "Bike · k=4", "Class-to-video (“riding a bike”) at only k = 4 tokens per frame, across AR sizes (first evaluation sample, no selection)."],
       ["GenerationK600_Guitar_k64_ARsize", "Guitar · k=64", "Class-to-video (“playing guitar”) at k = 64, across AR sizes (first evaluation sample, no selection)."]]],
