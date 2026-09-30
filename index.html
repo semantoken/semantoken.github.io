@@ -164,15 +164,16 @@
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 
   /* architecture */
-  .arch-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 6px; }
+  .intro-new { margin: 18px 0 0; font-size: 15px; color: var(--ours); }
+  .arch-points { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 22px 0 6px; }
   .arch-points div { border-left: 3px solid var(--ours); padding: 2px 0 2px 12px; font-size: 15px; }
-  .arch-points div b { display: block; margin-bottom: 2px; }
-  details.more { margin: 18px 0 0; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); }
-  details.more summary { cursor: pointer; padding: 10px 14px; font-weight: 500; font-size: 15px; list-style: none; }
+  .arch-points div b { display: block; margin-bottom: 2px; color: var(--ours); }
+  details.more { margin: 18px 0 0; border: 0; background: none; }
+  details.more summary { cursor: pointer; padding: 10px 0; font-weight: 500; font-size: 15px; list-style: none; }
   details.more summary::-webkit-details-marker { display: none; }
   details.more summary::before { content: "+"; display: inline-block; width: 18px; font-weight: 700; color: var(--ours); }
   details.more[open] summary::before { content: "\2212"; }
-  details.more .inner { padding: 0 14px 14px; }
+  details.more .inner { padding: 0 0 14px; }
   details.more .inner img { background: #fff; border-radius: 6px; }
 
   /* ---------- findings ---------- */
@@ -306,7 +307,7 @@
         <p class="sub">Class: &ldquo;yoga&rdquo; &middot; both AR models 2.29B (equal cost)</p>
         <div data-clip="GenerationK600_Yoga"></div>
         <p class="caption">SemanTok keeps a complex body motion stable from <i>k</i>=16; larger <i>k</i> refines it.
-          VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16. Matched pair from 24 samples.</p>
+          VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16.</p>
       </div>
     </div>
 
@@ -330,20 +331,21 @@
 <section id="method">
   <div class="container">
     <h2>How it works</h2>
-    <p class="lead">The tokenizer encodes each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
+    <p class="lead">A flexible (naive) tokenizer such as <span class="base">VideoFlexTok</span> encodes each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
       decodes to a video. The AR model predicts tokens coarse to fine, up to the budget <i>k</i> chosen at inference.</p>
     <figure>
       <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg?v=4f8fa2e9" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
     </figure>
 
+    <p class="intro-new"><b>We introduce</b> two blocks on top of it:</p>
     <div class="arch-points">
-      <div><b>DINOv2 features in the encoder</b>Frozen DINOv2 patch features are concatenated with each VAE latent patch before the input projection.
+      <div><b>Semantic Encoder</b>Frozen DINOv2 patch features are concatenated with each VAE latent patch before the input projection.
         A zero-initialized projection of each frame's DINO class token is added to that frame's first register token.</div>
-      <div><b>DINOv2 targets for every prefix</b>A Dense and a Class DINO head, each two cross-attention layers, reconstruct the DINO patch features and class token
+      <div><b>Semantic Alignment</b>A Dense and a Class DINO head, each two cross-attention layers, reconstruct the DINO patch features and class token
         from the kept token prefix alone. Unlike decoder REPA, they never see the noised latent, so only the tokens can lower their loss.</div>
-      <div><b>Same token interface</b>SemanTok keeps VideoFlexTok's FSQ codebook (64k codes), sequence length, nested dropout, native decoder and its losses.
-        Both tokenizers are therefore compared under the same AR models and training recipe.</div>
     </div>
+    <p class="caption" style="margin-top:10px">Everything else is unchanged: SemanTok keeps VideoFlexTok's FSQ codebook (64k codes), sequence length, nested dropout, native decoder and its losses,
+      so both tokenizers are compared under the same AR models and training recipe.</p>
     <p class="caption">No loss assigns information to particular tokens; nested dropout concentrates the most relevant information in the earliest ones.</p>
 
     <details class="more">
@@ -394,7 +396,7 @@
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">With each tokenizer at its best <i>k</i>, every SemanTok AR model reaches lower gFVD and gFID and higher class accuracy than the VideoFlexTok AR model of the same size.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">On Kinetics-600, SemanTok lowers gFVD by 11&ndash;24% and gFID by 5&ndash;17% and raises class accuracy by 25&ndash;61%, with the largest gains for the smallest AR models.
             On uCO3D, it improves gFVD, gFID and class accuracy by 2&ndash;13%, 5&ndash;8% and 22&ndash;30%.
-            In paired bootstrap tests, every metric's gain excludes zero at every size, except uCO3D gFVD (two of seven sizes).</div></div></li>
+           </div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">At the single budget <i>k</i>=16, an 85M SemanTok AR model beats VideoFlexTok AR models of every size and budget, up to 2.29B, in gFID.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">This holds on both datasets, and in gFVD on Kinetics-600. The 85M SemanTok AR model matches that VideoFlexTok AR model in uCO3D gFVD and beats it in class accuracy on both datasets.</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Even the smallest SemanTok AR model (49M) beats the best VideoFlexTok AR model of any size in semantic alignment.</span><span class="chev">&#9656;</span></button>
@@ -860,10 +862,10 @@
       o.style.aspectRatio = d.w + " / " + d.h;
       o.style.maxWidth = Math.round(Math.max(360, Math.min(980, d.w * 3.2)) * (o.closest("#f4") ? 0.9 : 1)) + "px";
       if (!d.views) return;
-      if (!st.views) { st.views = d.views; build();
+      if (!st.views) { st.views = d.views; build(); if (o.closest("#f4")) { st.want = "t2v"; post({ ix: "view", id: "t2v" }); }
         // Re-apply the view once layout has settled (same as clicking it): avoids a stale crop / vertical gap on first paint.
-        [60, 500, 1500].forEach(function (ms) { setTimeout(function () { if (st.cur) post({ ix: "view", id: st.cur }); }, ms); }); }
-      st.cur = d.cur; sync();
+        [60, 500, 1500].forEach(function (ms) { setTimeout(function () { var w = st.want || st.cur; if (w) post({ ix: "view", id: w }); }, ms); }); }
+      st.cur = d.cur; if (st.want && d.cur === st.want) st.want = null; sync();
     });
     window.addEventListener("ix-refresh", function () {
       if (st.cur) post({ ix: "view", id: st.cur });
