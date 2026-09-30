@@ -205,9 +205,9 @@
     <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
   </div>
   <div class="tldr"><span class="tldr-tag">TL;DR</span>
-    <p><span class="ours">SemanTok</span> gives a flexible video tokenizer explicit semantic supervision over its nested token prefixes.
-    Even short prefixes then carry the clip's semantics and are cheaper to predict: a 201M SemanTok AR model matches or beats a
-    <span class="base">VideoFlexTok</span> AR model 3.4&times; its size, and keeps semantic alignment on unseen classes.</p>
+    <p>Flexible video tokenizers let an autoregressive (AR) model stop after any number of tokens, so the first tokens should already capture what the clip shows.
+    <span class="ours">SemanTok</span> supervises this explicitly: every nested token prefix is trained to carry the clip's semantics.
+    The resulting prefixes are cheaper to predict, and a 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
   </div>
 </header>
 
@@ -394,9 +394,9 @@
       <div class="finding-head"><span class="badge" style="background:var(--f4)">4</span>
         <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including the pure noise setting.</h3></div>
       <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=2aacc658" style="aspect-ratio: 390.54 / 101.55" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
+        <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=42573aa6" style="aspect-ratio: 390.54 / 93.60" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
         <p class="caption">(a, c) DINOv2 cosine similarity of the decoder's REPA readout vs. <i>k</i>, with decoder inputs from pure noise (&sigma;=1) to a mostly clean latent (&sigma;=0.25).
-          (b, d) How much a cleaner latent adds (&sigma;=0.25 minus &sigma;=1). SemanTok's readout depends less on the noised latent.</p>
+          (b, d) Latent gain: the readout with a 75%-clean latent (&sigma;=0.25) minus the readout from pure noise (&sigma;=1). SemanTok's readout depends less on the noised latent.</p>
       </figure>
       <ul class="points below">
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA can be partly satisfied by the decoder's noised input rather than by the tokens.</span><span class="chev">&#9656;</span></button>
