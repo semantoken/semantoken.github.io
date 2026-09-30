@@ -886,11 +886,12 @@ window.CLIPS = {
   ],
   "v": "0926771b"
  },
- "F3_Banana_ID": {
-  "name": "F3_Banana_ID",
+ "F3_Flashlight_ID": {
+  "name": "F3_Flashlight_ID",
   "W": 666,
   "H": 320,
   "tile": 128,
+  "v": "105c105a",
   "cols": [
    {
     "label": "Input",
@@ -935,48 +936,48 @@ window.CLIPS = {
   "metrics": {
    "native": {
     "8": {
-     "psnr": 16.46,
-     "clipv": 0.755
+     "psnr": 16.99,
+     "clipv": 0.664
     },
     "16": {
-     "psnr": 17.84,
-     "clipv": 0.884
+     "psnr": 18.83,
+     "clipv": 0.604
     },
     "64": {
-     "psnr": 18.62,
-     "clipv": 0.948
+     "psnr": 21.2,
+     "clipv": 0.762
     },
     "256": {
-     "psnr": 22.51,
-     "clipv": 0.964
+     "psnr": 24.36,
+     "clipv": 0.881
     }
    },
    "levers": {
     "8": {
-     "psnr": 15.56,
-     "clipv": 0.94
+     "psnr": 13.82,
+     "clipv": 0.847
     },
     "16": {
-     "psnr": 14.09,
-     "clipv": 0.961
+     "psnr": 13.55,
+     "clipv": 0.905
     },
     "64": {
-     "psnr": 15.42,
-     "clipv": 0.96
+     "psnr": 16.51,
+     "clipv": 0.932
     },
     "256": {
-     "psnr": 19.77,
-     "clipv": 0.96
+     "psnr": 19.79,
+     "clipv": 0.931
     }
    }
-  },
-  "v": "a1a205de"
+  }
  },
- "F3_Almond_OOD": {
-  "name": "F3_Almond_OOD",
+ "F3_Fedora_OOD": {
+  "name": "F3_Fedora_OOD",
   "W": 666,
   "H": 320,
   "tile": 128,
+  "v": "76ae0333",
   "cols": [
    {
     "label": "Input",
@@ -1021,41 +1022,40 @@ window.CLIPS = {
   "metrics": {
    "native": {
     "8": {
-     "psnr": 14.36,
-     "clipv": 0.64
+     "psnr": 13.08,
+     "clipv": 0.857
     },
     "16": {
-     "psnr": 14.6,
-     "clipv": 0.663
+     "psnr": 15.29,
+     "clipv": 0.892
     },
     "64": {
-     "psnr": 16.4,
-     "clipv": 0.636
+     "psnr": 18.16,
+     "clipv": 0.935
     },
     "256": {
-     "psnr": 19.43,
-     "clipv": 0.77
+     "psnr": 21.55,
+     "clipv": 0.968
     }
    },
    "levers": {
     "8": {
-     "psnr": 12.55,
-     "clipv": 0.821
+     "psnr": 12.41,
+     "clipv": 0.889
     },
     "16": {
-     "psnr": 12.33,
-     "clipv": 0.812
+     "psnr": 12.09,
+     "clipv": 0.887
     },
     "64": {
-     "psnr": 14.13,
-     "clipv": 0.843
+     "psnr": 14.03,
+     "clipv": 0.893
     },
     "256": {
-     "psnr": 17.21,
-     "clipv": 0.858
+     "psnr": 19.8,
+     "clipv": 0.909
     }
    }
-  },
-  "v": "f91f36c1"
+  }
  }
 };

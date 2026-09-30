@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SemanTok</title>
-<script src="static/clips/clips.js?v=dcf89a80"></script>
+<script src="static/clips/clips.js?v=4d0b7c29"></script>
 <meta name="description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -366,10 +366,10 @@
         <h3 style="color:var(--f3)">SemanTok is able to maintain semantic alignment over out-of-distribution classes.</h3></div>
       <figure class="fig">
         <div class="pair" style="gap:22px">
-          <div><p class="sub" style="margin:0"><b>Banana</b> &middot; in-distribution class (ID)</p>
-            <div data-clip="F3_Banana_ID"></div></div>
-          <div><p class="sub" style="margin:0"><b>Almond</b> &middot; out-of-distribution class (OOD)</p>
-            <div data-clip="F3_Almond_OOD"></div></div>
+          <div><p class="sub" style="margin:0"><b>Flashlight</b> &middot; in-distribution class (ID)</p>
+            <div data-clip="F3_Flashlight_ID"></div></div>
+          <div><p class="sub" style="margin:0"><b>Fedora</b> &middot; out-of-distribution class (OOD)</p>
+            <div data-clip="F3_Fedora_OOD"></div></div>
         </div>
         <p class="caption">uCO3D reconstructions from ground-truth tokens. Under each clip: PSNR (dB) &middot; ClipV, both against the VAE ground truth; bold is better at that <i>k</i>.</p>
       </figure>
@@ -586,8 +586,6 @@
   var GALLERY = [
     ["Generation", [
       ["GenerationUCO3D_FireExtinguisher", "Fire extinguisher", "Text-to-video, 201M AR model. Prompt: “A red fire extinguisher with a black handle and silver nozzle, sits on a countertop.”"],
-      ["GenerationK600_Guitar_201M", "Guitar · 201M", "Class-to-video (“playing guitar”), 201M AR model; visually matched pair from 24 samples per tokenizer. SemanTok degrades slowly over time, while VideoFlexTok is sharp only at t = 1."],
-      ["GenerationK600_Guitar_2.29B", "Guitar · 2.29B", "Same class, AR seed and sample indices at 2.29B. Scaling the AR model improves both tokenizers, and SemanTok keeps the lead."],
       ["GenerationK600_Guitar_49M", "Guitar · 49M", "Class-to-video with the smallest (49M) AR model: one rollout per tokenizer, decoded from its first k tokens per frame."]]],
     ["AR model size", [
       ["GenerationK600_CookingEgg_k16-64_ARsize", "Cooking egg", "Class-to-video (“cooking egg”) across all seven AR sizes, at k = 16, 32 and 64. SemanTok: each model’s first evaluation rollout (not selected); VideoFlexTok: the same-class rollout closest to it in ViCLIP."],
@@ -595,10 +593,8 @@
       ["GenerationK600_Bike_k4_ARsize", "Bike · k=4", "Class-to-video (“riding a bike”) at only k = 4 tokens per frame, across AR sizes (first evaluation sample, no selection)."],
       ["GenerationK600_Guitar_k64_ARsize", "Guitar · k=64", "Class-to-video (“playing guitar”) at k = 64, across AR sizes (first evaluation sample, no selection)."]]],
     ["Reconstruction", [
-      ["ReconstructionUCO3D", "Fedora (unseen)", "Tokenizer reconstruction from ground-truth tokens, uCO3D category never seen in training. Left: input."],
-      ["ReconstructionUCO3D_Almond", "Almond (unseen)", "Reconstruction of a held-out uCO3D category (the OOD clip of Finding 3). Left: input."],
-      ["ReconstructionUCO3D_Banana", "Banana", "Reconstruction of an in-distribution uCO3D validation clip (the ID clip of Finding 3). Left: input."],
-      ["ReconstructionUCO3D_Flashlight", "Flashlight", "Reconstruction of an in-distribution uCO3D validation clip. Left: input."],
+      ["ReconstructionUCO3D_Almond", "Almond (unseen)", "Reconstruction of a uCO3D category never seen in training (the OOD clip of the paper's reconstruction figure). Left: input."],
+      ["ReconstructionUCO3D_Banana", "Banana", "Reconstruction of an in-distribution uCO3D validation clip (the ID clip of the paper's reconstruction figure). Left: input."],
       ["ReconstructionK600_HockeyStop", "Hockey stop", "Kinetics-600 reconstruction (k = 1, 16, 32, 256 were evaluated). Left: input."],
       ["ReconstructionK600_Luge", "Luge", "Kinetics-600 reconstruction (k = 1, 16, 32, 256 were evaluated). Left: input."]]]
   ];
