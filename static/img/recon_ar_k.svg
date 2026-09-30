@@ -606,4 +606,223 @@
 <use data-text="2" xlink:href="#font_2_11" transform="matrix(5,0,0,-5,126.63893,164.8476)"/>
 <use data-text="9" xlink:href="#font_2_17" transform="matrix(5,0,0,-5,129.81893,164.8476)"/>
 <use data-text="B" xlink:href="#font_2_19" transform="matrix(5,0,0,-5,132.99893,164.8476)"/>
-<style>.tl text{fill:transparent;font-family:Helvetica,Arial,sans-serif;white-space:pre;cursor:text}.tl text::selection{fill:transparent;background:rgba(50,115,220,.3)}</style><g class="tl"><text x="4.175" y="64.240" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 64.240)">200</text><text x="4.175" y="51.294" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 51.294)">400</text><text x="4.175" y="38.348" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 38.348)">600</text><text x="33.459" y="21.875" font-size="6.500" textLength="38.019" lengthAdjust="spacingAndGlyphs">(a)  gFVD ↓</text><text x="99.271" y="62.979" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 62.979)">150</text><text x="99.271" y="49.019" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 49.019)">300</text><text x="99.271" y="35.058" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 35.058)">450</text><text x="128.485" y="21.875" font-size="6.500" textLength="38.162" lengthAdjust="spacingAndGlyphs">(b)  gFVD ↓</text><text x="15.585" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 15.585 139.331)">1</text><text x="34.158" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 34.158 139.331)">4</text><text x="50.477" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 50.477 141.585)">16</text><text x="69.050" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 69.050 141.585)">64</text><text x="85.370" y="143.839" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 85.370 143.839)">256</text><text x="6.429" y="126.189" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 126.189)">20</text><text x="6.429" y="114.039" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 114.039)">40</text><text x="6.429" y="101.889" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 101.889)">60</text><text x="26.607" y="84.998" font-size="6.500" textLength="51.701" lengthAdjust="spacingAndGlyphs">(c)  class acc. ↑</text><text x="110.681" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 110.681 139.331)">1</text><text x="129.254" y="139.331" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 129.254 139.331)">4</text><text x="145.573" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 145.573 141.585)">16</text><text x="164.147" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 164.147 141.585)">64</text><text x="180.466" y="143.839" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 180.466 143.839)">256</text><text x="98.144" y="135.096" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 135.096)">0.60</text><text x="98.144" y="118.695" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 118.695)">0.75</text><text x="98.144" y="102.295" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 102.295)">0.90</text><text x="128.766" y="84.998" font-size="6.500" textLength="37.570" lengthAdjust="spacingAndGlyphs">(d)  ClipV ↑</text><text x="28.412" y="6.868" font-size="6.800" textLength="48.425" lengthAdjust="spacingAndGlyphs">Class-to-Video</text><text x="125.555" y="6.868" font-size="6.800" textLength="44.312" lengthAdjust="spacingAndGlyphs">Text-to-Video</text><text x="35.459" y="149.643" font-size="5.800" textLength="3.358" lengthAdjust="spacingAndGlyphs">k</text><text x="38.789" y="149.643" font-size="5.800" textLength="29.947" lengthAdjust="spacingAndGlyphs"> tok/frame</text><text x="130.555" y="149.643" font-size="5.800" textLength="3.358" lengthAdjust="spacingAndGlyphs">k</text><text x="133.885" y="149.643" font-size="5.800" textLength="29.947" lengthAdjust="spacingAndGlyphs"> tok/frame</text><text x="39.512" y="164.826" font-size="5.000" textLength="18.180" lengthAdjust="spacingAndGlyphs">AR size</text><text x="31.729" y="156.526" font-size="5.000" textLength="32.399" lengthAdjust="spacingAndGlyphs">VideoFlexTok</text><text x="77.742" y="156.526" font-size="5.000" textLength="25.521" lengthAdjust="spacingAndGlyphs">SemanTok</text><text x="116.942" y="156.526" font-size="5.000" textLength="37.431" lengthAdjust="spacingAndGlyphs">Reconstruction</text><text x="69.906" y="164.848" font-size="5.000" textLength="10.675" lengthAdjust="spacingAndGlyphs">49M</text><text x="94.294" y="164.848" font-size="5.000" textLength="13.855" lengthAdjust="spacingAndGlyphs">201M</text><text x="121.869" y="164.848" font-size="5.000" textLength="14.560" lengthAdjust="spacingAndGlyphs">2.29B</text></g></svg>
+<style>.tl text{fill:transparent;font-family:Helvetica,Arial,sans-serif;white-space:pre;cursor:text}.tl text::selection{fill:transparent;background:rgba(50,115,220,.3)}</style><g class="tl"><text x="4.175" y="64.240" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 64.240)">200</text><text x="4.175" y="51.294" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 51.294)">400</text><text x="4.175" y="38.348" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.175 38.348)">600</text><text x="33.459" y="21.875" font-size="6.500" textLength="38.019" lengthAdjust="spacingAndGlyphs">(a)  gFVD ↓</text><text x="99.271" y="62.979" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 62.979)">150</text><text x="99.271" y="49.019" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 49.019)">300</text><text x="99.271" y="35.058" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.271 35.058)">450</text><text x="128.485" y="21.875" font-size="6.500" textLength="38.162" lengthAdjust="spacingAndGlyphs">(b)  gFVD ↓</text><text x="15.585" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 15.585 139.331)">1</text><text x="34.158" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 34.158 139.331)">4</text><text x="50.477" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 50.477 141.585)">16</text><text x="69.050" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 69.050 141.585)">64</text><text x="85.370" y="143.839" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 85.370 143.839)">256</text><text x="6.429" y="126.189" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 126.189)">20</text><text x="6.429" y="114.039" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 114.039)">40</text><text x="6.429" y="101.889" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.429 101.889)">60</text><text x="26.607" y="84.998" font-size="6.500" textLength="51.701" lengthAdjust="spacingAndGlyphs">(c)  class acc. ↑</text><text x="110.681" y="139.331" font-size="5.000" textLength="6.093" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 110.681 139.331)">1</text><text x="129.254" y="139.331" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 129.254 139.331)">4</text><text x="145.573" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 145.573 141.585)">16</text><text x="164.147" y="141.585" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 164.147 141.585)">64</text><text x="180.466" y="143.839" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 180.466 143.839)">256</text><text x="98.144" y="135.096" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 135.096)">0.60</text><text x="98.144" y="118.695" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 118.695)">0.75</text><text x="98.144" y="102.295" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 98.144 102.295)">0.90</text><text x="128.766" y="84.998" font-size="6.500" textLength="37.570" lengthAdjust="spacingAndGlyphs">(d)  ClipV ↑</text><text x="28.412" y="6.868" font-size="6.800" textLength="48.425" lengthAdjust="spacingAndGlyphs">Class-to-Video</text><text x="125.555" y="6.868" font-size="6.800" textLength="44.312" lengthAdjust="spacingAndGlyphs">Text-to-Video</text><text x="35.459" y="149.643" font-size="5.800" textLength="3.358" lengthAdjust="spacingAndGlyphs">k</text><text x="38.789" y="149.643" font-size="5.800" textLength="29.947" lengthAdjust="spacingAndGlyphs"> tok/frame</text><text x="130.555" y="149.643" font-size="5.800" textLength="3.358" lengthAdjust="spacingAndGlyphs">k</text><text x="133.885" y="149.643" font-size="5.800" textLength="29.947" lengthAdjust="spacingAndGlyphs"> tok/frame</text><text x="39.512" y="164.826" font-size="5.000" textLength="18.180" lengthAdjust="spacingAndGlyphs">AR size</text><text x="31.729" y="156.526" font-size="5.000" textLength="32.399" lengthAdjust="spacingAndGlyphs">VideoFlexTok</text><text x="77.742" y="156.526" font-size="5.000" textLength="25.521" lengthAdjust="spacingAndGlyphs">SemanTok</text><text x="116.942" y="156.526" font-size="5.000" textLength="37.431" lengthAdjust="spacingAndGlyphs">Reconstruction</text><text x="69.906" y="164.848" font-size="5.000" textLength="10.675" lengthAdjust="spacingAndGlyphs">49M</text><text x="94.294" y="164.848" font-size="5.000" textLength="13.855" lengthAdjust="spacingAndGlyphs">201M</text><text x="121.869" y="164.848" font-size="5.000" textLength="14.560" lengthAdjust="spacingAndGlyphs">2.29B</text></g><!--ix-begin--><script type="text/javascript"><![CDATA[
+(function () {
+  var CFG = {"colors": ["#fb6a4a", "#de2d26", "#a50f15"], "legend": "bottom", "dim": ["#191919"], "regions": [], "panels": [{"id": "c2v|gfvd", "task": "c2v", "metric": "gfvd"}, {"id": "t2v|gfvd", "task": "t2v", "metric": "gfvd"}, {"id": "c2v|cls", "task": "c2v", "metric": "cls"}, {"id": "t2v|clipv", "task": "t2v", "metric": "clipv"}], "legendMin": 152}, DIM = "0.08", BEST = "0.5", GROW = 1.9, STEP = 450;
+  var svg = document.documentElement, NS = "http://www.w3.org/2000/svg";
+  var isC = {}; CFG.colors.forEach(function (c) { isC[c] = 1; });
+  var isD = {}; CFG.dim.forEach(function (c) { isD[c] = 1; });
+  function region(x) { var r = 0; CFG.regions.forEach(function (b) { if (x >= b) r++; }); return r; }
+  function box(p) {
+    var b = p.getBBox(), m = p.transform.baseVal.consolidate(), M = m ? m.matrix : { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 };
+    var xs = [], ys = [];
+    [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height], [b.x + b.width, b.y + b.height]].forEach(function (q) {
+      xs.push(M.a * q[0] + M.c * q[1] + M.e); ys.push(M.b * q[0] + M.d * q[1] + M.f);
+    });
+    var x0 = Math.min.apply(0, xs), y0 = Math.min.apply(0, ys);
+    return { x: x0, y: y0, w: Math.max.apply(0, xs) - x0, h: Math.max.apply(0, ys) - y0 };
+  }
+  // A brighter, more saturated version of a hex colour.
+  function vivid(hex) {
+    var r = parseInt(hex.substr(1, 2), 16) / 255, g = parseInt(hex.substr(3, 2), 16) / 255, b = parseInt(hex.substr(5, 2), 16) / 255;
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn, h = 0, s = 0;
+    if (d) {
+      s = d / (1 - Math.abs(2 * l - 1));
+      h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; if (h < 0) h += 360;
+    }
+    s = Math.min(1, s * 1.35 + 0.1); l = Math.min(0.62, Math.max(0.3, l));
+    var C = (1 - Math.abs(2 * l - 1)) * s, X = C * (1 - Math.abs((h / 60) % 2 - 1)), m = l - C / 2, q;
+    q = h < 60 ? [C, X, 0] : h < 120 ? [X, C, 0] : h < 180 ? [0, C, X] : h < 240 ? [0, X, C] : h < 300 ? [X, 0, C] : [C, 0, X];
+    return "rgb(" + q.map(function (v) { return Math.round((v + m) * 255); }).join(",") + ")";
+  }
+  var els = [];   // {p, key, c, stroked, w0, dim}
+  svg.querySelectorAll("path").forEach(function (p) {
+    var s = (p.getAttribute("stroke") || "").toLowerCase(), f = (p.getAttribute("fill") || "").toLowerCase();
+    var c = isC[s] ? s : (!s && isC[f] ? f : null);
+    if (c) {
+      var b = box(p), rg = region(b.x + b.w / 2);
+      p.style.transition = "opacity .25s, stroke-width .25s, stroke .25s";
+      els.push({ p: p, key: c + "|" + rg, c: c, stroked: !!s, w0: parseFloat(p.getAttribute("stroke-width")) || 0, b: b, rg: rg });
+    } else if (isD[s]) {
+      p.style.transition = "opacity .15s";
+      els.push({ p: p, key: null, dim: true });
+    }
+  });
+  var pinned = null;
+  function setActive(key) {
+    var arg = key ? parseInt(key.split("|")[1], 10) : -1;
+    els.forEach(function (e) {
+      var p = e.p;
+      if (e.dim) { p.style.opacity = key ? BEST : ""; return; }
+      var on = !key || e.key === key || e.rg !== arg;
+      p.style.opacity = on ? "" : DIM;
+      if (e.stroked) {
+        var hot = key && e.key === key;
+        p.style.strokeWidth = hot ? (e.w0 * GROW) : "";
+        p.style.stroke = hot ? vivid(e.c) : "";
+      }
+    });
+  }
+  function enter(k) { if (!pinned) setActive(k); }
+  function leave() { if (!pinned) setActive(null); }
+  els.forEach(function (e) {
+    if (e.dim) return;
+    e.p.addEventListener("pointerenter", function () { enter(e.key); });
+    e.p.addEventListener("pointerleave", leave);
+  });
+  // Legend markers: the compact fill-only path of each (colour, region) at the legend edge.
+  var cand = {};
+  els.forEach(function (e) {
+    if (e.dim || e.stroked || e.b.w > 7 || e.b.h > 7) return;
+    (cand[e.key] = cand[e.key] || []).push(e);
+  });
+  var rows = [];
+  Object.keys(cand).forEach(function (k) {
+    var l = cand[k].sort(function (a, b) { return CFG.legend === "top" ? a.b.y - b.b.y : b.b.y - a.b.y; });
+    rows.push({ key: k, b: l[0].b });
+  });
+  rows.forEach(function (r) {
+    var nxt = rows.filter(function (o) { return o !== r && Math.abs(o.b.y - r.b.y) < 3 && o.b.x > r.b.x; })
+                  .sort(function (a, b) { return a.b.x - b.b.x; })[0];
+    r.w = nxt ? Math.min(nxt.b.x - r.b.x - 1, 40) : 26;
+  });
+  var g = document.createElementNS(NS, "g"), rectOf = {}, cancelled = false, timers = [];
+  function stopDemo() { cancelled = true; timers.forEach(clearTimeout); timers = []; }
+  rows.forEach(function (r) {
+    var h = document.createElementNS(NS, "rect");
+    h.setAttribute("x", r.b.x - 2); h.setAttribute("y", r.b.y - 3);
+    h.setAttribute("width", r.w + 1); h.setAttribute("height", r.b.h + 6);
+    h.setAttribute("fill", "transparent"); h.style.cursor = "pointer";
+    h.addEventListener("pointerenter", function () { stopDemo(); enter(r.key); });
+    h.addEventListener("pointerleave", leave);
+    h.addEventListener("click", function () { stopDemo(); pinned = pinned === r.key ? null : r.key; setActive(pinned); });
+    g.appendChild(h); rectOf[r.key] = h;
+  });
+  els.forEach(function (e) {
+    if (e.dim) return;
+    e.p.addEventListener("pointerenter", stopDemo);
+  });
+  svg.appendChild(g);
+  // One-time demo, started by the page when the figure scrolls into view: sweep the series
+  // in legend order (smallest to largest), 0.45 s each, so the plot reads as controllable.
+  var played = false;
+  window.addEventListener("message", function (ev) {
+    if (ev.data !== "ix-play" || played || pinned) return;
+    played = true; cancelled = false;
+    var order = rows.slice().sort(function (a, b) {
+      var ra = parseInt(a.key.split("|")[1], 10), rb = parseInt(b.key.split("|")[1], 10);
+      return ra - rb || a.b.x - b.b.x || a.b.y - b.b.y;
+    });
+    order.forEach(function (r, i) {
+      timers.push(setTimeout(function () { if (!cancelled && !pinned) setActive(r.key); }, i * STEP));
+    });
+    timers.push(setTimeout(function () { if (!cancelled && !pinned) setActive(null); }, order.length * STEP));
+  });
+
+  // ---------- panel mode: show one task x metric panel plus the legend ----------
+  if (CFG.panels) (function () {
+    var vb0 = svg.viewBox.baseVal, VBW = vb0.width;
+    var kids = Array.prototype.slice.call(svg.children).filter(function (k) {
+      return /^(path|g|use)$/.test(k.tagName) && !k.classList.contains("tl") && k !== g;
+    });
+    var info = kids.map(function (k) { var b = box(k); return { el: k, b: b, cx: b.x + b.w / 2, cy: b.y + b.h / 2 }; });
+    var rects = info.filter(function (i) {
+      return i.el.tagName === "path" && (i.el.getAttribute("fill") || "").toLowerCase() === "#ffffff" &&
+             !i.el.hasAttribute("stroke") && i.b.w > 10 && i.b.h > 10 && i.b.w < VBW - 2;
+    }).map(function (i) { return i.b; });
+    rects.sort(function (a, b) { return Math.round(a.y / 4) - Math.round(b.y / 4) || a.x - b.x; });
+    if (rects.length !== CFG.panels.length) return;
+    var N = rects.length, LEFT = 14, TTOP = 9;
+    var lastBottom = Math.max.apply(0, rects.map(function (r) { return r.y + r.h; }));
+    function inX(it, p, m) { return it.cx >= p.x - m && it.cx <= p.x + p.w + m; }
+    var role = info.map(function () { return null; });
+    info.forEach(function (it, n) {
+      if (it.el.tagName === "path" && (it.el.getAttribute("fill") || "").toLowerCase() === "#ffffff" &&
+          !it.el.hasAttribute("stroke") && it.b.w >= VBW - 2) { role[n] = { k: "bg" }; return; }
+      if (CFG.legendBand ? (it.cy >= CFG.legendBand[0] && it.cy < CFG.legendBand[1])
+                         : (CFG.legendMin != null && it.cy >= CFG.legendMin)) { role[n] = { k: "leg" }; return; }
+      if (CFG.sharedX && it.cy >= CFG.sharedX[0] && it.cy < CFG.sharedX[1]) { role[n] = { k: "sx" }; return; }
+      var i;
+      for (i = 0; i < N; i++) { var p = rects[i];
+        if (inX(it, p, 1) && it.cy >= p.y - 2.5 && it.cy <= p.y + p.h + 3) { role[n] = { k: "plot", i: i }; return; } }
+      for (i = 0; i < N; i++) { p = rects[i];
+        if (it.cx >= p.x - LEFT && it.cx < p.x - 1 && it.cy >= p.y - 2 && it.cy <= p.y + p.h + 2) { role[n] = { k: "plot", i: i }; return; } }
+      for (i = 0; i < N; i++) { p = rects[i];
+        if (inX(it, p, 3) && it.cy >= p.y - TTOP && it.cy < p.y - 2.5) { role[n] = { k: "title", i: i }; return; } }
+      for (i = 0; i < N; i++) { p = rects[i];
+        var nextTop = Infinity;
+        rects.forEach(function (q) { if (Math.abs(q.x - p.x) < 3 && q.y > p.y + 1) nextTop = Math.min(nextTop, q.y - TTOP); });
+        var xmax = nextTop < Infinity ? nextTop : (CFG.sharedX ? CFG.sharedX[0] : (CFG.legendMin != null ? CFG.legendMin : 1e9));
+        if (inX(it, p, 4) && it.cy > p.y + p.h + 3 && it.cy < xmax) { role[n] = { k: "x", i: i }; return; } }
+    });
+    var NS2 = svg.namespaceURI;
+    function mk(cls) { var e = document.createElementNS(NS2, "g"); e.setAttribute("class", cls); e.style.display = "none"; return e; }
+    var G = { plot: [], title: [], x: [], hasT: [], hasX: [], sx: mk("ix-sx"), leg: mk("ix-leg") };
+    for (var q = 0; q < N; q++) { G.plot.push(mk("ix-p")); G.title.push(mk("ix-t")); G.x.push(mk("ix-x")); G.hasT.push(false); G.hasX.push(false); }
+    var legB = null, sxB = null;
+    function grow(b, it) {
+      if (!b) return { x0: it.b.x, y0: it.b.y, x1: it.b.x + it.b.w, y1: it.b.y + it.b.h };
+      b.x0 = Math.min(b.x0, it.b.x); b.y0 = Math.min(b.y0, it.b.y); b.x1 = Math.max(b.x1, it.b.x + it.b.w); b.y1 = Math.max(b.y1, it.b.y + it.b.h); return b;
+    }
+    var anchor = svg.querySelector("g.tl");
+    info.forEach(function (it, n) {
+      var r = role[n];
+      if (!r) { it.el.style.display = "none"; return; }
+      if (r.k === "bg") return;
+      var tgt = r.k === "plot" ? G.plot[r.i] : r.k === "title" ? G.title[r.i] : r.k === "x" ? G.x[r.i] : r.k === "sx" ? G.sx : G.leg;
+      if (r.k === "title") G.hasT[r.i] = true;
+      if (r.k === "x") G.hasX[r.i] = true;
+      if (r.k === "leg") legB = grow(legB, it);
+      if (r.k === "sx") sxB = grow(sxB, it);
+      tgt.appendChild(it.el);
+    });
+    function ins(e) { svg.insertBefore(e, anchor); }
+    G.plot.concat(G.title, G.x, [G.sx, G.leg]).forEach(ins);
+    G.leg.appendChild(g);          // hit areas travel with the legend
+    if (anchor) anchor.style.display = "none";
+    function colSrc(i, has) {
+      var best = null;
+      rects.forEach(function (q, j) { if (has[j] && Math.abs(q.x - rects[i].x) < 3) best = j; });
+      return best;
+    }
+    function hide(e) { e.style.display = "none"; e.removeAttribute("transform"); }
+    var cur = null;
+    function show(idx) {
+      var p = rects[idx];
+      G.plot.concat(G.title, G.x, [G.sx, G.leg]).forEach(hide);
+      G.plot[idx].style.display = "";
+      var ts = G.hasT[idx] ? idx : colSrc(idx, G.hasT);
+      if (ts != null) { var e = G.title[ts]; e.style.display = ""; e.setAttribute("transform", "translate(0," + (p.y - rects[ts].y) + ")"); }
+      var xs = G.hasX[idx] ? idx : colSrc(idx, G.hasX);
+      if (xs != null) { e = G.x[xs]; e.style.display = ""; e.setAttribute("transform", "translate(0," + ((p.y + p.h) - (rects[xs].y + rects[xs].h)) + ")"); }
+      var pc = p.x + p.w / 2;
+      if (sxB) { G.sx.style.display = "";
+        G.sx.setAttribute("transform", "translate(" + (pc - (sxB.x0 + sxB.x1) / 2) + "," + ((p.y + p.h) - lastBottom) + ")"); }
+      var dxL = 0, dyL = 0, x0 = p.x - LEFT - 2, x1 = p.x + p.w + 6, y0 = p.y - TTOP - 2, y1 = p.y + p.h + (CFG.bottomPad || 24);
+      if (legB) {
+        G.leg.style.display = "";
+        dxL = pc - (legB.x0 + legB.x1) / 2;
+        dyL = CFG.legend === "top" ? 0 : (p.y + p.h) - lastBottom;
+        G.leg.setAttribute("transform", "translate(" + dxL + "," + dyL + ")");
+        x0 = Math.min(x0, legB.x0 + dxL - 2); x1 = Math.max(x1, legB.x1 + dxL + 2);
+        if (CFG.legend === "top") y0 = legB.y0 - 3; else y1 = legB.y1 + dyL + 3;
+      }
+      var w = x1 - x0, h = y1 - y0;
+      svg.setAttribute("viewBox", x0 + " " + y0 + " " + w + " " + h);
+      svg.setAttribute("width", w); svg.setAttribute("height", h);
+      cur = { id: CFG.panels[idx].id, w: w, h: h };
+      report();
+    }
+    function report() {
+      try { window.parent.postMessage({ ix: "state", panels: CFG.panels, cur: cur && cur.id, w: cur && cur.w, h: cur && cur.h }, "*"); } catch (e) {}
+    }
+    window.addEventListener("message", function (ev) {
+      var d = ev.data;
+      if (!d || typeof d !== "object") return;
+      if (d.ix === "hello") report();
+      if (d.ix === "view") { for (var i = 0; i < N; i++) if (CFG.panels[i].id === d.id) { show(i); break; } }
+    });
+    show(0);
+  })();
+})();
+]]></script><!--ix-end--></svg>

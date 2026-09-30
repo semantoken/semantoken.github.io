@@ -891,7 +891,7 @@ window.CLIPS = {
   "W": 666,
   "H": 260,
   "tile": 128,
-  "v": "63695715",
+  "v": "b57868e2",
   "cols": [
    {
     "label": "Input",
@@ -899,23 +899,23 @@ window.CLIPS = {
     "x": 0
    },
    {
-    "label": "k=1",
-    "key": "1",
-    "x": 142
-   },
-   {
     "label": "k=4",
     "key": "4",
-    "x": 274
+    "x": 142
    },
    {
     "label": "k=8",
     "key": "8",
-    "x": 406
+    "x": 274
    },
    {
     "label": "k=16",
     "key": "16",
+    "x": 406
+   },
+   {
+    "label": "k=64",
+    "key": "64",
     "x": 538
    }
   ],
@@ -979,6 +979,117 @@ window.CLIPS = {
     "tag": null,
     "group": null,
     "y": 132
+   }
+  ]
+ },
+ "GenerationUCO3D_Router": {
+  "name": "GenerationUCO3D_Router",
+  "W": 976,
+  "H": 388,
+  "tile": 192,
+  "v": "8ec3fb4b",
+  "cols": [
+   {
+    "label": "k=1",
+    "key": "1",
+    "x": 0
+   },
+   {
+    "label": "k=4",
+    "key": "4",
+    "x": 196
+   },
+   {
+    "label": "k=16",
+    "key": "16",
+    "x": 392
+   },
+   {
+    "label": "k=64",
+    "key": "64",
+    "x": 588
+   },
+   {
+    "label": "k=256",
+    "key": "256",
+    "x": 784
+   }
+  ],
+  "rows": [
+   {
+    "arm": "native",
+    "tag": null,
+    "group": null,
+    "y": 0
+   },
+   {
+    "arm": "levers",
+    "tag": null,
+    "group": null,
+    "y": 196
+   }
+  ]
+ },
+ "GenerationK600_Basketball_201M": {
+  "name": "GenerationK600_Basketball_201M",
+  "W": 1564,
+  "H": 388,
+  "tile": 192,
+  "v": "6e378573",
+  "cols": [
+   {
+    "label": "k=1",
+    "key": "1",
+    "x": 0
+   },
+   {
+    "label": "k=4",
+    "key": "4",
+    "x": 196
+   },
+   {
+    "label": "k=8",
+    "key": "8",
+    "x": 392
+   },
+   {
+    "label": "k=16",
+    "key": "16",
+    "x": 588
+   },
+   {
+    "label": "k=32",
+    "key": "32",
+    "x": 784
+   },
+   {
+    "label": "k=64",
+    "key": "64",
+    "x": 980
+   },
+   {
+    "label": "k=128",
+    "key": "128",
+    "x": 1176
+   },
+   {
+    "label": "k=256",
+    "key": "256",
+    "x": 1372
+   }
+  ],
+  "rows": [
+   {
+    "arm": "native",
+    "tag": "201M AR \u00b7 baseline",
+    "group": null,
+    "y": 0
+   },
+   {
+    "arm": "levers",
+    "tag": "201M AR \u00b7 ours",
+    "group": null,
+    "y": 196
    }
   ]
  }
