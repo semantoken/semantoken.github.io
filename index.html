@@ -75,7 +75,7 @@
   .clip .rl { position: absolute; left: -30px; width: 30px; transform: translateY(-50%) rotate(180deg); text-align: center;
               writing-mode: vertical-rl; font-size: 11.5px; line-height: 1.15; white-space: nowrap; }
   .clip .rl b { font-weight: 700; }
-  .clip .mt { position: absolute; transform: translateX(-50%); font-size: 10.5px; text-align: center; color: var(--mute); white-space: nowrap; line-height: 1.2; }
+  .clip .mt { position: absolute; z-index: 1; transform: translateX(-50%); font-size: 10.5px; text-align: center; color: var(--mute); white-space: nowrap; line-height: 1.2; }
   .clip .mt b { color: var(--ink); }
   .clip .cl { position: absolute; top: -19px; transform: translateX(-50%); font-size: 12.5px; color: var(--mute); white-space: nowrap; }
   .clip video { width: 100%; height: auto; display: block; cursor: pointer; background: #fff; }
@@ -364,15 +364,16 @@
     <article class="finding" id="f3" style="--c:var(--f3)">
       <div class="finding-head"><span class="badge" style="background:var(--f3)">3</span>
         <h3 style="color:var(--f3)">SemanTok is able to maintain semantic alignment over out-of-distribution classes.</h3></div>
-      <div class="split" style="grid-template-columns: 1.55fr 1fr">
-        <figure class="fig">
-          <p class="sub" style="margin:0"><b>Banana</b> &middot; in-distribution class (ID)</p>
-          <div data-clip="F3_Banana_ID"></div>
-          <p class="sub" style="margin:10px 0 0"><b>Almond</b> &middot; out-of-distribution class (OOD)</p>
-          <div data-clip="F3_Almond_OOD"></div>
-          <p class="caption">uCO3D reconstructions from ground-truth tokens. Under each clip: PSNR (dB) and ClipV against the VAE ground truth; bold is better at that <i>k</i>.</p>
-        </figure>
-        <ul class="points">
+      <figure class="fig">
+        <div class="pair" style="gap:22px">
+          <div><p class="sub" style="margin:0"><b>Banana</b> &middot; in-distribution class (ID)</p>
+            <div data-clip="F3_Banana_ID"></div></div>
+          <div><p class="sub" style="margin:0"><b>Almond</b> &middot; out-of-distribution class (OOD)</p>
+            <div data-clip="F3_Almond_OOD"></div></div>
+        </div>
+        <p class="caption">uCO3D reconstructions from ground-truth tokens. Under each clip: PSNR (dB) &middot; ClipV, both against the VAE ground truth; bold is better at that <i>k</i>.</p>
+      </figure>
+        <ul class="points below">
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's token prefixes recover the original object class at a lower <i>k</i> than VideoFlexTok's, on both ID and OOD clips.</span><span class="chev">&#9656;</span></button>
             <div class="detail"><div class="d">OOD object classes are never seen in training. At <i>k</i>=16 on uCO3D, SemanTok's reconstructions score higher ClipV and class accuracy than VideoFlexTok's, but about 2.7 dB lower PSNR.</div></div></li>
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The lead carries over to AR generation, on seen and held-out classes.</span><span class="chev">&#9656;</span></button>
@@ -386,7 +387,6 @@
                 <tr><td>ClipV &middot; SemanTok</td><td><b>0.70</b> / 0.62</td><td><b>0.75 / 0.66</b></td><td><b>0.73 / 0.65</b></td></tr>
               </table></div></div></li>
         </ul>
-      </div>
     </article>
 
     <!-- 4 -->
@@ -553,10 +553,10 @@
         L.cols.forEach(function (c) {
           var m = L.metrics[r.arm][c.key], o = L.metrics[other][c.key];
           if (!m) return;
-          var ps = m.psnr.toFixed(1) + " dB", cv = "ClipV " + m.clipv.toFixed(2);
+          var ps = m.psnr.toFixed(1) + " dB", cv = m.clipv.toFixed(2);
           if (m.psnr > o.psnr) ps = "<b>" + ps + "</b>";
           if (m.clipv > o.clipv) cv = "<b>" + cv + "</b>";
-          mts += '<div class="mt" style="left:' + pct(c.x + L.tile / 2, L.W) + ';top:' + pct(r.y + L.tile + 3, L.H) + '">' + ps + "<br>" + cv + "</div>";
+          mts += '<div class="mt" style="left:' + pct(c.x + L.tile / 2, L.W) + ';top:' + pct(r.y + L.tile + 3, L.H) + '">' + ps + " &middot; " + cv + "</div>";
         });
       });
     }
