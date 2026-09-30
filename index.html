@@ -205,7 +205,7 @@
     <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
   </div>
   <div class="tldr"><span class="tldr-tag">TL;DR</span>
-    <p>Flexible video tokenizers let an autoregressive (AR) model stop after any number of tokens, so the first tokens should already capture what the clip shows.
+    <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, so the first tokens should already capture what the clip shows.
     <span class="ours">SemanTok</span> supervises this explicitly: every nested token prefix is trained to carry the clip's semantics.
     The resulting prefixes are cheaper to predict and lead to better generation fidelity: a 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
   </div>
