@@ -84,8 +84,7 @@
   /* Finding 4: PCA readout explorer */
   .pca { border: 0; background: #fff; padding: 8px 0 6px; }
   .pca-h { margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .pca-h .pp { font: 500 11px/1 "Noto Sans", sans-serif; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--mute); cursor: pointer; }
-  .pca-h .pp:hover { color: var(--ink); }
+  .sl .pp { font-size: 10px; line-height: 1; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; width: 14px; }
   .pca #pca-ex { justify-content: flex-start; gap: 4px; }
   .pca #pca-ex button { font-size: 11.5px; padding: 0 8px; }
   .pca-row { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 5px; align-items: start; }
@@ -491,7 +490,7 @@
           <p class="caption">Readout cosine to DINOv2 vs. <i>k</i> (left) and latent gain, &sigma;=0.25 minus &sigma;=1 (right).</p>
         </figure>
         <div class="pca" id="pca">
-          <div class="pca-h"><span class="ixrow" id="pca-ex"></span><button id="pca-pp" class="pp" aria-label="Pause" title="Pause / play">&#10074;&#10074; Pause</button></div>
+          <div class="pca-h"><span class="ixrow" id="pca-ex"></span></div>
           <div class="pca-hd"><span></span><span></span><span class="pca-sub"><b style="color:var(--base)">VideoFlexTok</b><em>vs</em><b style="color:var(--ours)">SemanTok</b></span></div>
           <div class="pca-row">
             <div class="pc1">
@@ -503,6 +502,7 @@
           </div>
           <label class="sl"><span><i>k</i></span><input type="range" id="pca-k" min="0" max="4" step="1" value="0"><output id="pca-kv">1</output></label>
           <label class="sl"><span>&sigma;</span><input type="range" id="pca-s" min="0" max="3" step="1" value="0"><output id="pca-sv">1</output></label>
+          <div class="sl"><button id="pca-pp" class="pp" aria-label="Pause" title="Pause / resume">&#10074;&#10074;</button><input type="range" id="pca-t" min="0" max="16" step="1" value="0" aria-label="time"><output id="pca-tv">0</output></div>
         </div>
       </div>
       <ul class="points below">
@@ -675,9 +675,9 @@
   // and a per-clip filmstrip, so the videos roll in sync and the split between the two readouts can be dragged.
   (function () {
     var D = window.PCA; if (!D) return;
-    var EX = ["almond", "banana", "guitar"], SG = ["1", "0.75", "0.5", "0.25"], FPS = 8;
+    var EX = ["almond", "banana", "guitar", "yoga"], SG = ["1", "0.75", "0.5", "0.25"], FPS = 8;
     var el = function (i) { return document.getElementById(i); };
-    var paused = false, pT = 0, cur = "almond", pos = { diag: 1, vert: 0.5 }, fr = 0, dirty = true, visible = true, t0 = performance.now();
+    var paused = false, cur = "almond", pos = { diag: 1, vert: 0.5 }, fr = 0, dirty = true, visible = true, t0 = performance.now();
     var strips = {}, dec = {}, tiny = {};
     function strip(id) { if (!strips[id]) { var im = new Image(); im.onload = function () { dirty = true; }; im.src = "static/pca/" + id + ".jpg"; strips[id] = im; } return strips[id]; }
     function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
@@ -697,7 +697,7 @@
     function group(f, first) { var g = 0; for (var i = 0; i < first.length; i++) if (first[i] <= f) g = i; return g; }
     function draw() {
       var C = D[cur], k = +el("pca-k").value, s = +el("pca-s").value, f = fr % C.nf, g = group(f, C.first), W, x, d, r;
-      var im = strip(cur), fw = C.fw;
+      var im = strip(cur), fw = C.fw; el("pca-t").max = C.nf - 1; el("pca-t").value = f; el("pca-tv").textContent = f;
       r = ctxOf("pca-in"); x = r[0]; W = r[1]; if (W && im.complete) x.drawImage(im, f * fw, 0, fw, fw, 0, 0, W, W);
       r = ctxOf("pca-dec"); x = r[0]; W = r[1]; if (W && im.complete) x.drawImage(im, f * fw, (1 + s) * fw, fw, fw, 0, 0, W, W);
       r = ctxOf("pca-tgt"); x = r[0]; W = r[1]; x.imageSmoothingEnabled = false; if (W) x.drawImage(tile("tgt", C.tgt, g), 0, 0, W, W);
@@ -724,9 +724,8 @@
       el("pca-cell").style.cursor = vert ? "ew-resize" : "nwse-resize";
     }
     function tick(now) {
-      if (paused) { t0 = now - pT; requestAnimationFrame(tick); if (dirty && visible) { dirty = false; draw(); } return; }
-      var f = Math.floor((now - t0) * FPS / 1000);
-      if (visible && (f !== fr || dirty)) { fr = f; dirty = false; draw(); }
+      if (!paused) { var f = Math.floor((now - t0) * FPS / 1000); if (f !== fr) { fr = f; dirty = true; } }
+      if (visible && dirty) { dirty = false; draw(); }
       requestAnimationFrame(tick);
     }
     function labels() { el("pca-kv").textContent = D[cur].ks[+el("pca-k").value]; el("pca-sv").textContent = SG[+el("pca-s").value]; dirty = true; }
@@ -737,10 +736,10 @@
       bar.appendChild(b); if (i === 0) b.setAttribute("aria-pressed", "true");
     });
     el("pca-k").addEventListener("input", labels); el("pca-s").addEventListener("input", labels);
-    el("pca-pp").addEventListener("click", function () {
-      paused = !paused; if (paused) pT = performance.now() - t0;
-      this.innerHTML = paused ? "&#9654; Play" : "&#10074;&#10074; Pause";
-    });
+    function setPaused(v) { paused = v; el("pca-pp").innerHTML = v ? "&#9654;" : "&#10074;&#10074;";
+      if (!v) t0 = performance.now() - fr * 1000 / FPS; }
+    el("pca-pp").addEventListener("click", function () { setPaused(!paused); });
+    el("pca-t").addEventListener("input", function () { setPaused(true); fr = +this.value; dirty = true; });
     var cell = el("pca-cell"), drag = false;
     function move(e) {
       var R = cell.getBoundingClientRect(), x = (e.clientX - R.left) / R.width, y = (e.clientY - R.top) / R.height, kd = D[cur].kind;
