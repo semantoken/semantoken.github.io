@@ -335,7 +335,7 @@
 <section id="method">
   <div class="container">
     <h2>How it works</h2>
-    <p class="lead">A flexible (naive) tokenizer such as <span class="base">VideoFlexTok</span> encodes each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
+    <p class="lead">Previous flexible tokenizers (e.g., <span class="base">VideoFlexTok</span>) encode each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
       decodes to a video. The AR model predicts tokens coarse to fine, up to the budget <i>k</i> chosen at inference.</p>
     <figure>
       <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg?v=4f8fa2e9" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
