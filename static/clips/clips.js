@@ -381,6 +381,7 @@ window.CLIPS = {
   "W": 656,
   "H": 260,
   "tile": 128,
+  "v": "020453e3",
   "cols": [
    {
     "label": "k=1",
@@ -411,24 +412,24 @@ window.CLIPS = {
   "rows": [
    {
     "arm": "native",
-    "tag": null,
+    "tag": "201M",
     "group": null,
     "y": 0
    },
    {
     "arm": "levers",
-    "tag": null,
+    "tag": "201M",
     "group": null,
     "y": 132
    }
-  ],
-  "v": "020453e3"
+  ]
  },
  "GenerationK600_Yoga": {
   "name": "GenerationK600_Yoga",
   "W": 780,
   "H": 388,
   "tile": 192,
+  "v": "d794d9a7",
   "cols": [
    {
     "label": "k=4",
@@ -454,24 +455,24 @@ window.CLIPS = {
   "rows": [
    {
     "arm": "native",
-    "tag": null,
+    "tag": "2.29B",
     "group": null,
     "y": 0
    },
    {
     "arm": "levers",
-    "tag": null,
+    "tag": "2.29B",
     "group": null,
     "y": 196
    }
-  ],
-  "v": "d794d9a7"
+  ]
  },
  "GenerationK600_Guitar_201M": {
   "name": "GenerationK600_Guitar_201M",
   "W": 780,
   "H": 388,
   "tile": 192,
+  "v": "e3416e65",
   "cols": [
    {
     "label": "k=4",
@@ -497,24 +498,24 @@ window.CLIPS = {
   "rows": [
    {
     "arm": "native",
-    "tag": null,
+    "tag": "201M",
     "group": null,
     "y": 0
    },
    {
     "arm": "levers",
-    "tag": null,
+    "tag": "201M",
     "group": null,
     "y": 196
    }
-  ],
-  "v": "e3416e65"
+  ]
  },
  "GenerationK600_Guitar_2.29B": {
   "name": "GenerationK600_Guitar_2.29B",
   "W": 780,
   "H": 388,
   "tile": 192,
+  "v": "0a934f17",
   "cols": [
    {
     "label": "k=4",
@@ -540,18 +541,17 @@ window.CLIPS = {
   "rows": [
    {
     "arm": "native",
-    "tag": null,
+    "tag": "2.29B",
     "group": null,
     "y": 0
    },
    {
     "arm": "levers",
-    "tag": null,
+    "tag": "2.29B",
     "group": null,
     "y": 196
    }
-  ],
-  "v": "0a934f17"
+  ]
  },
  "GenerationK600_Bike_k4_ARsize": {
   "name": "GenerationK600_Bike_k4_ARsize",
@@ -889,9 +889,9 @@ window.CLIPS = {
  "F3_Flashlight_ID": {
   "name": "F3_Flashlight_ID",
   "W": 666,
-  "H": 320,
+  "H": 260,
   "tile": 128,
-  "v": "105c105a",
+  "v": "63695715",
   "cols": [
    {
     "label": "Input",
@@ -899,23 +899,23 @@ window.CLIPS = {
     "x": 0
    },
    {
+    "label": "k=1",
+    "key": "1",
+    "x": 142
+   },
+   {
+    "label": "k=4",
+    "key": "4",
+    "x": 274
+   },
+   {
     "label": "k=8",
     "key": "8",
-    "x": 142
+    "x": 406
    },
    {
     "label": "k=16",
     "key": "16",
-    "x": 274
-   },
-   {
-    "label": "k=64",
-    "key": "64",
-    "x": 406
-   },
-   {
-    "label": "k=256",
-    "key": "256",
     "x": 538
    }
   ],
@@ -930,54 +930,16 @@ window.CLIPS = {
     "arm": "levers",
     "tag": null,
     "group": null,
-    "y": 162
+    "y": 132
    }
-  ],
-  "metrics": {
-   "native": {
-    "8": {
-     "psnr": 16.99,
-     "clipv": 0.664
-    },
-    "16": {
-     "psnr": 18.83,
-     "clipv": 0.604
-    },
-    "64": {
-     "psnr": 21.2,
-     "clipv": 0.762
-    },
-    "256": {
-     "psnr": 24.36,
-     "clipv": 0.881
-    }
-   },
-   "levers": {
-    "8": {
-     "psnr": 13.82,
-     "clipv": 0.847
-    },
-    "16": {
-     "psnr": 13.55,
-     "clipv": 0.905
-    },
-    "64": {
-     "psnr": 16.51,
-     "clipv": 0.932
-    },
-    "256": {
-     "psnr": 19.79,
-     "clipv": 0.931
-    }
-   }
-  }
+  ]
  },
  "F3_Fedora_OOD": {
   "name": "F3_Fedora_OOD",
   "W": 666,
-  "H": 320,
+  "H": 260,
   "tile": 128,
-  "v": "76ae0333",
+  "v": "6568abc0",
   "cols": [
    {
     "label": "Input",
@@ -985,23 +947,23 @@ window.CLIPS = {
     "x": 0
    },
    {
+    "label": "k=1",
+    "key": "1",
+    "x": 142
+   },
+   {
+    "label": "k=4",
+    "key": "4",
+    "x": 274
+   },
+   {
     "label": "k=8",
     "key": "8",
-    "x": 142
+    "x": 406
    },
    {
     "label": "k=16",
     "key": "16",
-    "x": 274
-   },
-   {
-    "label": "k=64",
-    "key": "64",
-    "x": 406
-   },
-   {
-    "label": "k=256",
-    "key": "256",
     "x": 538
    }
   ],
@@ -1016,46 +978,8 @@ window.CLIPS = {
     "arm": "levers",
     "tag": null,
     "group": null,
-    "y": 162
+    "y": 132
    }
-  ],
-  "metrics": {
-   "native": {
-    "8": {
-     "psnr": 13.08,
-     "clipv": 0.857
-    },
-    "16": {
-     "psnr": 15.29,
-     "clipv": 0.892
-    },
-    "64": {
-     "psnr": 18.16,
-     "clipv": 0.935
-    },
-    "256": {
-     "psnr": 21.55,
-     "clipv": 0.968
-    }
-   },
-   "levers": {
-    "8": {
-     "psnr": 12.41,
-     "clipv": 0.889
-    },
-    "16": {
-     "psnr": 12.09,
-     "clipv": 0.887
-    },
-    "64": {
-     "psnr": 14.03,
-     "clipv": 0.893
-    },
-    "256": {
-     "psnr": 19.8,
-     "clipv": 0.909
-    }
-   }
-  }
+  ]
  }
 };

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SemanTok</title>
-<script src="static/clips/clips.js?v=4d0b7c29"></script>
+<script src="static/clips/clips.js?v=644e4315"></script>
 <meta name="description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +72,7 @@
   /* clean clip grids: text-free video, labels drawn here */
   .clip { padding: 24px 0 0 50px; }
   .clip .box { position: relative; }
-  .clip .rl { position: absolute; left: -50px; width: 50px; transform: translateY(-50%) rotate(180deg); text-align: center;
+  .clip .rl { position: absolute; right: calc(100% + 3px); transform: translateY(-50%) rotate(180deg); text-align: center;
               writing-mode: vertical-rl; font-size: 11.5px; line-height: 1.15; white-space: nowrap; }
   .clip .rl b { font-weight: 700; }
   .clip .mt { position: absolute; z-index: 1; transform: translateX(-50%); font-size: 10.5px; text-align: center; color: var(--mute); white-space: nowrap; line-height: 1.2; }
@@ -169,6 +169,13 @@
   table.mini th:first-child, table.mini td:first-child { text-align: left; }
   table.mini b { color: var(--ours); }
 
+  .tabs-mini { display: flex; gap: 6px; margin: 10px 0 6px; }
+  .tabs-mini button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 2px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+  .tabs-mini button[aria-pressed="true"] { background: #363636; color: #fff; border-color: #363636; }
+  .table-wrap { overflow-x: auto; }
+  table.mini.grid td { line-height: 1.25; white-space: nowrap; }
+  table.mini.grid td small { display: block; color: var(--sem); font-size: 11px; }
+  .tnote { font-size: 12.5px; color: var(--mute); margin: 6px 0 0; }
   .limit { max-width: 820px; margin: 10px auto 0; font-size: 15px; color: var(--mute); text-align: center; }
 
   pre.bib { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
@@ -372,21 +379,18 @@
           <div><p class="sub" style="margin:0"><b>Fedora</b> &middot; out-of-distribution class (OOD)</p>
             <div data-clip="F3_Fedora_OOD"></div></div>
         </div>
-        <p class="caption">uCO3D reconstructions from ground-truth tokens. Under each clip: PSNR (dB) &middot; ClipV, both against the VAE ground truth; bold is better at that <i>k</i>.</p>
+        <p class="caption">uCO3D reconstructions from ground-truth tokens. SemanTok recovers the object class at a smaller <i>k</i>, on a seen (ID) and an unseen (OOD) class.</p>
       </figure>
         <ul class="points below">
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's token prefixes recover the original object class at a lower <i>k</i> than VideoFlexTok's, on both ID and OOD clips.</span><span class="chev">&#9656;</span></button>
             <div class="detail"><div class="d">OOD object classes are never seen in training. At <i>k</i>=16 on uCO3D, SemanTok's reconstructions score higher ClipV and class accuracy than VideoFlexTok's, but about 2.7 dB lower PSNR.</div></div></li>
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The lead carries over to AR generation, on seen and held-out classes.</span><span class="chev">&#9656;</span></button>
-            <div class="detail"><div class="d">With a 201M AR model at <i>k</i>=16, SemanTok raises generated class accuracy over VideoFlexTok by 24% on ID clips and by 29% on OOD classes, and improves ClipV on both.
-              ViCLIP favours SemanTok from <i>k</i>=16 on, but not at <i>k</i>=4.
-              <table class="mini">
-                <tr><th>ID / OOD, 201M AR</th><th><i>k</i>=4</th><th><i>k</i>=16</th><th><i>k</i>=256</th></tr>
-                <tr><td>Class acc. &middot; VideoFlexTok</td><td>0.23 / 0.16</td><td>0.27 / 0.18</td><td>0.24 / 0.16</td></tr>
-                <tr><td>Class acc. &middot; SemanTok</td><td><b>0.27 / 0.18</b></td><td><b>0.34 / 0.23</b></td><td><b>0.27 / 0.18</b></td></tr>
-                <tr><td>ClipV &middot; VideoFlexTok</td><td>0.70 / <b>0.63</b></td><td>0.73 / 0.65</td><td>0.70 / 0.63</td></tr>
-                <tr><td>ClipV &middot; SemanTok</td><td><b>0.70</b> / 0.62</td><td><b>0.75 / 0.66</b></td><td><b>0.73 / 0.65</b></td></tr>
-              </table></div></div></li>
+            <div class="detail"><div class="d">With a 201M AR model at <i>k</i>=16, SemanTok raises generated class accuracy over VideoFlexTok by 24% on ID clips and by 29% on OOD classes.
+              The same holds at every AR size: from <i>k</i>=2 to 256, SemanTok's class accuracy is higher by 10&ndash;36% on OOD classes and by 9&ndash;31% on ID clips
+              (at <i>k</i>=1 the two are within &minus;6% to +12%). At 201M, ViCLIP favours SemanTok from <i>k</i>=16 on, but not at <i>k</i>=4.
+              <div class="tabs-mini" id="idood-tabs"><button data-sp="ood" aria-pressed="true">OOD classes</button><button data-sp="id" aria-pressed="false">ID classes</button></div>
+              <div class="table-wrap"><table class="mini grid" id="idood-table"></table></div>
+              <p class="tnote">Generated class accuracy on uCO3D, VideoFlexTok / <b>SemanTok</b>; relative gain below. 2,560 generated clips per split and cell; AR step 20k, CFG 3.0, seed 0.</p></div></div></li>
         </ul>
     </article>
 
@@ -592,6 +596,28 @@
     if (io) io.observe(v); else { v.src = v.dataset.src; v.autoplay = true; }
   }
   document.querySelectorAll("[data-clip]").forEach(buildClip);
+
+  // ---------- Finding 3: ID/OOD generated class accuracy, every AR size x k ----------
+  var IDOOD = {"id":{"49M":{"8":[0.2558,0.3024],"16":[0.2591,0.3208],"32":[0.2571,0.3301],"64":[0.2401,0.3098],"128":[0.2113,0.2652],"256":[0.1943,0.2269]},"85M":{"8":[0.2546,0.3017],"16":[0.2663,0.3284],"32":[0.2613,0.3295],"64":[0.2495,0.32],"128":[0.2308,0.2787],"256":[0.2086,0.2515]},"201M":{"8":[0.2623,0.3073],"16":[0.2714,0.3359],"32":[0.2778,0.345],"64":[0.2715,0.3303],"128":[0.2458,0.2913],"256":[0.2349,0.2653]},"393M":{"8":[0.2733,0.3208],"16":[0.2751,0.3594],"32":[0.2756,0.3507],"64":[0.2719,0.3391],"128":[0.2594,0.3184],"256":[0.245,0.2842]},"679M":{"8":[0.2696,0.3133],"16":[0.282,0.3496],"32":[0.2912,0.3562],"64":[0.2817,0.3488],"128":[0.2735,0.3157],"256":[0.2546,0.288]},"1.33B":{"8":[0.2659,0.3192],"16":[0.2804,0.3463],"32":[0.2878,0.3613],"64":[0.2861,0.3485],"128":[0.2766,0.3282],"256":[0.2662,0.303]},"2.29B":{"8":[0.2769,0.3267],"16":[0.2944,0.3528],"32":[0.3019,0.37],"64":[0.3018,0.3527],"128":[0.2956,0.3364],"256":[0.2827,0.3159]}},"ood":{"49M":{"8":[0.1773,0.2087],"16":[0.179,0.2272],"32":[0.1788,0.2249],"64":[0.1678,0.2192],"128":[0.1496,0.188],"256":[0.1393,0.1722]},"85M":{"8":[0.18,0.2144],"16":[0.1788,0.2287],"32":[0.1731,0.2346],"64":[0.167,0.214],"128":[0.1555,0.1909],"256":[0.154,0.1694]},"201M":{"8":[0.1753,0.2214],"16":[0.1791,0.2314],"32":[0.1817,0.2283],"64":[0.1788,0.2145],"128":[0.1775,0.2],"256":[0.1557,0.1841]},"393M":{"8":[0.1726,0.2098],"16":[0.1794,0.2353],"32":[0.1832,0.2347],"64":[0.1844,0.2199],"128":[0.18,0.2061],"256":[0.1722,0.1957]},"679M":{"8":[0.1767,0.2039],"16":[0.186,0.2277],"32":[0.196,0.2307],"64":[0.1886,0.2214],"128":[0.1776,0.2083],"256":[0.1761,0.1955]},"1.33B":{"8":[0.1726,0.2084],"16":[0.1891,0.2184],"32":[0.1892,0.231],"64":[0.1879,0.2289],"128":[0.1904,0.2161],"256":[0.181,0.1987]},"2.29B":{"8":[0.1707,0.2129],"16":[0.1832,0.2347],"32":[0.1975,0.234],"64":[0.1813,0.2315],"128":[0.1906,0.22],"256":[0.1852,0.2074]}}};
+  function drawIdood(sp) {
+    var ks = ["8", "16", "32", "64", "128", "256"], sizes = ["49M", "85M", "201M", "393M", "679M", "1.33B", "2.29B"];
+    var h = "<tr><th>AR size</th>" + ks.map(function (k) { return "<th><i>k</i>=" + k + "</th>"; }).join("") + "</tr>";
+    sizes.forEach(function (s) {
+      h += "<tr><td>" + s + "</td>" + ks.map(function (k) {
+        var v = IDOOD[sp][s][k], g = Math.round((v[1] / v[0] - 1) * 100);
+        return "<td>" + v[0].toFixed(2) + " / <b>" + v[1].toFixed(2) + "</b><small>" + (g >= 0 ? "+" : "") + g + "%</small></td>";
+      }).join("") + "</tr>";
+    });
+    document.getElementById("idood-table").innerHTML = h;
+    document.querySelectorAll("#idood-tabs button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.sp === sp)); });
+  }
+  document.querySelectorAll("#idood-tabs button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      drawIdood(b.dataset.sp);
+      var det = b.closest(".detail"); if (det && det.style.maxHeight !== "none") det.style.maxHeight = det.scrollHeight + "px";
+    });
+  });
+  drawIdood("ood");
 
   // ---------- gallery ----------
   var GALLERY = [
