@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SemanTok</title>
+<script src="static/clips/clips.js"></script>
+<meta name="description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Castoro&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f2328; --mute: #5b616b; --line: #e6e6e3; --bg: #ffffff; --soft: #f7f7f5;
+    --ours: #7950B3; --base: #D9713A; --fid: #164279; --sem: #1B4A1D; --link: #3273dc;
+    --f1: #9E3429; --f2: #705400; --f3: #00626B; --f4: #AB1456; --f5: #5B2C8C; --f6: #9A4200; --f7: #595959;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.6 "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  img, video { max-width: 100%; display: block; }
+  img { width: 100%; height: auto; }
+  object.svgfig { display: block; width: 100%; height: auto; border: 0; }
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .narrow { max-width: 820px; margin: 0 auto; }
+  .ours { color: var(--ours); font-weight: 600; }
+  .base { color: var(--base); font-weight: 600; }
+  .fid { color: var(--fid); }
+  .sem { color: var(--sem); }
+
+  /* ---------- hero ---------- */
+  .hero { text-align: center; padding: 34px 0 6px; }
+  .hero h1 { font-family: "Castoro", Georgia, serif; font-weight: 400; font-size: 38px; line-height: 1.15;
+             margin: 0 auto 14px; max-width: 900px; letter-spacing: -0.005em; }
+  .hero h1 .name { color: var(--ours); }
+  .authors { font-size: 18px; margin: 0 auto 6px; max-width: 860px; }
+  .authors span { white-space: nowrap; margin: 0 8px; }
+  .authors sup { font-size: 11px; }
+  .affils { color: var(--mute); font-size: 16px; margin: 0 0 20px; }
+  .affils span { margin: 0 10px; white-space: nowrap; }
+  .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: #363636; color: #fff;
+         border-radius: 999px; padding: 8px 18px; font-size: 15px; font-weight: 500; }
+  .btn:hover { background: #1f1f1f; text-decoration: none; }
+  .btn.disabled { background: #b5b5b5; cursor: default; }
+  .btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .tldr { max-width: 820px; margin: 18px auto 0; font-size: 17px; text-align: center; color: #33373d; }
+
+  /* ---------- sections ---------- */
+  section { padding: 30px 0 6px; scroll-margin-top: 44px; }
+  h2 { font-family: "Castoro", Georgia, serif; font-weight: 400; font-size: 32px; text-align: center; margin: 0 0 18px; }
+  h3 { font-size: 19px; margin: 0 0 8px; }
+  .lead { color: var(--mute); text-align: center; max-width: 780px; margin: 0 auto 22px; }
+  .caption { color: var(--mute); font-size: 14.5px; margin: 8px auto 0; max-width: 860px; text-align: center; }
+  figure { margin: 0; }
+
+  /* top nav */
+  .topnav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.94); backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--line); }
+  .topnav .container { display: flex; justify-content: center; gap: 4px 22px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; font-size: 14.5px; }
+  .topnav a { color: var(--ink); }
+
+  /* clean clip grids: text-free video, labels drawn here */
+  .clip { padding: 20px 0 0 30px; }
+  .clip .box { position: relative; }
+  .clip .rl { position: absolute; left: -30px; width: 30px; transform: translateY(-50%) rotate(180deg); text-align: center;
+              writing-mode: vertical-rl; font-size: 11.5px; line-height: 1.15; white-space: nowrap; }
+  .clip .rl b { font-weight: 700; }
+  .clip .cl { position: absolute; top: -19px; transform: translateX(-50%); font-size: 12.5px; color: var(--mute); white-space: nowrap; }
+  .clip video { width: 100%; height: auto; display: block; cursor: pointer; background: #fff; }
+  .teaser { display: grid; gap: 26px; align-items: start; }
+  .teaser h3 { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
+  .teaser h3 span { font-weight: 400; color: var(--mute); }
+  .teaser .caption { text-align: left; margin: 6px 0 0 30px; font-size: 14px; }
+  .viewer { margin: 0 auto; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 4px 0; }
+  .chips .grp { font-size: 13px; color: var(--mute); margin-right: 2px; align-self: center; min-width: 108px; text-align: right; }
+  .chip { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 3px 11px; font: inherit;
+          font-size: 13.5px; cursor: pointer; color: var(--ink); }
+  .chip[aria-pressed="true"] { background: #363636; color: #fff; border-color: #363636; }
+  .viewer-cap { text-align: center; color: var(--mute); font-size: 14px; margin: 8px auto 0; max-width: 860px; }
+
+  /* key numbers */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0 4px; }
+  .stat { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px 8px; text-align: center; }
+  .stat b { display: block; font-size: 23px; line-height: 1.15; color: var(--ours); font-weight: 700; }
+  .stat span { font-size: 13.5px; color: var(--mute); line-height: 1.4; display: block; margin-top: 4px; }
+
+  /* videos */
+  .video-card { margin: 0 0 22px; }
+  .video-card video { width: 100%; border-radius: 8px; background: #fff; border: 1px solid var(--line); cursor: pointer; }
+  .video-card h3 { font-size: 16px; font-weight: 600; margin: 0 0 6px; }
+  .video-card .tag { font-weight: 400; color: var(--mute); font-size: 14px; }
+  .legend { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; font-size: 14.5px; color: var(--mute); margin: 0 0 16px; }
+  .sw { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin: 30px 0 16px; }
+  .tab { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 14px; font: inherit;
+         font-size: 14.5px; color: var(--ink); cursor: pointer; }
+  .tab[aria-selected="true"] { background: #363636; color: #fff; border-color: #363636; }
+  .panel[hidden] { display: none; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  /* architecture */
+  .arch-points { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 22px 0 6px; }
+  .arch-points div { border-left: 3px solid var(--ours); padding: 2px 0 2px 12px; font-size: 15px; }
+  .arch-points div b { display: block; margin-bottom: 2px; }
+  details.more { margin: 18px 0 0; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); }
+  details.more summary { cursor: pointer; padding: 10px 14px; font-weight: 500; font-size: 15px; list-style: none; }
+  details.more summary::-webkit-details-marker { display: none; }
+  details.more summary::before { content: "+"; display: inline-block; width: 18px; font-weight: 700; color: var(--ours); }
+  details.more[open] summary::before { content: "\2212"; }
+  details.more .inner { padding: 0 14px 14px; }
+  details.more .inner img { background: #fff; border-radius: 6px; }
+
+  /* ---------- findings ---------- */
+  .toc { display: flex; flex-direction: column; gap: 8px; max-width: 820px; margin: 0 auto 20px; }
+  .toc a { color: var(--ink); display: flex; align-items: center; gap: 10px; font-size: 15.5px; }
+  .toc a:hover { text-decoration: none; }
+  .toc a:hover .t { text-decoration: underline; }
+  .badge { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px;
+           border-radius: 50%; color: #fff; font-size: 12.5px; font-weight: 700; line-height: 1; }
+  .finding { border-top: 1px solid var(--line); padding: 32px 0 20px; scroll-margin-top: 16px; }
+  .finding-head { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 18px; }
+  .finding-head .badge { width: 34px; height: 34px; font-size: 16px; margin-top: 1px; }
+  .finding-head h3 { font-size: 22px; line-height: 1.3; margin: 0; font-weight: 600; }
+  .finding .fig img { border-radius: 6px; }
+  .finding .fig .caption { text-align: left; margin-left: 0; }
+  .split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 30px; align-items: start; }
+  .below { margin-top: 18px; }
+
+  /* clickable points */
+  ul.points { list-style: none; margin: 0; padding: 0; }
+  ul.points > li { margin: 0 0 6px; }
+  .pt { display: flex; gap: 10px; align-items: flex-start; width: 100%; text-align: left; background: none; border: 0;
+        padding: 6px 8px; margin: 0 -8px; border-radius: 8px; font: inherit; color: var(--ink); cursor: pointer; }
+  .pt:hover { background: var(--soft); }
+  .pt .dot { flex: none; width: 12px; height: 12px; border-radius: 50%; margin-top: 7px; background: var(--c);
+             transition: transform .15s; box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 18%, transparent); }
+  .pt[aria-expanded="true"] .dot { transform: scale(1.2); }
+  .pt .txt { flex: 1; }
+  .pt .chev { flex: none; color: var(--c); font-size: 16px; margin-top: 1px; transition: transform .2s; }
+  .pt[aria-expanded="true"] .chev { transform: rotate(90deg); }
+  .detail { overflow: hidden; max-height: 0; opacity: 0; transition: max-height .3s ease, opacity .25s ease; }
+  .detail.open { opacity: 1; }
+  .detail .d { margin: 2px 0 10px 22px; padding: 8px 12px; border-left: 3px solid var(--c); background: var(--soft);
+               border-radius: 0 8px 8px 0; font-size: 15px; color: #3a3f46; }
+  .detail .d img { margin-top: 10px; background: #fff; border-radius: 6px; }
+  .hint { font-size: 13px; color: var(--mute); margin: 0 0 8px; }
+
+  table.mini { border-collapse: collapse; font-size: 13.5px; margin-top: 8px; width: 100%; background: #fff; }
+  table.mini th, table.mini td { padding: 3px 6px; text-align: center; border-bottom: 1px solid var(--line); }
+  table.mini th:first-child, table.mini td:first-child { text-align: left; }
+  table.mini b { color: var(--ours); }
+
+  .limit { max-width: 820px; margin: 10px auto 0; font-size: 15px; color: var(--mute); text-align: center; }
+
+  pre.bib { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+            font-size: 13.5px; overflow-x: auto; }
+  footer { padding: 36px 0 48px; color: var(--mute); font-size: 13.5px; text-align: center; }
+
+  @media (max-width: 820px) {
+    .hero h1 { font-size: 32px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .teaser { grid-template-columns: 1fr !important; }
+    .chips .grp { min-width: 0; width: 100%; text-align: center; }
+    .arch-points, .split, .pair { grid-template-columns: 1fr; }
+    .container { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero container">
+  <h1><span class="name">SemanTok</span>: Predictable Semantic Tokens for Efficient Autoregressive Video Generation</h1>
+  <div class="authors">
+    <span>Mikhail Dereviannykh<sup>1,2</sup></span>
+    <span>Vikram Voleti<sup>1</sup></span>
+    <span>Simon Donné<sup>1</sup></span>
+    <span>Mallikarjun Byrasandra Ramalinga Reddy<sup>1</sup></span>
+    <span>Shimon Vainer<sup>1</sup></span>
+    <span>Mark Boss<sup>1</sup></span>
+  </div>
+  <div class="affils">
+    <span><sup>1</sup><a href="https://stability.ai">Stability AI</a></span>
+    <span><sup>2</sup><a href="https://www.kit.edu">Karlsruher Institut für Technologie</a></span>
+  </div>
+  <div class="buttons">
+    <a class="btn disabled" title="Coming soon"><svg viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6zM14 3v5h5"/></svg>Paper (soon)</a>
+    <a class="btn disabled" title="Coming soon"><svg viewBox="0 0 24 24"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.6 4.7 18.6 5 18.6 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>Code (soon)</a>
+    <a class="btn" href="#videos"><svg viewBox="0 0 24 24"><path d="M3 5h13v14H3zM17 10l5-3v10l-5-3z"/></svg>Videos</a>
+    <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
+  </div>
+  <p class="tldr">Flexible video tokenizers let an autoregressive (AR) model stop at any token budget.
+    <span class="ours">SemanTok</span> makes the <em>first</em> tokens carry what the clip is about, so they are
+    cheaper to predict, and a small AR model matches or beats a
+    <span class="base">VideoFlexTok</span> model 3.4&times; its size.</p>
+</header>
+
+<nav class="topnav"><div class="container">
+  <a href="#results">Results</a><a href="#method">Method</a><a href="#findings">Findings</a><a href="#videos">More videos</a><a href="#bibtex">BibTeX</a>
+</div></nav>
+
+<!-- ======================= RESULTS ======================= -->
+<section id="results">
+  <div class="container">
+    <h2>Results</h2>
+    <div class="legend">
+      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
+      <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
+      <div><i>k</i> = tokens per latent frame (coarse &rarr; fine)</div>
+    </div>
+
+    <div class="teaser" style="grid-template-columns: 44fr 66fr">
+      <div>
+        <h3>Text-to-video <span>&middot; &ldquo;A small orange basketball on a plaid tablecloth&rdquo;</span></h3>
+        <div data-clip="GenerationUCO3D_Basketball"></div>
+        <p class="caption">With <i>k</i>=4 tokens per frame, the 201M SemanTok model already keeps the ball's shape.
+          VideoFlexTok loses it at the same size and is unstable up to <i>k</i>=64 even at 11&times; the size.</p>
+      </div>
+      <div>
+        <h3>Class-to-video <span>&middot; &ldquo;yoga&rdquo;, both 2.29B (equal cost)</span></h3>
+        <div data-clip="GenerationK600_Yoga"></div>
+        <p class="caption">SemanTok keeps the body motion stable from <i>k</i>=16; more tokens refine it.
+          VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16.</p>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>3.4&times;</b><span>smaller SemanTok AR model matches or beats VideoFlexTok</span></div>
+      <div class="stat"><b>+25&ndash;61%</b><span>class accuracy on Kinetics-600 at equal AR size</span></div>
+      <div class="stat"><b>&minus;32%</b><span>bits per token to predict the <i>k</i>=16 prefix</span></div>
+      <div class="stat"><b>49M &gt; 2.29B</b><span>smallest SemanTok beats the largest VideoFlexTok in semantic alignment</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ======================= METHOD ======================= -->
+<section id="method">
+  <div class="container">
+    <h2>How it works</h2>
+    <p class="lead">A coarse-to-fine tokenizer turns each latent frame into up to 256 tokens; any prefix of <i>k</i>
+      tokens decodes to a video. An AR model then predicts only the prefix the application asks for.</p>
+    <figure>
+      <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
+    </figure>
+
+    <div class="arch-points">
+      <div><b>DINO in</b>Frozen DINOv2 features are fed into the encoder next to the video latents.</div>
+      <div><b>DINO out, from the prefix only</b>Two light heads must rebuild the DINO features from each kept token prefix, never seeing the noisy latent.</div>
+      <div><b>Nothing else changes</b>Same codebook, sequence length, decoder, and AR recipe as <span class="base">VideoFlexTok</span>.</div>
+    </div>
+    <p class="caption">No loss assigns semantics to specific tokens. Nested dropout alone pushes the most useful information into the earliest ones.</p>
+
+    <details class="more">
+      <summary>Full architecture</summary>
+      <div class="inner">
+        <object class="svgfig" type="image/svg+xml" data="static/img/architecture.svg" style="aspect-ratio: 1462.27 / 500.62" aria-label="Full SemanTok architecture."></object>
+        <p class="caption" style="text-align:left;margin-left:0">
+          <span class="base">Orange</span>: the VideoFlexTok path (VAE &rarr; time-causal encoder &rarr; FSQ &rarr; nested dropout &rarr;
+          time-causal flow decoder, trained with flow matching + decoder REPA).
+          <span class="ours">Purple</span>: SemanTok's additions: DINOv2 patches concatenated to each VAE patch, the
+          DINO class token added to the first register token, and Dense / Class DINO heads that cross-attend to
+          the kept prefix of frames &le; <i>t</i> (cosine losses, weight 0.5 each).</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ======================= FINDINGS ======================= -->
+<section id="findings">
+  <div class="container">
+    <h2>Seven findings</h2>
+    <p class="lead">We compare the two tokenizers across seven AR sizes (49M&ndash;2.29B) and all token budgets, on
+      class-to-video (Kinetics-600) and text-to-video (uCO3D), measuring
+      <span class="fid">fidelity</span> (gFVD, gFID) and <span class="sem">semantic alignment</span> (class accuracy, ViCLIP, ClipV).</p>
+
+    <nav class="toc">
+      <a href="#f1"><span class="badge" style="background:var(--f1)">1</span><span class="t">High semantic alignment and fidelity at every AR size</span></a>
+      <a href="#f2"><span class="badge" style="background:var(--f2)">2</span><span class="t">Scaling the AR model further improves fidelity</span></a>
+      <a href="#f3"><span class="badge" style="background:var(--f3)">3</span><span class="t">Semantics hold on out-of-distribution classes</span></a>
+      <a href="#f4"><span class="badge" style="background:var(--f4)">4</span><span class="t">Higher decoder-REPA alignment at every noise level</span></a>
+      <a href="#f5"><span class="badge" style="background:var(--f5)">5</span><span class="t">Strong in reconstruction and in generation</span></a>
+      <a href="#f6"><span class="badge" style="background:var(--f6)">6</span><span class="t">Earlier tokens are cheaper to predict and carry the gain</span></a>
+      <a href="#f7"><span class="badge" style="background:var(--f7)">7</span><span class="t">One token per frame is too few for every objective</span></a>
+    </nav>
+    <p class="hint" style="text-align:center">Click a <span style="color:var(--f1)">&#9679;</span> point to see the numbers behind it.</p>
+
+    <!-- 1 -->
+    <article class="finding" id="f1" style="--c:var(--f1)">
+      <div class="finding-head"><span class="badge" style="background:var(--f1)">1</span>
+        <h3 style="color:var(--f1)">SemanTok exhibits high semantic alignment and video fidelity at every AR model size.</h3></div>
+      <figure class="fig">
+        <object class="svgfig" type="image/svg+xml" data="static/img/ar_scaling_flops_v2.svg" style="aspect-ratio: 396.00 / 163.64" aria-label="Generation metrics versus AR inference FLOPs for both tokenizers."></object>
+        <p class="caption">Generation vs. AR inference FLOPs. Faded curves: one AR size sweeping <i>k</i> = 1&hellip;256.
+          Solid black: SemanTok's best at each compute; dashed: VideoFlexTok's.</p>
+      </figure>
+      <ul class="points below">
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Every SemanTok AR model beats the same-size VideoFlexTok model on both datasets.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">With each tokenizer at its best <i>k</i>, on Kinetics-600: gFVD &minus;11&ndash;24%, gFID &minus;5&ndash;17%,
+            class accuracy +25&ndash;61%, largest for the smallest models. On uCO3D: +2&ndash;13%, +5&ndash;8% and +22&ndash;30%.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">An 85M SemanTok model at <i>k</i>=16 beats VideoFlexTok of <em>every</em> size, up to 2.29B, in gFID.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">This holds on both datasets, and also in gFVD on Kinetics-600. On uCO3D it matches that model
+            in gFVD and beats it in class accuracy.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Even the 49M SemanTok model out-scores the best VideoFlexTok model in semantic alignment.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">In class accuracy, ClipV and ViCLIP, on both datasets. Kinetics-600 class accuracy: 0.631 vs 0.560 for the 2.29B VideoFlexTok model.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok stays good over longer prefixes.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">More tokens cost more AR compute and eventually hurt gFVD. VideoFlexTok degrades after <i>k</i>=16, SemanTok only after <i>k</i>=32.</div></div></li>
+      </ul>
+    </article>
+
+    <!-- 2 -->
+    <article class="finding" id="f2" style="--c:var(--f2)">
+      <div class="finding-head"><span class="badge" style="background:var(--f2)">2</span>
+        <h3 style="color:var(--f2)">Increasing SemanTok model size further improves fidelity.</h3></div>
+      <div class="split">
+        <figure class="fig">
+          <object class="svgfig" type="image/svg+xml" data="static/img/ar_size_halfwidth.svg" style="aspect-ratio: 188.84 / 171.99" aria-label="Best-k metrics versus AR model size."></object>
+          <p class="caption">Best-<i>k</i> scores vs. AR size. Fidelity improves with size for both; the semantic gap does not close.</p>
+        </figure>
+        <ul class="points">
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Bigger AR models sharpen fidelity for both tokenizers, and SemanTok gets there with fewer parameters.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">From 49M to 2.29B, SemanTok's best-<i>k</i> gFVD falls from 224 to 202 on Kinetics-600 and from 218 to 197 on uCO3D.
+              Scale mostly trims the error that compounds during the token rollout.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Semantic alignment barely moves with scale, because the first tokens, which come from the tokenizer, already decide what the clip shows.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">SemanTok's best-<i>k</i> class accuracy and ClipV lie above VideoFlexTok at every size.
+              The advantage is largest where AR capacity is scarce: at <i>k</i>=64 the gFID gain halves from 49M to 2.29B.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Training longer behaves like scaling up: 5&times; more training buys VideoFlexTok some fidelity, but not semantics.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">1.33B model on Kinetics-600: SemanTok's gFVD lead shrinks from 28% to 9% by 26B tokens, then holds at 11&ndash;14%.
+              Its class-accuracy lead is still 30% after 65.5B tokens.
+              <object class="svgfig" type="image/svg+xml" data="static/img/ar_trainD_tokens.svg" style="aspect-ratio: 189.23 / 159.68" aria-label="Metrics versus AR training tokens."></object></div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">One rollout: scaling to 2.29B sharpens both, SemanTok keeps its lead.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">Playing guitar at 201M and 2.29B. At 201M, SemanTok degrades slowly over time, while VideoFlexTok is sharp only at <i>t</i>=1.
+              <div style="margin-top:10px"><b style="font-size:13px">201M</b><div data-clip="GenerationK600_Guitar_201M"></div></div>
+              <div style="margin-top:8px"><b style="font-size:13px">2.29B</b><div data-clip="GenerationK600_Guitar_2.29B"></div></div></div></div></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="finding" id="f3" style="--c:var(--f3)">
+      <div class="finding-head"><span class="badge" style="background:var(--f3)">3</span>
+        <h3 style="color:var(--f3)">SemanTok is able to maintain semantic alignment over out-of-distribution classes.</h3></div>
+      <figure class="fig">
+        <object class="svgfig" type="image/svg+xml" data="static/img/recon_idood.svg" style="aspect-ratio: 396.00 / 194.60" aria-label="uCO3D reconstructions from ground-truth tokens for in- and out-of-distribution clips."></object>
+        <p class="caption">uCO3D reconstructions from ground-truth tokens: SemanTok recovers the object class at a smaller <i>k</i>, on seen (ID) and unseen (OOD) categories.</p>
+      </figure>
+      <ul class="points below">
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok prefixes recover <em>what</em> the object is earlier, and trade some pixel accuracy for it.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=16 on uCO3D, SemanTok's reconstructions score higher ClipV and class accuracy than VideoFlexTok's, but about 2.7 dB lower PSNR.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The lead carries over to generation on categories never seen in training.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">201M AR model at <i>k</i>=16: class accuracy +24% on ID clips and +29% on OOD classes, ClipV better on both.
+            ViCLIP favours SemanTok from <i>k</i>=16 on, but not at <i>k</i>=4.
+            <table class="mini">
+              <tr><th>ID / OOD, 201M</th><th><i>k</i>=4</th><th><i>k</i>=16</th><th><i>k</i>=256</th></tr>
+              <tr><td>Class acc. &middot; VideoFlexTok</td><td>0.23 / 0.16</td><td>0.27 / 0.18</td><td>0.24 / 0.16</td></tr>
+              <tr><td>Class acc. &middot; SemanTok</td><td><b>0.27 / 0.18</b></td><td><b>0.34 / 0.23</b></td><td><b>0.27 / 0.18</b></td></tr>
+              <tr><td>ClipV &middot; VideoFlexTok</td><td>0.70 / <b>0.63</b></td><td>0.73 / 0.65</td><td>0.70 / 0.63</td></tr>
+              <tr><td>ClipV &middot; SemanTok</td><td><b>0.70</b> / 0.62</td><td><b>0.75 / 0.66</b></td><td><b>0.73 / 0.65</b></td></tr>
+            </table></div></div></li>
+      </ul>
+    </article>
+
+    <!-- 4 -->
+    <article class="finding" id="f4" style="--c:var(--f4)">
+      <div class="finding-head"><span class="badge" style="background:var(--f4)">4</span>
+        <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including pure noise.</h3></div>
+      <figure class="fig">
+        <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg" style="aspect-ratio: 390.61 / 87.57" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
+        <p class="caption">DINOv2 cosine of the decoder's REPA readout vs. <i>k</i>, for decoder inputs from pure noise (&sigma;=1) to mostly clean (&sigma;=0.25). Panels (b, d): how much a cleaner latent helps.</p>
+      </figure>
+      <ul class="points below">
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA alone is a weak signal for the tokens: the decoder can read part of the target from its noisy input.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">Existing flexible tokenizers align an early decoder layer with DINOv2. But that layer also sees the partly noised latent, which at low noise meets the target almost regardless of the tokens.
+            SemanTok's heads read <em>only</em> the tokens, so only the tokens can lower their loss.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">From pure noise, as in generation, SemanTok's readout is closer to DINOv2 at every <i>k</i>.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=32 on uCO3D, SemanTok from pure noise (0.718) matches VideoFlexTok given a 75%-clean latent (0.716) (circled).</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's semantics live in the tokens, not in the latent.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=256, a cleaner latent adds almost nothing to SemanTok's readout, but nearly 9&times; more to VideoFlexTok's.</div></div></li>
+      </ul>
+    </article>
+
+    <!-- 5 -->
+    <article class="finding" id="f5" style="--c:var(--f5)">
+      <div class="finding-head"><span class="badge" style="background:var(--f5)">5</span>
+        <h3 style="color:var(--f5)">SemanTok has high fidelity on reconstruction as well as generation.</h3></div>
+      <div class="split">
+        <figure class="fig">
+          <object class="svgfig" type="image/svg+xml" data="static/img/recon_ar_k.svg" style="aspect-ratio: 188.86 / 166.60" aria-label="Reconstruction versus generation metrics across k."></object>
+          <p class="caption">Black: reconstruction from ground-truth tokens. Red: AR generation at three sizes. The gap between them is what generation loses.</p>
+        </figure>
+        <ul class="points">
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">VideoFlexTok reconstructs a bit better, but loses more when an AR model has to generate the tokens.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">VideoFlexTok wins on reconstruction PSNR and rFVD, yet its realization gap, from reconstruction to generation, is wider.
+              Detail that the AR model cannot predict never reaches a generated video.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok has the lower gFVD at every AR size, at both <i>k</i>=64 and <i>k</i>=128.</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">So a better reconstruction score alone does not rank tokenizers for AR generation.</div></div></li>
+          <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Why can generated class accuracy exceed reconstruction?</span><span class="chev">&#9656;</span></button>
+            <div class="detail"><div class="d">On Kinetics-600 the AR model is conditioned on the class label, which a reconstruction never sees.</div></div></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 6 -->
+    <article class="finding" id="f6" style="--c:var(--f6)">
+      <div class="finding-head"><span class="badge" style="background:var(--f6)">6</span>
+        <h3 style="color:var(--f6)">SemanTok's generation fidelity gain comes from its earlier tokens, which are cheaper to predict.</h3></div>
+      <figure class="fig">
+        <object class="svgfig" type="image/svg+xml" data="static/img/ar_two_term.svg" style="aspect-ratio: 396.00 / 99.74" aria-label="Teacher forcing, cross-entropy per position, and generation versus reconstruction."></object>
+        <p class="caption">Kinetics-600. (a) gFVD advantage after forcing the first <i>m</i> ground-truth tokens. (b) AR cross-entropy per token position (201M). (c) Larger AR models narrow, but never close, the generation&ndash;reconstruction gap.</p>
+      </figure>
+      <ul class="points below">
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The gain is in the first tokens: give both models those, and SemanTok's lead disappears.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">With nothing forced, SemanTok's gFVD is 23% lower at 201M. Once the first 16&ndash;64 ground-truth tokens are forced, the lead vanishes, and VideoFlexTok's better-reconstructing tail edges ahead.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's prefix needs 32% fewer bits per token to predict at <i>k</i>=16.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">8.8 vs 12.9 bits at 201M. The marginal entropy is only ~1 bit lower, so most of the saving comes from context: the tokens are easier to predict from what came before.
+            It is not repetition; SemanTok repeats tokens less often overall.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Semantics first, pixel detail deferred, not discarded.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">SemanTok's first 4 tokens cost 37 bits per frame, yet nearly match the class accuracy of VideoFlexTok's first 32 tokens (405 bits).
+            Later tokens restore part of the detail, and the generative decoder fills in the rest.</div></div></li>
+      </ul>
+    </article>
+
+    <!-- 7 -->
+    <article class="finding" id="f7" style="--c:var(--f7)">
+      <div class="finding-head"><span class="badge" style="background:var(--f7)">7</span>
+        <h3 style="color:var(--f7)">SemanTok with one token per frame struggles to serve every objective.</h3></div>
+      <figure class="fig">
+        <object class="svgfig" type="image/svg+xml" data="static/img/ci_diff_strip.svg" style="aspect-ratio: 396.00 / 108.00" aria-label="SemanTok's advantage over VideoFlexTok versus k with 95% bootstrap intervals."></object>
+        <p class="caption">SemanTok's advantage over VideoFlexTok at equal AR size (positive = SemanTok better), with 95% paired-bootstrap intervals.</p>
+      </figure>
+      <ul class="points below">
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">The only significant losses are on uCO3D at <i>k</i> &le; 4, mostly gFID and ClipV at <i>k</i>=1.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">On Kinetics-600, SemanTok is never significantly worse. Its fidelity lead takes over at larger budgets (<a href="#f1">&#9312;</a>).</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA shows the same budget limit.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">At <i>k</i>=1, the pure-noise lead is only 0.01 DINOv2 cosine, vs 0.04&ndash;0.07 from <i>k</i>=16. With a mostly clean latent (&sigma;=0.25), SemanTok's readout is lower up to <i>k</i>=4 on uCO3D and <i>k</i>=8 on Kinetics-600.</div></div></li>
+        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">One token holds ~16 bits, too few for flow matching, decoder REPA and semantic supervision at once, yet class accuracy never falls behind.</span><span class="chev">&#9656;</span></button>
+          <div class="detail"><div class="d">SemanTok keeps its class-accuracy lead at every budget and every AR size.</div></div></li>
+      </ul>
+    </article>
+
+    <p class="limit"><b>Limitation.</b> Because SemanTok puts semantics before reconstruction, at small token budgets it does not always reproduce exact colours and appearance details.</p>
+  </div>
+</section>
+
+<!-- ======================= MORE VIDEOS ======================= -->
+<section id="videos">
+  <div class="container">
+    <h2>More videos</h2>
+    <div class="legend">
+      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
+      <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
+      <div>Click a video for controls.</div>
+    </div>
+    <div id="chips"></div>
+    <div class="viewer" id="viewer" style="margin-top:14px"></div>
+    <p class="viewer-cap" id="viewer-cap"></p>
+  </div>
+</section>
+
+<!-- ======================= BIBTEX ======================= -->
+<section id="bibtex">
+  <div class="container narrow">
+    <h2>BibTeX</h2>
+<pre class="bib">@misc{dereviannykh2026semantok,
+  title  = {SemanTok: Predictable Semantic Tokens for Efficient Autoregressive Video Generation},
+  author = {Dereviannykh, Mikhail and Voleti, Vikram and Donn{\'e}, Simon and
+            Reddy, Mallikarjun Byrasandra Ramalinga and Vainer, Shimon and Boss, Mark},
+  year   = {2026}
+}</pre>
+  </div>
+</section>
+
+<footer class="container">
+  Page layout inspired by the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page template.
+</footer>
+
+<script>
+  // Findings: click a point to reveal its detail directly under it.
+  document.querySelectorAll(".pt").forEach(function (btn) {
+    var det = btn.nextElementSibling;
+    btn.addEventListener("click", function () {
+      var open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+      if (open) {
+        det.style.maxHeight = det.scrollHeight + "px";
+        requestAnimationFrame(function () { det.style.maxHeight = "0px"; det.classList.remove("open"); });
+      } else {
+        det.classList.add("open");
+        det.style.maxHeight = det.scrollHeight + "px";
+        det.addEventListener("transitionend", function f() {
+          if (btn.getAttribute("aria-expanded") === "true") det.style.maxHeight = "none";
+          det.removeEventListener("transitionend", f);
+        });
+      }
+    });
+  });
+  // Images inside details load lazily; re-measure when they arrive.
+  document.querySelectorAll(".detail img").forEach(function (img) { img.loading = "lazy"; });
+
+  // ---------- clean clip grids ----------
+  var ARM = { levers: ["SemanTok", "var(--ours)"], native: ["VideoFlexTok", "var(--base)"] };
+  function buildClip(host) {
+    var L = window.CLIPS && window.CLIPS[host.dataset.clip];
+    if (!L) { host.textContent = "missing clip " + host.dataset.clip; return; }
+    var pct = function (v, of) { return (100 * v / of) + "%"; };
+    var rows = L.rows.map(function (r) {
+      var a = ARM[r.arm], sub = r.tag ? r.tag.split(" · ")[0].replace(" AR", "").replace(" = ", "=") : "";
+      return '<div class="rl" style="top:' + pct(r.y + L.tile / 2, L.H) + ';color:' + a[1] + '"><b>' + a[0] + '</b>' +
+             (sub ? '<br>' + sub : '') + '</div>';
+    }).join("");
+    var cols = L.cols.map(function (c) {
+      return '<div class="cl" style="left:' + pct(c.x + L.tile / 2, L.W) + '">' + c.label + '</div>';
+    }).join("");
+    host.className = "clip";
+    host.innerHTML = '<div class="box">' + rows + cols +
+      '<video data-src="static/clips/' + L.name + '.mp4" poster="static/clips/' + L.name + '.jpg" muted loop playsinline preload="none" width="' +
+      L.W + '" height="' + L.H + '"></video></div>';
+    var v = host.querySelector("video");
+    v.addEventListener("click", function () { v.controls = true; });
+    observe(v);
+  }
+
+  // Videos load and play only while on screen.
+  var io = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var v = en.target;
+      if (en.isIntersecting) { if (!v.src) v.src = v.dataset.src; var p = v.play(); if (p) p.catch(function () {}); }
+      else if (!v.paused) v.pause();
+    });
+  }, { rootMargin: "200px 0px", threshold: 0.1 }) : null;
+  function observe(v) {
+    if (io) io.observe(v); else { v.src = v.dataset.src; v.autoplay = true; }
+  }
+  document.querySelectorAll("[data-clip]").forEach(buildClip);
+
+  // ---------- gallery ----------
+  var GALLERY = [
+    ["Generation", [
+      ["GenerationUCO3D_FireExtinguisher", "Fire extinguisher", "Text-to-video, 201M AR model. Prompt: “A red fire extinguisher with a black handle and silver nozzle, sits on a countertop.”"],
+      ["GenerationK600_Guitar_201M", "Guitar · 201M", "Class-to-video (“playing guitar”), 201M AR model. SemanTok degrades slowly over time; VideoFlexTok is sharp only in the first frame."],
+      ["GenerationK600_Guitar_2.29B", "Guitar · 2.29B", "Same class and seed at 2.29B. Scaling improves both tokenizers; SemanTok stays ahead."],
+      ["GenerationK600_Guitar_49M", "Guitar · 49M", "Class-to-video with the smallest (49M) AR model: one rollout per tokenizer, decoded from its first k tokens per frame."]]],
+    ["AR model size", [
+      ["GenerationK600_CookingEgg_k16-64_ARsize", "Cooking egg", "Class-to-video (“cooking egg”) across all seven AR sizes, at k = 16, 32 and 64 tokens per frame."],
+      ["GenerationUCO3D_Barbell_ARsize_x_k", "Dumbbell (unseen)", "Text-to-video on a held-out uCO3D category across all AR sizes, at k = 8, 32 and 256."],
+      ["GenerationK600_Bike_k4_ARsize", "Bike · k=4", "Class-to-video (“riding a bike”) at only k = 4 tokens per frame, across AR sizes (first evaluation sample, no selection)."],
+      ["GenerationK600_Guitar_k64_ARsize", "Guitar · k=64", "Class-to-video (“playing guitar”) at k = 64, across AR sizes (first evaluation sample, no selection)."]]],
+    ["Reconstruction", [
+      ["ReconstructionUCO3D", "Fedora (unseen)", "Tokenizer reconstruction from ground-truth tokens, uCO3D category never seen in training. Left: input."],
+      ["ReconstructionUCO3D_Almond", "Almond (unseen)", "Reconstruction of a held-out uCO3D category (the OOD clip of Finding 3). Left: input."],
+      ["ReconstructionUCO3D_Banana", "Banana", "Reconstruction of an in-distribution uCO3D validation clip (the ID clip of Finding 3). Left: input."],
+      ["ReconstructionUCO3D_Flashlight", "Flashlight", "Reconstruction of an in-distribution uCO3D validation clip. Left: input."],
+      ["ReconstructionK600_HockeyStop", "Hockey stop", "Kinetics-600 reconstruction (k = 1, 16, 32, 256 were evaluated). Left: input."],
+      ["ReconstructionK600_Luge", "Luge", "Kinetics-600 reconstruction (k = 1, 16, 32, 256 were evaluated). Left: input."]]]
+  ];
+  var chipBox = document.getElementById("chips"), viewer = document.getElementById("viewer"),
+      cap = document.getElementById("viewer-cap"), chips = [];
+  function show(item, btn) {
+    chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === btn)); });
+    var L = window.CLIPS[item[0]];
+    // Tall grids (6 rows) are capped at ~68% of the viewport height.
+    // and all grids at ~1.4x native size, so small grids stay sharp.
+    viewer.style.maxWidth = "min(100%, " + Math.round(1.4 * L.W + 30) + "px, calc(68vh * " + (L.W / L.H).toFixed(3) + " + 30px))";
+    viewer.innerHTML = '<div data-clip="' + item[0] + '"></div>';
+    buildClip(viewer.firstChild);
+    cap.textContent = item[2];
+  }
+  GALLERY.forEach(function (g) {
+    var row = document.createElement("div"); row.className = "chips";
+    row.innerHTML = '<span class="grp">' + g[0] + '</span>';
+    g[1].forEach(function (item) {
+      var b = document.createElement("button"); b.className = "chip"; b.textContent = item[1];
+      b.addEventListener("click", function () { show(item, b); });
+      row.appendChild(b); chips.push(b);
+    });
+    chipBox.appendChild(row);
+  });
+  show(GALLERY[0][1][0], chips[0]);
+</script>
+</body>
+</html>
