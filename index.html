@@ -81,6 +81,48 @@
               display: flex; align-items: center; gap: 4px; font-weight: 600; }
   .clip .axis { position: absolute; top: -24px; left: -50px; width: 46px; text-align: right; font-size: 10px; line-height: 1.1;
                 color: var(--mute); }
+  /* Finding 4: PCA readout explorer */
+  .pca { border: 0; background: #fff; padding: 8px 0 6px; }
+  .pca-h { margin-bottom: 6px; }
+  .pca #pca-ex { justify-content: flex-start; gap: 4px; }
+  .pca #pca-ex button { font-size: 11.5px; padding: 0 8px; }
+  .pca-row { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 5px; align-items: start; }
+  .pca-row figure { margin: 0; position: relative; line-height: 0; }
+  .pca-row .pc1 { display: flex; flex-direction: column; }
+  .pca-row img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 0; border: 0; }
+  .pca-row figcaption { position: absolute; left: 0; bottom: 0; font-size: 9.5px; line-height: 1.2; padding: 1px 4px; background: rgba(0,0,0,.55); color: #fff; }
+  .pca-row figcaption.lgd { left: auto; right: 0; top: auto; display: flex; gap: 6px; background: rgba(255,255,255,.85); }
+  .pca-hd { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 5px; margin-bottom: 3px; }
+  .pca-sub { display: flex; justify-content: center; gap: 6px; font-size: 11.5px; white-space: nowrap; }
+  .pca-sub em { color: #777; font-style: normal; } .pca-sub i { font-style: normal; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .pca-row .cn { position: absolute; font: 700 11px/1 "Noto Sans", sans-serif; background: rgba(255,255,255,.92); padding: 2px 4px; border-radius: 3px; font-variant-numeric: tabular-nums; }
+  .pca-row .cn.tl { left: 3px; top: 3px; }
+  .pca-row .cn.br { right: 3px; bottom: 3px; }
+  .pca-row figcaption.lgd { top: 0; bottom: auto; right: 0; }
+  .sl { display: grid; grid-template-columns: 14px 1fr 30px; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--mute); }
+  .sl input { width: 100%; margin: 0; accent-color: #363636; }
+  .sl output { color: var(--ink); font-variant-numeric: tabular-nums; font-size: 12px; }
+  /* Finding 6 explainer: teacher forcing and CE per position */
+  .tfd { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 12px; margin: 0 auto 8px; }
+  @media (max-width: 1000px) { .tfd { grid-template-columns: 1fr; justify-content: stretch; } }
+  .tfd .bx { border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px 8px; background: var(--soft); }
+  .tfd h4 { margin: 0 0 4px; font-size: 13.5px; font-weight: 600; }
+  .tfd h4 span { color: var(--mute); font-weight: 400; }
+  .tfd .rw { display: flex; align-items: center; gap: 8px; margin: 3px 0; font-size: 12px; color: var(--mute); }
+  .tfd .rw b { width: 46px; flex: none; color: var(--ink); font-weight: 600; }
+  .tfd .sqs { display: inline-flex; align-items: center; gap: 2px; }
+  .tfd .sq { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+  .tfd .sq.gen { background: #fff; border: 1.3px dashed #9aa0a8; }
+  .tfd .sq.gt { border: 1.3px solid rgba(0,0,0,.25); }
+  .tfd .sq.tgt { background: #fff; border: 2px solid var(--ours); color: var(--ours); font: 700 10px/10px "Noto Sans", sans-serif; display: flex; align-items: center; justify-content: center; }
+  .tfd .sq.rest { background: #f0f0ee; border: 1.3px solid #e2e2df; }
+  .tfd .rw.ax { margin: 0 0 1px; font-size: 11px; }
+  .tfd .dots { color: var(--mute); font-size: 12px; letter-spacing: -1px; margin: 0 2px; }
+  .tfd .note { font-size: 12.5px; color: var(--mute); margin: 5px 0 0; line-height: 1.3; }
+  .tfd .note.frm { font-size: 13px; }
+  .tfd .note code, .tfd .frm { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--ink); }
+  .tfd .lg { display: flex; gap: 12px; flex-wrap: nowrap; white-space: nowrap; margin-top: 5px; font-size: 12px; color: var(--mute); align-items: center; }
+  .tfd .lg .sq { display: inline-block; vertical-align: -3px; margin-right: 4px; width: 11px; height: 11px; }
   .tok { display: inline-flex; align-items: center; gap: 1.5px; }
   .tok i { display: block; width: 5px; height: 5px; border-radius: 1px; }
   .tok s { text-decoration: none; font-size: 9px; letter-spacing: -1px; color: var(--mute); margin: 0 1px; }
@@ -344,7 +386,7 @@
       <div class="finding-head"><span class="badge" style="background:var(--f1)">1</span>
         <h3 style="color:var(--f1)">SemanTok exhibits high semantic alignment and video fidelity at every AR model size.</h3></div>
       <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/ar_scaling_flops_v2.svg?v=bc858dc8" style="aspect-ratio: 396.00 / 163.64" aria-label="Generation metrics versus AR inference FLOPs for both tokenizers."></object>
+        <object class="svgfig" type="image/svg+xml" data="static/img/ar_scaling_flops_v2.svg?v=bae02cbb" style="aspect-ratio: 396.00 / 163.64" aria-label="Generation metrics versus AR inference FLOPs for both tokenizers."></object>
         <p class="caption">Generation vs. AR inference FLOPs per clip. Each faded curve is one AR size sweeping <i>k</i> from 1 to 256.
           Black: the best score each tokenizer reaches at a given compute. SemanTok's envelope is better over most of the compute range.</p>
       </figure>
@@ -373,11 +415,11 @@
             <div class="vtabs" id="f2-tabs"><button data-v="model" aria-pressed="true">Model scaling</button><button data-v="tokens" aria-pressed="false">Tokens scaling</button></div>
             <div class="vpanes">
               <div data-pane="model">
-                <object class="svgfig" type="image/svg+xml" data="static/img/ar_size_halfwidth.svg?v=34311cef" style="aspect-ratio: 188.84 / 171.99" aria-label="Best-k metrics versus AR model size."></object>
+                <object class="svgfig" type="image/svg+xml" data="static/img/ar_size_halfwidth.svg?v=df07bdcc" style="aspect-ratio: 188.84 / 171.99" aria-label="Best-k metrics versus AR model size."></object>
                 <p class="caption">Best-<i>k</i> scores vs. AR model size. Fidelity scales with AR size for both tokenizers, while the semantic-alignment gap between them does not close.</p>
               </div>
               <div data-pane="tokens" hidden>
-                <object class="svgfig" type="image/svg+xml" data="static/img/ar_trainD_tokens.svg?v=adb7061a" style="aspect-ratio: 189.23 / 159.68" aria-label="Metrics versus AR training tokens."></object>
+                <object class="svgfig" type="image/svg+xml" data="static/img/ar_trainD_tokens.svg?v=966bbb5d" style="aspect-ratio: 189.23 / 159.68" aria-label="Metrics versus AR training tokens."></object>
                 <p class="caption">Scores vs. AR training tokens: 5&times; more training buys VideoFlexTok some fidelity, but not semantic alignment.</p>
               </div>
             </div>
@@ -436,11 +478,26 @@
     <article class="finding" id="f4" style="--c:var(--f4)">
       <div class="finding-head"><span class="badge" style="background:var(--f4)">4</span>
         <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including the pure noise setting.</h3></div>
-      <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=44bb5ced" style="aspect-ratio: 390.54 / 93.60" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
-        <p class="caption">(a, c) DINOv2 cosine similarity of the decoder's REPA readout vs. <i>k</i>, with decoder inputs from pure noise (&sigma;=1) to a mostly clean latent (&sigma;=0.25).
-          (b, d) Latent gain: the readout with a 75%-clean latent (&sigma;=0.25) minus the readout from pure noise (&sigma;=1). SemanTok's readout depends less on the noised latent.</p>
-      </figure>
+      <div class="split">
+        <figure class="fig">
+          <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=0242f375" style="aspect-ratio: 390.54 / 93.60" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
+          <p class="caption">Readout cosine to DINOv2 vs. <i>k</i> (left) and latent gain, &sigma;=0.25 minus &sigma;=1 (right).</p>
+        </figure>
+        <div class="pca" id="pca">
+          <div class="pca-h"><span class="ixrow" id="pca-ex"></span></div>
+          <div class="pca-hd"><span></span><span></span><span class="pca-sub"><b style="color:var(--base)">VideoFlexTok</b><em>vs</em><b style="color:var(--ours)">SemanTok</b></span></div>
+          <div class="pca-row">
+            <div class="pc1">
+              <figure><img id="pca-in" alt="input frame"><figcaption>input</figcaption></figure>
+              <figure><img id="pca-dec" alt="latent input"><figcaption>latent input</figcaption></figure>
+            </div>
+            <figure class="pc2"><img id="pca-tgt" alt="DINOv2 target"><figcaption>DINOv2 target</figcaption></figure>
+            <figure class="pc2"><img id="pca-cell" alt="readout"><span class="cn tl" id="pca-cn" style="color:var(--base)"></span><span class="cn br" id="pca-cs" style="color:var(--ours)"></span></figure>
+          </div>
+          <label class="sl"><span><i>k</i></span><input type="range" id="pca-k" min="0" max="4" step="1" value="0"><output id="pca-kv">1</output></label>
+          <label class="sl"><span>&sigma;</span><input type="range" id="pca-s" min="0" max="3" step="1" value="0"><output id="pca-sv">1</output></label>
+        </div>
+      </div>
       <ul class="points below">
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA can be partly satisfied by the decoder's noised input rather than by the tokens.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">Decoder REPA aligns an early decoder layer with DINOv2 features, but that layer also sees a partly noised latent, which can supply part of the target without the tokens.
@@ -459,7 +516,7 @@
         <h3 style="color:var(--f5)">SemanTok has high fidelity on reconstruction as well as generation.</h3></div>
       <div class="split">
         <figure class="fig">
-          <object class="svgfig" type="image/svg+xml" data="static/img/recon_ar_k.svg?v=31aa69e9" style="aspect-ratio: 188.86 / 166.60" aria-label="Reconstruction versus generation metrics across k."></object>
+          <object class="svgfig" type="image/svg+xml" data="static/img/recon_ar_k.svg?v=27c65c40" style="aspect-ratio: 188.86 / 166.60" aria-label="Reconstruction versus generation metrics across k."></object>
         </figure>
         <ul class="points">
           <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">VideoFlexTok reconstructs somewhat better in PSNR and rFVD, but it loses more fidelity in generation, so its realization gap is wider.</span><span class="chev">&#9656;</span></button>
@@ -477,10 +534,33 @@
       <div class="finding-head"><span class="badge" style="background:var(--f6)">6</span>
         <h3 style="color:var(--f6)">SemanTok's generation fidelity gain comes from its earlier tokens, which are cheaper to predict.</h3></div>
       <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/ar_two_term.svg?v=ea1c7418" style="aspect-ratio: 396.00 / 99.74" aria-label="Teacher forcing, cross-entropy per position, and generation versus reconstruction."></object>
-        <p class="caption">Kinetics-600. (a) &Delta;gFVD after teacher-forcing the first <i>m</i> ground-truth tokens per frame and free-running to <i>k</i>=256.
-          (b) Cross-entropy per token position under a 201M AR model: SemanTok's is lower for the first 128 positions and higher over 129&ndash;192.
-          (c) Larger AR models narrow the gap between generation and reconstruction for both tokenizers, but none closes it.</p>
+      <div class="tfd" id="tfd">
+        <div class="bx">
+          <h4>(a) Teacher forcing <span>&middot; first <i>m</i> tokens per frame forced</span></h4>
+          <div class="rw ax"><b></b><span>tokens of one frame, coarse &rarr; fine (1 &hellip; 256)</span></div>
+          <div class="rw"><b><i>m</i>=0</b><span class="sqs" data-tf="0"></span></div>
+          <div class="rw"><b><i>m</i>=16</b><span class="sqs" data-tf="2"></span></div>
+          <div class="rw"><b><i>m</i>=64</b><span class="sqs" data-tf="4"></span></div>
+          <div class="lg"><span><span class="sq gt" style="background:#7fb98a"></span>ground-truth (forced)</span><span><span class="sq gen"></span>AR-sampled</span></div>
+        </div>
+        <div class="bx">
+          <h4>(b) Cross-entropy at position <span>&middot; token <i>t</i> of a frame</span></h4>
+          <div class="rw ax"><b></b><span>tokens of one frame, coarse &rarr; fine (1 &hellip; 256)</span></div>
+          <div class="rw"><b><i>t</i>=3</b><span class="sqs" data-ce="3"></span></div>
+          <div class="rw"><b><i>t</i>=6</b><span class="sqs" data-ce="6"></span></div>
+          <div class="lg"><span><span class="sq gt" style="background:#7fb98a"></span>ground-truth context</span><span><span class="sq tgt" style="width:13px;height:13px;display:inline-flex">?</span>token being predicted</span></div>
+          <p class="note frm">CE(<i>t</i>) = &minus;log<sub>2</sub> <i>p</i>(<i>z<sub>t</sub></i> | <i>z</i><sub>&lt;<i>t</i></sub>, class)</p>
+        </div>
+        <div class="bx">
+          <h4>(c) Prefix cost <span>&middot; first <i>k</i> tokens per frame</span></h4>
+          <div class="rw ax"><b></b><span>tokens of one frame, coarse &rarr; fine (1 &hellip; 256)</span></div>
+          <div class="rw"><b><i>k</i>=3</b><span class="sqs" data-px="3"></span></div>
+          <div class="rw"><b><i>k</i>=6</b><span class="sqs" data-px="6"></span></div>
+          <div class="lg"><span><span class="sq gt" style="background:#7fb98a"></span>prefix: averaged</span><span><span class="sq rest"></span>not counted</span></div>
+          <p class="note frm">prefix CE(<i>k</i>) = <sup>1</sup>&frasl;<sub><i>k</i></sub> &Sigma;<sub><i>t</i>&le;<i>k</i></sub> CE(<i>t</i>)</p>
+        </div>
+      </div>
+        <object class="svgfig" type="image/svg+xml" data="static/img/ar_two_term.svg?v=0650e622" style="aspect-ratio: 396.00 / 99.74" aria-label="Teacher forcing, cross-entropy per position, and generation versus reconstruction."></object>
       </figure>
       <ul class="points below">
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Teacher-forcing only the first 16&ndash;64 ground-truth tokens per frame removes SemanTok's gFVD lead.</span><span class="chev">&#9656;</span></button>
@@ -499,7 +579,7 @@
       <div class="finding-head"><span class="badge" style="background:var(--f7)">7</span>
         <h3 style="color:var(--f7)">SemanTok with one token per frame struggles to serve every objective.</h3></div>
       <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/ci_diff_strip.svg?v=94cc0297" style="aspect-ratio: 396.00 / 108.00" aria-label="SemanTok's advantage over VideoFlexTok versus k with 95% bootstrap intervals."></object>
+        <object class="svgfig" type="image/svg+xml" data="static/img/ci_diff_strip.svg?v=e9868115" style="aspect-ratio: 396.00 / 108.00" aria-label="SemanTok's advantage over VideoFlexTok versus k with 95% bootstrap intervals."></object>
         <p class="caption">SemanTok's advantage over VideoFlexTok at equal AR size vs. <i>k</i>, signed so that positive values favour SemanTok.
           Bands: 95% paired-bootstrap intervals over evaluation clips; the grey line marks no difference.</p>
       </figure>
@@ -583,6 +663,48 @@
     return h + "</span>";
   }
   document.querySelectorAll("[data-tok]").forEach(function (e) { e.outerHTML = tokIcon(+e.dataset.tok); });
+  // Finding 4: PCA readout explorer (almond etc.).
+  (function () {
+    var COS = {"almond": [[[0.34, 0.52], [0.47, 0.6], [0.52, 0.65], [0.52, 0.68], [0.55, 0.69]], [[0.43, 0.55], [0.49, 0.63], [0.52, 0.66], [0.52, 0.68], [0.55, 0.7]], [[0.59, 0.63], [0.58, 0.67], [0.58, 0.68], [0.58, 0.69], [0.59, 0.7]], [[0.65, 0.65], [0.65, 0.67], [0.64, 0.67], [0.63, 0.68], [0.63, 0.69]]], "banana": [[[0.55, 0.59], [0.6, 0.7], [0.65, 0.74], [0.67, 0.77], [0.7, 0.79]], [[0.58, 0.62], [0.63, 0.71], [0.67, 0.74], [0.68, 0.77], [0.71, 0.79]], [[0.67, 0.69], [0.7, 0.73], [0.72, 0.75], [0.72, 0.76], [0.72, 0.79]], [[0.75, 0.71], [0.75, 0.73], [0.75, 0.75], [0.75, 0.76], [0.75, 0.78]]]};
+    var EX = [["almond", "Almond (OOD)"], ["banana", "Banana (ID)"]],
+        KS = [1, 4, 16, 64, 256], SG = ["1", "0.75", "0.5", "0.25"], cur = "almond";
+    var el = function (i) { return document.getElementById(i); }, P = "static/img/pca/";
+    function draw() {
+      var k = +el("pca-k").value, s = +el("pca-s").value;
+      el("pca-in").src = P + cur + "_in.jpg"; el("pca-tgt").src = P + cur + "_tgt.jpg";
+      el("pca-dec").src = P + cur + "_dec" + s + ".jpg"; el("pca-cell").src = P + cur + "_c" + s + k + ".jpg";
+      var cv = COS[cur][s][k]; el("pca-cn").textContent = cv[0].toFixed(2); el("pca-cs").textContent = cv[1].toFixed(2);
+      el("pca-kv").textContent = KS[k]; el("pca-sv").textContent = SG[s];
+    }
+    var bar = el("pca-ex");
+    EX.forEach(function (e, i) {
+      var b = document.createElement("button"); b.textContent = e[1];
+      b.addEventListener("click", function () { cur = e[0]; bar.querySelectorAll("button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); }); draw(); });
+      bar.appendChild(b); if (i === 0) b.setAttribute("aria-pressed", "true");
+    });
+    el("pca-k").addEventListener("input", draw); el("pca-s").addEventListener("input", draw);
+    draw();
+  })();
+  // Finding 6 explainer squares.
+  (function () {
+    function sq(cls, i, txt) { return '<i class="sq ' + cls + '"' + (cls === "gt" ? ' style="background:' + shade(i) + '"' : "") + '>' + (txt || "") + '</i>'; }
+    var N = 9;   // squares drawn per row
+    document.querySelectorAll("[data-tf]").forEach(function (e) {
+      var f = +e.dataset.tf, h = "";
+      for (var i = 0; i < N; i++) h += sq(i < f ? "gt" : "gen", i);
+      e.innerHTML = h + '<span class="dots">&middot;&middot;&middot;</span>' + sq("gen", 255);
+    });
+    document.querySelectorAll("[data-px]").forEach(function (e) {
+      var kk = +e.dataset.px, h = "";
+      for (var i = 0; i < N; i++) h += i < kk ? sq("gt", i) : sq("rest", i);
+      e.innerHTML = h + '<span class="dots">&middot;&middot;&middot;</span>' + sq("rest", 255);
+    });
+    document.querySelectorAll("[data-ce]").forEach(function (e) {
+      var t = +e.dataset.ce, h = "";
+      for (var i = 0; i < N; i++) h += i < t - 1 ? sq("gt", i) : i === t - 1 ? sq("tgt", i, "?") : sq("rest", i);
+      e.innerHTML = h + '<span class="dots">&middot;&middot;&middot;</span>' + sq("rest", 255);
+    });
+  })();
   function buildClip(host) {
     var L = window.CLIPS && window.CLIPS[host.dataset.clip];
     if (!L) { host.textContent = "missing clip " + host.dataset.clip; return; }
@@ -685,6 +807,7 @@
     b.addEventListener("click", function () {
       document.querySelectorAll("#f2-tabs button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
       document.querySelectorAll("#f2 [data-pane]").forEach(function (pn) { pn.hidden = pn.dataset.pane !== b.dataset.v; });
+      setTimeout(function () { window.dispatchEvent(new Event("ix-refresh")); }, 30);
     });
   });
 
@@ -714,68 +837,40 @@
     var h = document.createElement("p"); h.className = "ix-hint";
     h.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 3l14 7-6 2-2 6z"/></svg>Hover or click a legend marker to focus its lines.';
     o.parentNode.insertBefore(h, o.nextSibling);
-    // Panel views: the SVG reports its panels (task | metric); we build the buttons and ask it to show one.
-    var TASKS = { c2v: "Class-to-video", t2v: "Text-to-video" },
-        METS = { gfvd: ["gFVD", "fid"], gfid: ["gFID", "fid"], viclip: ["ViCLIP", "sem"], clipv: ["ClipV", "sem"],
-                 cls: ["Class acc.", "sem"], readout: ["Readout", ""], gain: ["Latent gain", ""] },
-        st = { panels: null, cur: null, bar: null };
+    // View buttons: the SVG reports its views (label, optional colour group); we build the buttons.
+    var st = { views: null, cur: null, bar: null };
     o.style.margin = "0 auto";
     function post(msg) { if (o.contentWindow) o.contentWindow.postMessage(msg, "*"); }
-    function pick(task, metric) {
-      var ids = st.panels.map(function (q) { return q.id; }), want = task + "|" + metric;
-      if (ids.indexOf(want) >= 0) return want;
-      var same = st.panels.filter(function (q) { return q.task === task; });
-      var grp = METS[metric] && METS[metric][1];
-      var alike = same.filter(function (q) { return METS[q.metric] && METS[q.metric][1] === grp; });
-      return (alike[0] || same[0]).id;
-    }
     function build() {
-      var tasks = [], mets = [];
-      st.panels.forEach(function (q) { if (tasks.indexOf(q.task) < 0) tasks.push(q.task); if (mets.indexOf(q.metric) < 0) mets.push(q.metric); });
       var bar = document.createElement("div"); bar.className = "ixbar";
-      var h1 = "";
-      if (tasks.length > 1) h1 += '<div class="ixrow">' + tasks.map(function (t) { return '<button data-task="' + t + '">' + TASKS[t] + '</button>'; }).join("") + '</div>';
-      var last = null, row = '<div class="ixrow">';
-      mets.forEach(function (m) {
-        var g = METS[m][1];
-        if (g !== last) { last = g; if (g) row += '<span class="ixg ' + g + '">' + (g === "fid" ? "Fidelity" : "Semantic alignment") + '</span>'; }
-        row += '<button class="' + g + '" data-met="' + m + '">' + METS[m][0] + '</button>';
-      });
-      bar.innerHTML = h1 + row + '</div>';
+      bar.innerHTML = '<div class="ixrow">' + st.views.map(function (v) {
+        return '<button class="' + (v.cls || "") + '" data-view="' + v.id + '">' + v.label + '</button>'; }).join("") + '</div>';
       bar.addEventListener("click", function (e) {
-        var b = e.target.closest("button"); if (!b || b.disabled) return;
-        var cur = st.cur.split("|"), t = b.dataset.task || cur[0], mm = b.dataset.met || cur[1];
-        post({ ix: "view", id: pick(t, mm) });
+        var b = e.target.closest("button"); if (b) post({ ix: "view", id: b.dataset.view });
       });
       o.parentNode.insertBefore(bar, o); st.bar = bar;
     }
     function sync() {
       if (!st.bar || !st.cur) return;
-      var cur = st.cur.split("|"), ids = st.panels.map(function (q) { return q.id; });
-      st.bar.querySelectorAll("button").forEach(function (b) {
-        if (b.dataset.task) b.setAttribute("aria-pressed", String(b.dataset.task === cur[0]));
-        else { b.setAttribute("aria-pressed", String(b.dataset.met === cur[1])); b.disabled = st.panels.every(function (q) { return q.task !== cur[0] || q.metric !== b.dataset.met; }); }
-      });
+      st.bar.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.view === st.cur)); });
     }
     window.addEventListener("message", function (ev) {
       var d = ev.data;
       if (ev.source !== o.contentWindow || !d || d.ix !== "state") return;
       o.style.aspectRatio = d.w + " / " + d.h;
-      o.style.maxWidth = Math.max(360, Math.min(640, Math.round(d.w * 3.2))) + "px";
-      if (!st.panels) { st.panels = d.panels; build(); }
+      o.style.maxWidth = Math.round(Math.max(360, Math.min(980, d.w * 3.2)) * (o.closest("#f4") ? 0.9 : 1)) + "px";
+      if (!d.views) return;
+      if (!st.views) { st.views = d.views; build();
+        // Re-apply the view once layout has settled (same as clicking it): avoids a stale crop / vertical gap on first paint.
+        [60, 500, 1500].forEach(function (ms) { setTimeout(function () { if (st.cur) post({ ix: "view", id: st.cur }); }, ms); }); }
       st.cur = d.cur; sync();
+    });
+    window.addEventListener("ix-refresh", function () {
+      if (st.cur) post({ ix: "view", id: st.cur });
+      else if (o.offsetParent) { var u = o.getAttribute("data"); o.setAttribute("data", u); }   // was hidden at load: re-init now that it is visible
     });
     var hello = function () { post({ ix: "hello" }); };
     hello(); o.addEventListener("load", hello); setTimeout(hello, 400); setTimeout(hello, 1500);
-    // Play the SVG's one-time legend sweep when at least half of the plot is on screen.
-    if (!("IntersectionObserver" in window)) return;
-    var seen = false, io2 = new IntersectionObserver(function (en) {
-      if (seen || !en[0].isIntersecting) return;
-      seen = true; io2.disconnect();
-      var go = function () { if (o.contentWindow) o.contentWindow.postMessage("ix-play", "*"); };
-      go(); hello(); o.addEventListener("load", go); setTimeout(go, 400);
-    }, { threshold: 0.5 });
-    io2.observe(o);
   });
 
   // ---------- gallery ----------

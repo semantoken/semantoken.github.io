@@ -660,7 +660,7 @@
 <use data-text="6" xlink:href="#font_2_15" transform="matrix(5,0,0,-5,136.87947,157.93051)"/>
 <style>.tl text{fill:transparent;font-family:Helvetica,Arial,sans-serif;white-space:pre;cursor:text}.tl text::selection{fill:transparent;background:rgba(50,115,220,.3)}</style><g class="tl"><text x="4.153" y="71.738" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.153 71.738)">200</text><text x="4.153" y="61.727" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.153 61.727)">300</text><text x="4.153" y="49.114" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.153 49.114)">500</text><text x="4.153" y="40.806" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 4.153 40.806)">700</text><text x="31.296" y="19.604" font-size="6.500" textLength="39.283" lengthAdjust="spacingAndGlyphs">(a)  gFVD ↓</text><text x="100.908" y="71.468" font-size="5.000" textLength="12.452" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 100.908 71.468)">200</text><text x="100.908" y="56.300" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 100.908 56.300)">300</text><text x="100.908" y="37.190" font-size="5.000" textLength="12.453" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 100.908 37.190)">500</text><text x="128.051" y="19.604" font-size="6.500" textLength="39.426" lengthAdjust="spacingAndGlyphs">(b)  gFVD ↓</text><text x="24.657" y="133.455" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 24.657 133.455)">2</text><text x="41.840" y="133.455" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 41.840 133.455)">5</text><text x="52.584" y="135.709" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 52.584 135.709)">10</text><text x="65.583" y="135.709" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 65.583 135.709)">20</text><text x="78.581" y="135.709" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 78.581 135.709)">40</text><text x="86.185" y="135.709" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 86.185 135.709)">60</text><text x="6.407" y="120.602" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.407 120.602)">20</text><text x="6.407" y="108.300" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.407 108.300)">40</text><text x="6.407" y="95.998" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 6.407 95.998)">60</text><text x="24.296" y="80.468" font-size="6.500" textLength="52.956" lengthAdjust="spacingAndGlyphs">(c)  class acc. ↑</text><text x="128.835" y="133.455" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 128.835 133.455)">2</text><text x="156.575" y="133.455" font-size="5.000" textLength="6.092" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 156.575 133.455)">5</text><text x="175.305" y="135.709" font-size="5.000" textLength="9.272" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 175.305 135.709)">10</text><text x="99.781" y="122.501" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.781 122.501)">0.65</text><text x="99.781" y="107.866" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.781 107.866)">0.70</text><text x="99.781" y="93.232" font-size="5.000" textLength="14.042" lengthAdjust="spacingAndGlyphs" transform="rotate(-45.000 99.781 93.232)">0.75</text><text x="128.051" y="79.921" font-size="6.500" textLength="38.833" lengthAdjust="spacingAndGlyphs">(d)  ClipV ↑</text><text x="27.749" y="7.542" font-size="6.800" textLength="48.425" lengthAdjust="spacingAndGlyphs">Class-to-Video</text><text x="126.551" y="7.542" font-size="6.800" textLength="44.312" lengthAdjust="spacingAndGlyphs">Text-to-Video</text><text x="24.773" y="141.735" font-size="5.800" textLength="54.639" lengthAdjust="spacingAndGlyphs">Training Tokens (B)</text><text x="121.528" y="141.735" font-size="5.800" textLength="54.639" lengthAdjust="spacingAndGlyphs">Training Tokens (B)</text><text x="32.036" y="157.784" font-size="5.000" textLength="2.895" lengthAdjust="spacingAndGlyphs">k</text><text x="34.932" y="157.784" font-size="5.000" textLength="26.014" lengthAdjust="spacingAndGlyphs"> tok/frame</text><text x="43.021" y="149.358" font-size="5.000" textLength="32.399" lengthAdjust="spacingAndGlyphs">VideoFlexTok</text><text x="89.033" y="149.358" font-size="5.000" textLength="25.521" lengthAdjust="spacingAndGlyphs">SemanTok</text><text x="128.233" y="149.358" font-size="5.000" textLength="11.070" lengthAdjust="spacingAndGlyphs">Best</text><text x="73.482" y="157.931" font-size="5.000" textLength="3.180" lengthAdjust="spacingAndGlyphs">4</text><text x="90.369" y="157.931" font-size="5.000" textLength="6.360" lengthAdjust="spacingAndGlyphs">16</text><text x="110.444" y="157.931" font-size="5.000" textLength="6.360" lengthAdjust="spacingAndGlyphs">64</text><text x="130.519" y="157.931" font-size="5.000" textLength="9.540" lengthAdjust="spacingAndGlyphs">256</text></g><!--ix-begin--><script type="text/javascript"><![CDATA[
 (function () {
-  var CFG = {"colors": ["#1e88e5", "#004d40", "#e69f00", "#d81b60"], "legend": "bottom", "dim": ["#191919"], "regions": [], "panels": [{"id": "c2v|gfvd", "task": "c2v", "metric": "gfvd"}, {"id": "t2v|gfvd", "task": "t2v", "metric": "gfvd"}, {"id": "c2v|cls", "task": "c2v", "metric": "cls"}, {"id": "t2v|clipv", "task": "t2v", "metric": "clipv"}], "legendMin": 145}, DIM = "0.08", BEST = "0.5", GROW = 1.9, STEP = 450;
+  var CFG = {"colors": ["#1e88e5", "#004d40", "#e69f00", "#d81b60"], "legend": "bottom", "dim": ["#191919"], "regions": [], "panels": [{"id": "c2v|gfvd", "task": "c2v", "metric": "gfvd"}, {"id": "t2v|gfvd", "task": "t2v", "metric": "gfvd"}, {"id": "c2v|cls", "task": "c2v", "metric": "cls"}, {"id": "t2v|clipv", "task": "t2v", "metric": "clipv"}], "views": [{"id": "fid", "label": "Fidelity", "cls": "fid", "panels": [0, 1]}, {"id": "sem", "label": "Semantic alignment", "cls": "sem", "panels": [2, 3]}], "legendMin": 145, "vscale": 1.25, "noGap": true}, DIM = "0.08", BEST = "0.5", GROW = 1.9, STEP = 450;
   var svg = document.documentElement, NS = "http://www.w3.org/2000/svg";
   var isC = {}; CFG.colors.forEach(function (c) { isC[c] = 1; });
   var isD = {}; CFG.dim.forEach(function (c) { isD[c] = 1; });
@@ -693,14 +693,31 @@
     var c = isC[s] ? s : (!s && isC[f] ? f : null);
     if (c) {
       var b = box(p), rg = region(b.x + b.w / 2);
-      p.style.transition = "opacity .25s, stroke-width .25s, stroke .25s";
+      p.style.transition = "opacity .25s, stroke .25s, stroke-opacity .25s";
       els.push({ p: p, key: c + "|" + rg, c: c, stroked: !!s, w0: parseFloat(p.getAttribute("stroke-width")) || 0, b: b, rg: rg });
     } else if (isD[s]) {
       p.style.transition = "opacity .15s";
       els.push({ p: p, key: null, dim: true });
     }
   });
-  var pinned = null;
+  // Fixed chrome must never react: keep only "best" reference lines that lie inside the grid area
+  // (drops the legend's "Best" sample line, ticks, axes, titles).
+  (function () {
+    var gx0 = 1e9, gy0 = 1e9, gx1 = -1e9, gy1 = -1e9;
+    svg.querySelectorAll("path").forEach(function (p) {
+      if ((p.getAttribute("stroke") || "").toLowerCase() !== "#e5e6e5") return;
+      var b = box(p); gx0 = Math.min(gx0, b.x); gy0 = Math.min(gy0, b.y); gx1 = Math.max(gx1, b.x + b.w); gy1 = Math.max(gy1, b.y + b.h);
+    });
+    if (gx0 > gx1) return;
+    els = els.filter(function (e) {
+      if (!e.dim) return true;
+      var b = box(e.p), cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+      var keep = cx >= gx0 - 2 && cx <= gx1 + 2 && cy >= gy0 - 2 && cy <= gy1 + 2;
+      if (!keep) e.p.style.transition = "";
+      return keep;
+    });
+  })();
+  var pinned = null, hooks = {};
   function setActive(key) {
     var arg = key ? parseInt(key.split("|")[1], 10) : -1;
     els.forEach(function (e) {
@@ -710,10 +727,11 @@
       p.style.opacity = on ? "" : DIM;
       if (e.stroked) {
         var hot = key && e.key === key;
-        p.style.strokeWidth = hot ? (e.w0 * GROW) : "";
         p.style.stroke = hot ? vivid(e.c) : "";
+        p.style.strokeOpacity = hot ? "1" : "";
       }
     });
+    if (hooks.active) hooks.active(key);
   }
   function enter(k) { if (!pinned) setActive(k); }
   function leave() { if (!pinned) setActive(null); }
@@ -772,7 +790,7 @@
   });
 
   // ---------- panel mode: show one task x metric panel plus the legend ----------
-  if (CFG.panels) (function () {
+  if (CFG.panels && CFG.views) (function () { try {
     var vb0 = svg.viewBox.baseVal, VBW = vb0.width;
     var kids = Array.prototype.slice.call(svg.children).filter(function (k) {
       return /^(path|g|use)$/.test(k.tagName) && !k.classList.contains("tl") && k !== g;
@@ -784,7 +802,7 @@
     }).map(function (i) { return i.b; });
     rects.sort(function (a, b) { return Math.round(a.y / 4) - Math.round(b.y / 4) || a.x - b.x; });
     if (rects.length !== CFG.panels.length) return;
-    var N = rects.length, LEFT = 14, TTOP = 9;
+    var N = rects.length, LEFT = CFG.left || 14, TTOP = 9, VS = CFG.vscale || 1;
     var lastBottom = Math.max.apply(0, rects.map(function (r) { return r.y + r.h; }));
     function inX(it, p, m) { return it.cx >= p.x - m && it.cx <= p.x + p.w + m; }
     var role = info.map(function () { return null; });
@@ -826,55 +844,161 @@
       if (r.k === "x") G.hasX[r.i] = true;
       if (r.k === "leg") legB = grow(legB, it);
       if (r.k === "sx") sxB = grow(sxB, it);
-      tgt.appendChild(it.el);
+      if (r.k === "plot" && VS !== 1) {
+        var pr = rects[r.i], wr = document.createElementNS(NS2, "g");
+        if (it.b.w < 8 && it.b.h < 8) wr.setAttribute("transform", "translate(0," + ((VS - 1) * (CFG.ytitleX && it.cx < pr.x - CFG.ytitleX ? pr.h / 2 : it.cy - pr.y)) + ")");
+        else { wr.setAttribute("transform", "translate(0," + (pr.y * (1 - VS)) + ") scale(1," + VS + ")"); it.el.style.vectorEffect = "non-scaling-stroke"; }
+        wr.appendChild(it.el); tgt.appendChild(wr);
+      } else tgt.appendChild(it.el);
     });
     function ins(e) { svg.insertBefore(e, anchor); }
     G.plot.concat(G.title, G.x, [G.sx, G.leg]).forEach(ins);
     G.leg.appendChild(g);          // hit areas travel with the legend
     if (anchor) anchor.style.display = "none";
+
+    // ---------- best-point gap: VideoFlexTok vs SemanTok for the focused series ----------
+    var LOWER = { gfvd: 1, gfid: 1 }, LOGM = { gfvd: 1, gfid: 1 };
+    var texts = Array.prototype.map.call(svg.querySelectorAll("g.tl text"), function (t) {
+      return { v: parseFloat(t.textContent), ok: /^-?[0-9.]+$/.test(t.textContent.trim()), x: +t.getAttribute("x"), y: +t.getAttribute("y") };
+    }).filter(function (t) { return t.ok; });
+    var gridB = [];
+    svg.querySelectorAll("path").forEach(function (q) { if ((q.getAttribute("stroke") || "").toLowerCase() === "#e5e6e5") gridB.push(box(q)); });
+    var cal = rects.map(function (p, i) {
+      var gy = [];
+      gridB.forEach(function (b) {
+        if (b.h < 0.5 && b.w > p.w * 0.5 && b.x >= p.x - 1 && b.x < p.x + p.w && b.y >= p.y - 1 && b.y <= p.y + p.h + 1) gy.push(b.y);
+      });
+      gy.sort(function (a, b) { return a - b; });
+      var lb = texts.filter(function (t) { return t.x >= p.x - 22 && t.x < p.x && t.y >= p.y - 2 && t.y <= p.y + p.h + 8; })
+                    .sort(function (a, b) { return a.y - b.y; });
+      if (gy.length < 2 || gy.length !== lb.length) return null;
+      var m = CFG.panels[i].metric, v0 = lb[0].v, v1 = lb[lb.length - 1].v, y0 = gy[0], y1 = gy[gy.length - 1];
+      var lg = !!LOGM[m];
+      if (lg && (v0 <= 0 || v1 <= 0)) lg = false;
+      function fw(v) { return lg ? Math.log(v) : v; }
+      var sl = (fw(v1) - fw(v0)) / (y1 - y0);
+      return { val: function (y) { var u = fw(v0) + (y - y0) * sl; return lg ? Math.exp(u) : u; }, lower: !!LOWER[m] };
+    });
+    function pts(p) {
+      var n = (p.getAttribute("d") || "").match(/-?\d*\.?\d+(?:e-?\d+)?/g) || [], m = p.transform.baseVal.consolidate(),
+          M = m ? m.matrix : { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }, out = [];
+      for (var k = 0; k + 1 < n.length; k += 2) { var x = +n[k], y = +n[k + 1]; out.push({ x: M.a * x + M.c * y + M.e, y: M.b * x + M.d * y + M.f }); }
+      return out;
+    }
+    var OV = rects.map(function (p, i) {
+      var g2 = document.createElementNS(NS2, "g"); g2.setAttribute("class", "ix-ov"); g2.style.pointerEvents = "none";
+      G.plot[i].appendChild(g2); return g2;
+    });
+    function ty(i, y) { var p = rects[i]; return p.y + (y - p.y) * VS; }
+    function mkE(tag, a, parent) { var e = document.createElementNS(NS2, tag); for (var k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; }
+    hooks.active = function (key) {
+      OV.forEach(function (g2) { while (g2.firstChild) g2.removeChild(g2.firstChild); });
+      if (!key || CFG.noGap) return;
+      var c = key.split("|")[0];
+      rects.forEach(function (p, i) {
+        var d1 = null, d2 = null;
+        els.forEach(function (e) {
+          if (e.dim || !e.stroked || e.key !== key) return;
+          if (e.b.x + e.b.w / 2 < p.x || e.b.x + e.b.w / 2 > p.x + p.w || e.b.y + e.b.h / 2 < p.y || e.b.y + e.b.h / 2 > p.y + p.h) return;
+          if (e.p.hasAttribute("stroke-dasharray")) d1 = e; else d2 = e;
+        });
+        var K = cal[i];
+        if (!d1 || !d2 || !K) return;
+        function best(e) {
+          var q = pts(e.p), b = q[0];
+          q.forEach(function (t) { if (K.lower ? t.y > b.y : t.y < b.y) b = t; });
+          return b;
+        }
+        var a = best(d1), b = best(d2), col = c, g2 = OV[i];
+        var ya = ty(i, a.y), yb = ty(i, b.y);
+        mkE("line", { x1: a.x, y1: ya, x2: b.x, y2: yb, stroke: "#191919", "stroke-width": 0.8, "stroke-linecap": "round" }, g2);
+        [[a, ya], [b, yb]].forEach(function (z) { mkE("circle", { cx: z[0].x, cy: z[1], r: 1.5, fill: "#fff", stroke: col, "stroke-width": 0.8 }, g2); });
+        var va = K.val(a.y), vb = K.val(b.y), gain = K.lower ? (va - vb) / va : (vb - va) / va;
+        var pc = Math.round(gain * 100), txt = (pc >= 0 ? "+" : "\u2212") + Math.abs(pc) + "%";
+        var t = mkE("text", { x: p.x + p.w - 2, y: p.y + 6.5, "text-anchor": "end", "font-size": 5.6, "font-weight": 700, fill: "#191919", stroke: "#fff", "stroke-width": 1.6, "paint-order": "stroke", "font-family": "Helvetica, Arial, sans-serif" }, g2);
+        t.textContent = txt;
+      });
+    };
     function colSrc(i, has) {
       var best = null;
       rects.forEach(function (q, j) { if (has[j] && Math.abs(q.x - rects[i].x) < 3) best = j; });
       return best;
     }
+    if (CFG.legendGroups && legB) {   // re-flow a one-line legend into stacked rows
+      var LG = CFG.legendGroups, GAP = LG.gap || 12, RH = LG.rh || 7.5;
+      var gidx = function (cx) { var n = 0; LG.split.forEach(function (t) { if (cx >= t) n++; }); return n; };
+      var W = []; for (var wi = 0; wi <= LG.split.length; wi++) W.push({ g: mk("ix-lg"), x0: 1e9, x1: -1e9 });
+      info.forEach(function (it, n) {
+        if (!role[n] || role[n].k !== "leg") return;
+        var w = W[gidx(it.cx)]; w.g.appendChild(it.el); w.x0 = Math.min(w.x0, it.b.x); w.x1 = Math.max(w.x1, it.b.x + it.b.w);
+      });
+      Array.prototype.slice.call(g.children).forEach(function (r) {
+        var x = +r.getAttribute("x") + (+r.getAttribute("width")) / 2; W[gidx(x)].g.appendChild(r);
+      });
+      var cxL = (legB.x0 + legB.x1) / 2, nb = { x0: 1e9, x1: -1e9, y0: legB.y0, y1: legB.y1 + RH * (LG.rows.length - 1) };
+      LG.rows.forEach(function (row, ri) {
+        var tot = GAP * (row.length - 1); row.forEach(function (q) { tot += W[q].x1 - W[q].x0; });
+        var x = cxL - tot / 2;
+        row.forEach(function (q) {
+          var w = W[q]; w.g.setAttribute("transform", "translate(" + (x - w.x0) + "," + (ri * RH) + ")");
+          nb.x0 = Math.min(nb.x0, x); x += w.x1 - w.x0; nb.x1 = Math.max(nb.x1, x); x += GAP;
+        });
+      });
+      W.forEach(function (w) { w.g.style.display = ""; G.leg.appendChild(w.g); });
+      legB = nb;
+    }
+    var LEGX = 0;
+    if (legB && !CFG.noGap && CFG.legend !== "top") {
+      LEGX = 8;
+      var cxl = (legB.x0 + legB.x1) / 2, yl = legB.y1 + 5.5, x0l = cxl - 46;
+      mkE("line", { x1: x0l, y1: yl + 1.6, x2: x0l + 8, y2: yl - 1.6, stroke: "#191919", "stroke-width": 0.8, "stroke-linecap": "round" }, G.leg);
+      [[x0l, yl + 1.6], [x0l + 8, yl - 1.6]].forEach(function (z) { mkE("circle", { cx: z[0], cy: z[1], r: 1.4, fill: "#fff", stroke: "#191919", "stroke-width": 0.7 }, G.leg); });
+      var lt = mkE("text", { x: x0l + 11, y: yl + 1.6, "font-size": 4.8, fill: "#191919", "font-family": "Helvetica, Arial, sans-serif" }, G.leg);
+      lt.textContent = "+x%: SemanTok gain at best points";
+    }
     function hide(e) { e.style.display = "none"; e.removeAttribute("transform"); }
     var cur = null;
-    function show(idx) {
-      var p = rects[idx];
+    function showView(vi) {
+      var V = CFG.views[vi], ids = V.panels;
       G.plot.concat(G.title, G.x, [G.sx, G.leg]).forEach(hide);
-      G.plot[idx].style.display = "";
-      var ts = G.hasT[idx] ? idx : colSrc(idx, G.hasT);
-      if (ts != null) { var e = G.title[ts]; e.style.display = ""; e.setAttribute("transform", "translate(0," + (p.y - rects[ts].y) + ")"); }
-      var xs = G.hasX[idx] ? idx : colSrc(idx, G.hasX);
-      if (xs != null) { e = G.x[xs]; e.style.display = ""; e.setAttribute("transform", "translate(0," + ((p.y + p.h) - (rects[xs].y + rects[xs].h)) + ")"); }
-      var pc = p.x + p.w / 2;
+      var ux0 = 1e9, ux1 = -1e9, uy0 = 1e9, uy1 = -1e9;
+      ids.forEach(function (idx) {
+        var p = rects[idx], ph = p.h * VS;
+        G.plot[idx].style.display = "";
+        ux0 = Math.min(ux0, p.x); ux1 = Math.max(ux1, p.x + p.w); uy0 = Math.min(uy0, p.y); uy1 = Math.max(uy1, p.y + ph);
+        var ts = G.hasT[idx] ? idx : colSrc(idx, G.hasT);
+        if (ts != null) { var e = G.title[ts]; e.style.display = ""; e.setAttribute("transform", "translate(0," + (p.y - rects[ts].y) + ")"); }
+        var xs = G.hasX[idx] ? idx : colSrc(idx, G.hasX);
+        if (xs != null) { e = G.x[xs]; e.style.display = ""; e.setAttribute("transform", "translate(0," + ((p.y + ph) - (rects[xs].y + rects[xs].h)) + ")"); }
+      });
+      var pc = (ux0 + ux1) / 2, topAll = Math.min.apply(0, rects.map(function (r) { return r.y; }));
       if (sxB) { G.sx.style.display = "";
-        G.sx.setAttribute("transform", "translate(" + (pc - (sxB.x0 + sxB.x1) / 2) + "," + ((p.y + p.h) - lastBottom) + ")"); }
-      var dxL = 0, dyL = 0, x0 = p.x - LEFT - 2, x1 = p.x + p.w + 6, y0 = p.y - TTOP - 2, y1 = p.y + p.h + (CFG.bottomPad || 24);
+        G.sx.setAttribute("transform", "translate(" + (pc - (sxB.x0 + sxB.x1) / 2) + "," + (uy1 - lastBottom) + ")"); }
+      var dxL = 0, dyL = 0, x0 = ux0 - LEFT - 2, x1 = ux1 + 6, y0 = uy0 - TTOP - 2, y1 = uy1 + (CFG.bottomPad || 24);
       if (legB) {
         G.leg.style.display = "";
         dxL = pc - (legB.x0 + legB.x1) / 2;
-        dyL = CFG.legend === "top" ? 0 : (p.y + p.h) - lastBottom;
+        dyL = CFG.legend === "top" ? (uy0 - topAll) : uy1 - lastBottom;
         G.leg.setAttribute("transform", "translate(" + dxL + "," + dyL + ")");
         x0 = Math.min(x0, legB.x0 + dxL - 2); x1 = Math.max(x1, legB.x1 + dxL + 2);
-        if (CFG.legend === "top") y0 = legB.y0 - 3; else y1 = legB.y1 + dyL + 3;
+        if (CFG.legend === "top") y0 = legB.y0 + dyL - 3; else y1 = legB.y1 + dyL + 3 + LEGX;
       }
       var w = x1 - x0, h = y1 - y0;
       svg.setAttribute("viewBox", x0 + " " + y0 + " " + w + " " + h);
       svg.setAttribute("width", w); svg.setAttribute("height", h);
-      cur = { id: CFG.panels[idx].id, w: w, h: h };
+      cur = { id: V.id, w: w, h: h };
       report();
     }
     function report() {
-      try { window.parent.postMessage({ ix: "state", panels: CFG.panels, cur: cur && cur.id, w: cur && cur.w, h: cur && cur.h }, "*"); } catch (e) {}
+      try { window.parent.postMessage({ ix: "state", views: CFG.views, cur: cur && cur.id, w: cur && cur.w, h: cur && cur.h }, "*"); } catch (e) {}
     }
     window.addEventListener("message", function (ev) {
       var d = ev.data;
       if (!d || typeof d !== "object") return;
       if (d.ix === "hello") report();
-      if (d.ix === "view") { for (var i = 0; i < N; i++) if (CFG.panels[i].id === d.id) { show(i); break; } }
+      if (d.ix === "view") { for (var i = 0; i < CFG.views.length; i++) if (CFG.views[i].id === d.id) { showView(i); break; } }
     });
-    show(0);
-  })();
+    showView(0);
+  } catch (err) { svg.setAttribute("data-ixerr", String(err && err.stack || err)); } })();
 })();
 ]]></script><!--ix-end--></svg>
