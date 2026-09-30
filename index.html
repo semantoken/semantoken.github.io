@@ -83,7 +83,9 @@
                 color: var(--mute); }
   /* Finding 4: PCA readout explorer */
   .pca { border: 0; background: #fff; padding: 8px 0 6px; }
-  .pca-h { margin-bottom: 6px; }
+  .pca-h { margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pca-h .pp { font: 500 11px/1 "Noto Sans", sans-serif; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--mute); cursor: pointer; }
+  .pca-h .pp:hover { color: var(--ink); }
   .pca #pca-ex { justify-content: flex-start; gap: 4px; }
   .pca #pca-ex button { font-size: 11.5px; padding: 0 8px; }
   .pca-row { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 5px; align-items: start; }
@@ -489,7 +491,7 @@
           <p class="caption">Readout cosine to DINOv2 vs. <i>k</i> (left) and latent gain, &sigma;=0.25 minus &sigma;=1 (right).</p>
         </figure>
         <div class="pca" id="pca">
-          <div class="pca-h"><span class="ixrow" id="pca-ex"></span></div>
+          <div class="pca-h"><span class="ixrow" id="pca-ex"></span><button id="pca-pp" class="pp" aria-label="Pause" title="Pause / play">&#10074;&#10074; Pause</button></div>
           <div class="pca-hd"><span></span><span></span><span class="pca-sub"><b style="color:var(--base)">VideoFlexTok</b><em>vs</em><b style="color:var(--ours)">SemanTok</b></span></div>
           <div class="pca-row">
             <div class="pc1">
@@ -675,7 +677,7 @@
     var D = window.PCA; if (!D) return;
     var EX = ["almond", "banana", "guitar"], SG = ["1", "0.75", "0.5", "0.25"], FPS = 8;
     var el = function (i) { return document.getElementById(i); };
-    var cur = "almond", pos = { diag: 1, vert: 0.5 }, fr = 0, dirty = true, visible = true, t0 = performance.now();
+    var paused = false, pT = 0, cur = "almond", pos = { diag: 1, vert: 0.5 }, fr = 0, dirty = true, visible = true, t0 = performance.now();
     var strips = {}, dec = {}, tiny = {};
     function strip(id) { if (!strips[id]) { var im = new Image(); im.onload = function () { dirty = true; }; im.src = "static/pca/" + id + ".jpg"; strips[id] = im; } return strips[id]; }
     function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
@@ -722,6 +724,7 @@
       el("pca-cell").style.cursor = vert ? "ew-resize" : "nwse-resize";
     }
     function tick(now) {
+      if (paused) { t0 = now - pT; requestAnimationFrame(tick); if (dirty && visible) { dirty = false; draw(); } return; }
       var f = Math.floor((now - t0) * FPS / 1000);
       if (visible && (f !== fr || dirty)) { fr = f; dirty = false; draw(); }
       requestAnimationFrame(tick);
@@ -734,6 +737,10 @@
       bar.appendChild(b); if (i === 0) b.setAttribute("aria-pressed", "true");
     });
     el("pca-k").addEventListener("input", labels); el("pca-s").addEventListener("input", labels);
+    el("pca-pp").addEventListener("click", function () {
+      paused = !paused; if (paused) pT = performance.now() - t0;
+      this.innerHTML = paused ? "&#9654; Play" : "&#10074;&#10074; Pause";
+    });
     var cell = el("pca-cell"), drag = false;
     function move(e) {
       var R = cell.getBoundingClientRect(), x = (e.clientX - R.left) / R.width, y = (e.clientY - R.top) / R.height, kd = D[cur].kind;
