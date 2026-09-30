@@ -89,6 +89,9 @@
   .pca-row { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 5px; align-items: start; }
   .pca-row figure { margin: 0; position: relative; line-height: 0; }
   .pca-row .pc1 { display: flex; flex-direction: column; }
+  .pca-row canvas { width: 100%; aspect-ratio: 1; display: block; image-rendering: pixelated; }
+  .pca-row #pca-cell { cursor: ew-resize; touch-action: none; image-rendering: auto; }
+  .pca-row .cn.tr { right: 3px; top: 3px; }
   .pca-row img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 0; border: 0; }
   .pca-row figcaption { position: absolute; left: 0; bottom: 0; font-size: 9.5px; line-height: 1.2; padding: 1px 4px; background: rgba(0,0,0,.55); color: #fff; }
   .pca-row figcaption.lgd { left: auto; right: 0; top: auto; display: flex; gap: 6px; background: rgba(255,255,255,.85); }
@@ -482,7 +485,7 @@
         <h3 style="color:var(--f4)">SemanTok achieves higher decoder-REPA semantic alignment at all noise levels, including the pure noise setting.</h3></div>
       <div class="split">
         <figure class="fig">
-          <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=0242f375" style="aspect-ratio: 390.54 / 93.60" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
+          <object class="svgfig" type="image/svg+xml" data="static/img/dino_prefix_probe_wide.svg?v=beef4e8a" style="aspect-ratio: 390.54 / 93.60" aria-label="Decoder REPA readout cosine to DINOv2 versus k at several noise levels."></object>
           <p class="caption">Readout cosine to DINOv2 vs. <i>k</i> (left) and latent gain, &sigma;=0.25 minus &sigma;=1 (right).</p>
         </figure>
         <div class="pca" id="pca">
@@ -490,11 +493,11 @@
           <div class="pca-hd"><span></span><span></span><span class="pca-sub"><b style="color:var(--base)">VideoFlexTok</b><em>vs</em><b style="color:var(--ours)">SemanTok</b></span></div>
           <div class="pca-row">
             <div class="pc1">
-              <figure><img id="pca-in" alt="input frame"><figcaption>input</figcaption></figure>
-              <figure><img id="pca-dec" alt="latent input"><figcaption>latent input</figcaption></figure>
+              <figure><canvas id="pca-in"></canvas><figcaption>input</figcaption></figure>
+              <figure><canvas id="pca-dec"></canvas><figcaption>latent input</figcaption></figure>
             </div>
-            <figure class="pc2"><img id="pca-tgt" alt="DINOv2 target"><figcaption>DINOv2 target</figcaption></figure>
-            <figure class="pc2"><img id="pca-cell" alt="readout"><span class="cn tl" id="pca-cn" style="color:var(--base)"></span><span class="cn br" id="pca-cs" style="color:var(--ours)"></span></figure>
+            <figure class="pc2"><canvas id="pca-tgt"></canvas><figcaption>DINOv2 target</figcaption></figure>
+            <figure class="pc2"><canvas id="pca-cell" title="drag to move the split"></canvas><span class="cn tl" id="pca-cn" style="color:var(--base)"></span><span class="cn br" id="pca-cs" style="color:var(--ours)"></span></figure>
           </div>
           <label class="sl"><span><i>k</i></span><input type="range" id="pca-k" min="0" max="4" step="1" value="0"><output id="pca-kv">1</output></label>
           <label class="sl"><span>&sigma;</span><input type="range" id="pca-s" min="0" max="3" step="1" value="0"><output id="pca-sv">1</output></label>
@@ -505,9 +508,9 @@
           <div class="detail"><div class="d">Decoder REPA aligns an early decoder layer with DINOv2 features, but that layer also sees a partly noised latent, which can supply part of the target without the tokens.
             SemanTok keeps decoder REPA and adds the DINO heads, which read only the tokens.</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">For generation from pure noise, SemanTok's readout has a higher DINOv2 cosine similarity than VideoFlexTok's at every <i>k</i>.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=32 on uCO3D, SemanTok's pure-noise readout reaches the similarity that VideoFlexTok reaches only with a 75%-clean latent (0.718 vs. 0.716, circled).</div></div></li>
+          <div class="detail"><div class="d">At <i>k</i>=32 on uCO3D, SemanTok's pure-noise readout reaches the similarity that VideoFlexTok reaches only with a 75%-clean latent (0.721 vs. 0.716, circled).</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">A cleaner latent adds much less to SemanTok's readout than to VideoFlexTok's.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=256 the latent adds almost nothing to SemanTok's readout, but nearly 9&times; more to VideoFlexTok's.
+          <div class="detail"><div class="d">At <i>k</i>=256 the latent adds almost nothing to SemanTok's readout, but over 11&times; more to VideoFlexTok's.
             The exception is the smallest budgets with a mostly clean latent (<a href="#f7">Finding 7</a>).</div></div></li>
       </ul>
     </article>
@@ -589,7 +592,7 @@
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's losses to VideoFlexTok that clear the bootstrap intervals are all on uCO3D at <i>k</i> &le; 4, mostly gFID and ClipV at <i>k</i>=1.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">On Kinetics-600, SemanTok is never significantly worse. SemanTok's fidelity lead follows at larger budgets (<a href="#f1">Finding 1</a>).</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA shows the same budget limit.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=1, SemanTok's pure-noise readout leads by only 0.01 DINOv2 cosine, against 0.04&ndash;0.07 from <i>k</i>=16.
+          <div class="detail"><div class="d">At <i>k</i>=1, SemanTok's pure-noise readout leads by only 0.01&ndash;0.02 DINOv2 cosine, against 0.04&ndash;0.08 from <i>k</i>=16.
             With a mostly clean latent (&sigma;=0.25), SemanTok's readout is lower up to <i>k</i>=4 on uCO3D and <i>k</i>=8 on Kinetics-600.</div></div></li>
         <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">A token carries at most about 16 bits, too few to satisfy flow matching, decoder REPA and semantic supervision at the same time.</span><span class="chev">&#9656;</span></button>
           <div class="detail"><div class="d">SemanTok still never falls behind in class accuracy, at any budget or AR size.</div></div></li>
@@ -628,6 +631,7 @@
   Page layout inspired by the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page template.
 </footer>
 
+<script src="static/pca/data.js"></script>
 <script>
   // Findings: click a point to reveal its detail directly under it.
   document.querySelectorAll(".pt").forEach(function (btn) {
@@ -665,27 +669,82 @@
     return h + "</span>";
   }
   document.querySelectorAll("[data-tok]").forEach(function (e) { e.outerHTML = tokIcon(+e.dataset.tok); });
-  // Finding 4: PCA readout explorer (almond etc.).
+  // Finding 4: PCA readout explorer. Everything is drawn on canvases from static/pca/data.js (16x16 PCA-RGB per readout)
+  // and a per-clip filmstrip, so the videos roll in sync and the split between the two readouts can be dragged.
   (function () {
-    var COS = {"almond": [[[0.34, 0.52], [0.47, 0.6], [0.52, 0.65], [0.52, 0.68], [0.55, 0.69]], [[0.43, 0.55], [0.49, 0.63], [0.52, 0.66], [0.52, 0.68], [0.55, 0.7]], [[0.59, 0.63], [0.58, 0.67], [0.58, 0.68], [0.58, 0.69], [0.59, 0.7]], [[0.65, 0.65], [0.65, 0.67], [0.64, 0.67], [0.63, 0.68], [0.63, 0.69]]], "banana": [[[0.55, 0.59], [0.6, 0.7], [0.65, 0.74], [0.67, 0.77], [0.7, 0.79]], [[0.58, 0.62], [0.63, 0.71], [0.67, 0.74], [0.68, 0.77], [0.71, 0.79]], [[0.67, 0.69], [0.7, 0.73], [0.72, 0.75], [0.72, 0.76], [0.72, 0.79]], [[0.75, 0.71], [0.75, 0.73], [0.75, 0.75], [0.75, 0.76], [0.75, 0.78]]]};
-    var EX = [["almond", "Almond (OOD)"], ["banana", "Banana (ID)"]],
-        KS = [1, 4, 16, 64, 256], SG = ["1", "0.75", "0.5", "0.25"], cur = "almond";
-    var el = function (i) { return document.getElementById(i); }, P = "static/img/pca/";
-    function draw() {
-      var k = +el("pca-k").value, s = +el("pca-s").value;
-      el("pca-in").src = P + cur + "_in.jpg"; el("pca-tgt").src = P + cur + "_tgt.jpg";
-      el("pca-dec").src = P + cur + "_dec" + s + ".jpg"; el("pca-cell").src = P + cur + "_c" + s + k + ".jpg";
-      var cv = COS[cur][s][k]; el("pca-cn").textContent = cv[0].toFixed(2); el("pca-cs").textContent = cv[1].toFixed(2);
-      el("pca-kv").textContent = KS[k]; el("pca-sv").textContent = SG[s];
+    var D = window.PCA; if (!D) return;
+    var EX = ["almond", "banana", "guitar"], SG = ["1", "0.75", "0.5", "0.25"], FPS = 8;
+    var el = function (i) { return document.getElementById(i); };
+    var cur = "almond", pos = { diag: 1, vert: 0.5 }, fr = 0, dirty = true, visible = true, t0 = performance.now();
+    var strips = {}, dec = {}, tiny = {};
+    function strip(id) { if (!strips[id]) { var im = new Image(); im.onload = function () { dirty = true; }; im.src = "static/pca/" + id + ".jpg"; strips[id] = im; } return strips[id]; }
+    function bytes(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+    function tile(key, b64, t) {
+      var k = cur + key + t; if (tiny[k]) return tiny[k];
+      dec[cur + key] = dec[cur + key] || bytes(b64);
+      var c = document.createElement("canvas"); c.width = c.height = 16;
+      var x = c.getContext("2d"), im = x.createImageData(16, 16), u = dec[cur + key], o = t * 768;
+      for (var i = 0; i < 256; i++) { im.data[4 * i] = u[o + 3 * i]; im.data[4 * i + 1] = u[o + 3 * i + 1]; im.data[4 * i + 2] = u[o + 3 * i + 2]; im.data[4 * i + 3] = 255; }
+      x.putImageData(im, 0, 0); return (tiny[k] = c);
     }
+    function ctxOf(id) {
+      var c = el(id), d = window.devicePixelRatio || 1, w = Math.round(c.clientWidth * d);
+      if (w && c.width !== w) { c.width = c.height = w; }
+      var x = c.getContext("2d"); x.imageSmoothingEnabled = (id === "pca-in" || id === "pca-dec" || id === "pca-cell"); return [x, c.width, d];
+    }
+    function group(f, first) { var g = 0; for (var i = 0; i < first.length; i++) if (first[i] <= f) g = i; return g; }
+    function draw() {
+      var C = D[cur], k = +el("pca-k").value, s = +el("pca-s").value, f = fr % C.nf, g = group(f, C.first), W, x, d, r;
+      var im = strip(cur), fw = C.fw;
+      r = ctxOf("pca-in"); x = r[0]; W = r[1]; if (W && im.complete) x.drawImage(im, f * fw, 0, fw, fw, 0, 0, W, W);
+      r = ctxOf("pca-dec"); x = r[0]; W = r[1]; if (W && im.complete) x.drawImage(im, f * fw, (1 + s) * fw, fw, fw, 0, 0, W, W);
+      r = ctxOf("pca-tgt"); x = r[0]; W = r[1]; x.imageSmoothingEnabled = false; if (W) x.drawImage(tile("tgt", C.tgt, g), 0, 0, W, W);
+      r = ctxOf("pca-cell"); x = r[0]; W = r[1]; d = r[2]; if (!W) return;
+      var kn = "native" + s + k, ks = "semlev" + s + k, vert = C.kind === "vert", p = pos[C.kind];
+      x.imageSmoothingEnabled = false;
+      x.drawImage(tile(kn, C.cells[kn], g), 0, 0, W, W);
+      x.save(); x.beginPath();
+      var m = vert ? [p, 0.5] : [p / 2, p / 2], dv = vert ? [0, 1] : [1, -1], nv = vert ? [1, 0] : [1, 1], q = 3, P = function (a, b) { return [(m[0] + dv[0] * a + nv[0] * b) * W, (m[1] + dv[1] * a + nv[1] * b) * W]; };
+      [P(q, 0), P(q, q), P(-q, q), P(-q, 0)].forEach(function (v, i) { i ? x.lineTo(v[0], v[1]) : x.moveTo(v[0], v[1]); });
+      x.closePath(); x.clip(); x.drawImage(tile(ks, C.cells[ks], g), 0, 0, W, W); x.restore();
+      var a = P(q, 0), b = P(-q, 0);
+      x.strokeStyle = "#fff"; x.lineWidth = 2 * d; x.beginPath(); x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); x.stroke();
+      var h = [m[0] * W, m[1] * W], rr = 9 * d; x.fillStyle = "#fff"; x.strokeStyle = "rgba(0,0,0,.35)"; x.lineWidth = d;
+      x.beginPath(); x.arc(h[0], h[1], rr, 0, 7); x.fill(); x.stroke();
+      x.fillStyle = "#555"; x.beginPath();
+      var ax = vert ? [1, 0] : [0.7071, 0.7071], u = 3.2 * d;   // arrows along the drag direction
+      [1, -1].forEach(function (sg) { var tx = h[0] + sg * ax[0] * 6 * d, ty = h[1] + sg * ax[1] * 6 * d;
+        x.moveTo(tx + sg * ax[0] * u * 0.9, ty + sg * ax[1] * u * 0.9); x.lineTo(tx - ax[1] * u, ty + ax[0] * u); x.lineTo(tx + ax[1] * u, ty - ax[0] * u); });
+      x.fill();
+      var cn = C.cos[kn][g], cs = C.cos[ks][g];
+      el("pca-cn").textContent = cn.toFixed(2); el("pca-cs").textContent = cs.toFixed(2);
+      el("pca-cs").className = "cn " + (vert ? "tr" : "br");
+      el("pca-cell").style.cursor = vert ? "ew-resize" : "nwse-resize";
+    }
+    function tick(now) {
+      var f = Math.floor((now - t0) * FPS / 1000);
+      if (visible && (f !== fr || dirty)) { fr = f; dirty = false; draw(); }
+      requestAnimationFrame(tick);
+    }
+    function labels() { el("pca-kv").textContent = D[cur].ks[+el("pca-k").value]; el("pca-sv").textContent = SG[+el("pca-s").value]; dirty = true; }
     var bar = el("pca-ex");
-    EX.forEach(function (e, i) {
-      var b = document.createElement("button"); b.textContent = e[1];
-      b.addEventListener("click", function () { cur = e[0]; bar.querySelectorAll("button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); }); draw(); });
+    EX.forEach(function (id, i) {
+      var b = document.createElement("button"); b.textContent = D[id].label;
+      b.addEventListener("click", function () { cur = id; bar.querySelectorAll("button").forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); }); labels(); });
       bar.appendChild(b); if (i === 0) b.setAttribute("aria-pressed", "true");
     });
-    el("pca-k").addEventListener("input", draw); el("pca-s").addEventListener("input", draw);
-    draw();
+    el("pca-k").addEventListener("input", labels); el("pca-s").addEventListener("input", labels);
+    var cell = el("pca-cell"), drag = false;
+    function move(e) {
+      var R = cell.getBoundingClientRect(), x = (e.clientX - R.left) / R.width, y = (e.clientY - R.top) / R.height, kd = D[cur].kind;
+      pos[kd] = kd === "vert" ? Math.min(0.97, Math.max(0.03, x)) : Math.min(1.95, Math.max(0.05, x + y)); dirty = true;
+    }
+    cell.addEventListener("pointerdown", function (e) { drag = true; cell.setPointerCapture(e.pointerId); move(e); });
+    cell.addEventListener("pointermove", function (e) { if (drag) move(e); });
+    cell.addEventListener("pointerup", function () { drag = false; });
+    if (window.IntersectionObserver) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; dirty = true; }).observe(el("pca"));
+    window.addEventListener("resize", function () { dirty = true; });
+    labels(); requestAnimationFrame(tick);
   })();
   // Finding 6 explainer squares.
   (function () {
