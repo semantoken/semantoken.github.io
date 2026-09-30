@@ -208,7 +208,7 @@
     <p>Existing flexible-length, coarse-to-fine video tokenizers apply representation alignment (REPA) only on early decoder hidden states,
     a target the decoder can partly meet from its noised input instead.
     <span class="ours">SemanTok</span> feeds frozen DINO features into its encoder and adds lightweight heads that reconstruct them from each retained token prefix alone.
-    A 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size,
+    A 201M SemanTok autoregressive (AR) model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size,
     and its short token prefixes are cheaper to predict and give better generation fidelity, with pixel detail deferred to later tokens.</p>
   </div>
 </header>
