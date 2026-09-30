@@ -70,19 +70,25 @@
   .topnav a { color: var(--ink); }
 
   /* clean clip grids: text-free video, labels drawn here */
-  .clip { padding: 20px 0 0 30px; }
+  .clip { padding: 24px 0 0 50px; }
   .clip .box { position: relative; }
-  .clip .rl { position: absolute; left: -30px; width: 30px; transform: translateY(-50%) rotate(180deg); text-align: center;
+  .clip .rl { position: absolute; left: -50px; width: 50px; transform: translateY(-50%) rotate(180deg); text-align: center;
               writing-mode: vertical-rl; font-size: 11.5px; line-height: 1.15; white-space: nowrap; }
   .clip .rl b { font-weight: 700; }
   .clip .mt { position: absolute; z-index: 1; transform: translateX(-50%); font-size: 10.5px; text-align: center; color: var(--mute); white-space: nowrap; line-height: 1.2; }
   .clip .mt b { color: var(--ink); }
-  .clip .cl { position: absolute; top: -19px; transform: translateX(-50%); font-size: 12.5px; color: var(--mute); white-space: nowrap; }
+  .clip .cl { position: absolute; top: -22px; transform: translateX(-50%); font-size: 12.5px; color: var(--ink); white-space: nowrap;
+              display: flex; align-items: center; gap: 4px; font-weight: 600; }
+  .clip .axis { position: absolute; top: -24px; left: -50px; width: 46px; text-align: right; font-size: 10px; line-height: 1.1;
+                color: var(--mute); }
+  .tok { display: inline-flex; align-items: center; gap: 1.5px; }
+  .tok i { display: block; width: 5px; height: 5px; border-radius: 1px; }
+  .tok s { text-decoration: none; font-size: 9px; letter-spacing: -1px; color: var(--mute); margin: 0 1px; }
   .clip video { width: 100%; height: auto; display: block; cursor: pointer; background: #fff; }
   .teaser { display: grid; gap: 26px; align-items: start; }
   .teaser h3 { font-size: 15px; font-weight: 600; margin: 0 0 4px; }
   .teaser h3 span { font-weight: 400; color: var(--mute); }
-  .teaser .caption { text-align: left; margin: 6px 0 0 30px; font-size: 14px; }
+  .teaser .caption { text-align: left; margin: 6px 0 0 50px; font-size: 14px; }
   .viewer { margin: 0 auto; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 4px 0; }
   .chips .grp { font-size: 13px; color: var(--mute); margin-right: 2px; align-self: center; min-width: 108px; text-align: right; }
@@ -213,14 +219,9 @@
 <!-- ======================= RESULTS ======================= -->
 <section id="results">
   <div class="container">
-    <div class="legend">
-      <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
-      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
-      <div><i>k</i> = tokens per latent frame (coarse &rarr; fine)</div>
-    </div>
 
-    <!-- Column widths follow the two grids' pixel widths (+30 px row labels) so both grids get the same height. -->
-    <div class="teaser" style="grid-template-columns: minmax(0, 554fr) minmax(0, 810fr)">
+    <!-- Column widths follow the two grids' pixel widths (+50 px row labels) so both grids get the same height. -->
+    <div class="teaser" style="grid-template-columns: minmax(0, 574fr) minmax(0, 830fr)">
       <div>
         <h3>Text-to-video <span>&middot; uCO3D</span></h3>
         <p class="sub">Prompt: &ldquo;A small orange basketball on a plaid tablecloth&rdquo;</p>
@@ -481,11 +482,7 @@
 <section id="videos">
   <div class="container">
     <h2>More videos</h2>
-    <div class="legend">
-      <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
-      <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
-      <div>Click a video for controls.</div>
-    </div>
+    <div class="legend"><div>Click a video for controls.</div></div>
     <div id="chips"></div>
     <div class="viewer" id="viewer" style="margin-top:14px"></div>
     <p class="viewer-cap" id="viewer-cap"></p>
@@ -534,6 +531,17 @@
 
   // ---------- clean clip grids ----------
   var ARM = { levers: ["SemanTok", "var(--ours)"], native: ["VideoFlexTok", "var(--base)"] };
+  // Token-budget icon: the first tokens of a frame, coarse (light) to fine (dark), as in the paper's teaser.
+  function shade(i) {
+    var f = Math.log2(i + 1) / 8, a = [199, 227, 191], b = [46, 107, 55];
+    return "rgb(" + a.map(function (v, j) { return Math.round(v + (b[j] - v) * f); }).join(",") + ")";
+  }
+  function tokIcon(k) {
+    var h = '<span class="tok" title="' + k + ' tokens per latent frame">';
+    for (var i = 0; i < Math.min(k, 4); i++) h += '<i style="background:' + shade(i) + '"></i>';
+    if (k > 4) h += '<s>&middot;&middot;&middot;</s><i style="background:' + shade(k - 1) + '"></i>';
+    return h + "</span>";
+  }
   function buildClip(host) {
     var L = window.CLIPS && window.CLIPS[host.dataset.clip];
     if (!L) { host.textContent = "missing clip " + host.dataset.clip; return; }
@@ -543,9 +551,12 @@
       return '<div class="rl" style="top:' + pct(r.y + L.tile / 2, L.H) + ';color:' + a[1] + '"><b>' + a[0] + '</b>' +
              (sub ? '<br>' + sub : '') + '</div>';
     }).join("");
+    var isK = L.cols.some(function (c) { return /^k=/.test(c.label); });
     var cols = L.cols.map(function (c) {
-      return '<div class="cl" style="left:' + pct(c.x + L.tile / 2, L.W) + '">' + c.label + '</div>';
-    }).join("");
+      var m = /^k=(\d+)$/.exec(c.label), lab = c.label;
+      if (m) lab = m[1] + tokIcon(+m[1]);
+      return '<div class="cl" style="left:' + pct(c.x + L.tile / 2, L.W) + '">' + lab + '</div>';
+    }).join("") + '<div class="axis">' + (isK ? "tokens<br>/ frame" : "AR size") + '</div>';
     var mts = "";
     if (L.metrics) {
       L.rows.forEach(function (r) {
@@ -605,7 +616,7 @@
     var L = window.CLIPS[item[0]];
     // Tall grids (6 rows) are capped at ~68% of the viewport height.
     // and all grids at ~1.4x native size, so small grids stay sharp.
-    viewer.style.maxWidth = "min(100%, " + Math.round(1.4 * L.W + 30) + "px, calc(68vh * " + (L.W / L.H).toFixed(3) + " + 30px))";
+    viewer.style.maxWidth = "min(100%, " + Math.round(1.4 * L.W + 50) + "px, calc(68vh * " + (L.W / L.H).toFixed(3) + " + 50px))";
     viewer.innerHTML = '<div data-clip="' + item[0] + '"></div>';
     buildClip(viewer.firstChild);
     cap.textContent = item[2];
