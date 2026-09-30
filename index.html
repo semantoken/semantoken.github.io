@@ -724,7 +724,7 @@
       el("pca-cell").style.cursor = vert ? "ew-resize" : "nwse-resize";
     }
     function tick(now) {
-      if (!paused) { var f = Math.floor((now - t0) * FPS / 1000); if (f !== fr) { fr = f; dirty = true; } }
+      if (!paused) { var f = Math.max(0, Math.floor((performance.now() - t0) * FPS / 1000)); if (f !== fr) { fr = f; dirty = true; } }
       if (visible && dirty) { dirty = false; draw(); }
       requestAnimationFrame(tick);
     }
@@ -739,7 +739,7 @@
     function setPaused(v) { paused = v; el("pca-pp").innerHTML = v ? "&#9654;" : "&#10074;&#10074;";
       if (!v) t0 = performance.now() - fr * 1000 / FPS; }
     el("pca-pp").addEventListener("click", function () { setPaused(!paused); });
-    el("pca-t").addEventListener("input", function () { setPaused(true); fr = +this.value; dirty = true; });
+    el("pca-t").addEventListener("input", function () { setPaused(true); fr = +this.value; dirty = false; draw(); });
     var cell = el("pca-cell"), drag = false;
     function move(e) {
       var R = cell.getBoundingClientRect(), x = (e.clientX - R.left) / R.width, y = (e.clientY - R.top) / R.height, kd = D[cur].kind;
