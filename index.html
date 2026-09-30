@@ -48,7 +48,7 @@
   .btn.disabled { background: #b5b5b5; cursor: default; }
   .btn svg { width: 16px; height: 16px; fill: currentColor; }
 
-  .tldr { max-width: 860px; margin: 18px auto 0; text-align: left; display: flex; gap: 14px; align-items: flex-start;
+  .tldr { max-width: 860px; margin: 22px auto 0; text-align: left; display: flex; gap: 14px; align-items: flex-start;
           background: #f6f2fb; border: 1px solid #e3d8f2; border-left: 4px solid var(--ours); border-radius: 10px; padding: 12px 16px; }
   .tldr p { margin: 0; font-size: 16px; color: #33373d; }
   .tldr-tag { flex: none; font: 700 12px/1 "Noto Sans", sans-serif; letter-spacing: .08em; color: #fff; background: var(--ours);
@@ -204,11 +204,6 @@
     <a class="btn" href="#videos"><svg viewBox="0 0 24 24"><path d="M3 5h13v14H3zM17 10l5-3v10l-5-3z"/></svg>Videos</a>
     <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
   </div>
-  <div class="tldr"><span class="tldr-tag">TL;DR</span>
-    <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, so the first tokens should already capture what the clip shows.
-    <span class="ours">SemanTok</span> supervises this explicitly: every nested token prefix is trained to carry the clip's semantics.
-    The resulting prefixes are cheaper to predict and lead to better generation fidelity: a 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
-  </div>
 </header>
 
 <nav class="topnav"><div class="container">
@@ -218,7 +213,6 @@
 <!-- ======================= RESULTS ======================= -->
 <section id="results">
   <div class="container">
-    <h2>Results</h2>
     <div class="legend">
       <div><span class="sw" style="background:var(--base)"></span>VideoFlexTok (baseline)</div>
       <div><span class="sw" style="background:var(--ours)"></span>SemanTok (ours)</div>
@@ -241,6 +235,12 @@
         <p class="caption">SemanTok keeps a complex body motion stable from <i>k</i>=16, and larger <i>k</i> refines its appearance and motion.
           VideoFlexTok changes the scene between <i>k</i>=4 and <i>k</i>=16. Visually matched pair from 24 samples per tokenizer.</p>
       </div>
+    </div>
+
+    <div class="tldr"><span class="tldr-tag">TL;DR</span>
+      <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, so the first tokens should already capture what the clip shows.
+      <span class="ours">SemanTok</span> supervises this explicitly: every nested token prefix is trained to carry the clip's semantics.
+      The resulting prefixes are cheaper to predict and lead to better generation fidelity: a 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
     </div>
 
     <div class="stats">
