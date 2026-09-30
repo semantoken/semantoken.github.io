@@ -205,8 +205,9 @@
     <a class="btn" href="#findings"><svg viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 6h16v2H4zm0 6h10v2H4z"/></svg>7 Findings</a>
   </div>
   <div class="tldr"><span class="tldr-tag">TL;DR</span>
-    <p><span class="ours">SemanTok</span>, a flexible video tokenizer, feeds frozen DINO features into its encoder and reconstructs them from each retained token prefix.
-    A 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
+    <p><span class="ours">SemanTok</span> gives a flexible video tokenizer explicit semantic supervision over its nested token prefixes.
+    Even short prefixes then carry the clip's semantics and are cheaper to predict: a 201M SemanTok AR model matches or beats a
+    <span class="base">VideoFlexTok</span> AR model 3.4&times; its size, and keeps semantic alignment on unseen classes.</p>
   </div>
 </header>
 
