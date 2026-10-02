@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SemanTok</title>
 <script src="static/clips/clips.js?v=08380032"></script>
-<meta name="description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
+<meta name="description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics. A 49M autoregressive model on SemanTok tokens beats a 47x larger VideoFlexTok model in semantic alignment.">
 <link rel="canonical" href="https://semantoken.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SemanTok">
 <meta property="og:title" content="SemanTok">
-<meta property="og:description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
+<meta property="og:description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics. A 49M autoregressive model on SemanTok tokens beats a 47x larger VideoFlexTok model in semantic alignment.">
 <meta property="og:url" content="https://semantoken.github.io/">
 <meta property="og:image" content="https://semantoken.github.io/static/img/preview.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="SemanTok: the first tokens of a sequence already decode to a coarse image, later tokens add detail">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SemanTok">
-<meta name="twitter:description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics, so small autoregressive models generate better videos.">
+<meta name="twitter:description" content="SemanTok: a flexible-length video tokenizer whose first tokens carry the clip's semantics. A 49M autoregressive model on SemanTok tokens beats a 47x larger VideoFlexTok model in semantic alignment.">
 <meta name="twitter:image" content="https://semantoken.github.io/static/img/preview.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -333,13 +333,13 @@
     </div>
 
     <div class="tldr"><span class="tldr-tag">TL;DR</span>
-      <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, which condition a diffusion decoder, so the first tokens should already capture what the clip shows.
-      <span class="ours">SemanTok</span> supervises this explicitly: every nested token prefix is trained to carry the clip's <span class="sem">semantics</span>.
-      The resulting prefixes are cheaper to predict and lead to better generation <span class="fid">fidelity</span> and higher <span class="sem">semantic alignment</span>: a 201M SemanTok AR model matches or beats a <span class="base">VideoFlexTok</span> AR model 3.4&times; its size.</p>
+      <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, but nothing makes the first tokens carry what the clip shows.
+      <span class="ours">SemanTok</span> trains every nested token prefix to carry the clip's <span class="sem">semantics</span>, so the AR model commits to <i>what</i> the clip contains first and the decoder fills in the detail.
+      The gain is one that scale does not buy back: our smallest AR model (49M) beats a <b>47&times; larger</b> <span class="base">VideoFlexTok</span> AR model (2.29B) in <span class="sem">semantic alignment</span>, and a 201M SemanTok model matches or beats a <span class="base">VideoFlexTok</span> model 3.4&times; its size in <span class="fid">fidelity</span> as well.</p>
     </div>
 
     <div class="stats">
-      <div class="stat"><b>3.4&times; smaller</b><span>a 201M SemanTok AR model matches or beats a VideoFlexTok AR model 3.4&times; its size</span></div>
+      <div class="stat"><b class="sem">47&times; smaller</b><span>a 49M SemanTok AR model beats the 2.29B VideoFlexTok AR model in <span class="sem">semantic alignment</span> (Kinetics-600 class accuracy 0.631 vs. 0.560)</span></div>
       <div class="stat"><b class="sem">+25&ndash;61%</b><span><span class="sem">semantic alignment</span> on Kinetics-600 vs. the same-size VideoFlexTok AR model</span></div>
       <div class="stat"><b class="fid">+11&ndash;24%</b><span><span class="fid">fidelity</span> on Kinetics-600 vs. the same-size VideoFlexTok AR model</span></div>
       <div class="stat"><b>All metrics</b><span>improve at high <i>k</i>: at <i>k</i>=256, <span class="fid">fidelity</span> and <span class="sem">semantic alignment</span> beat VideoFlexTok on both datasets at every AR size</span></div>
