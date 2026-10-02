@@ -333,8 +333,8 @@
     </div>
 
     <div class="tldr"><span class="tldr-tag">TL;DR</span>
-      <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, but nothing makes the first tokens carry what the clip shows.
-      <span class="ours">SemanTok</span> trains every nested token prefix to carry the clip's <span class="sem">semantics</span>, so the AR model commits to <i>what</i> the clip contains first and the decoder fills in the detail.
+      <p>Flexible video tokenizers (e.g., <span class="base">VideoFlexTok</span>) let an autoregressive (AR) model stop after any number of tokens, and expect the first coarse tokens to carry the clip's semantics. They only encourage this indirectly, with an alignment loss on early decoder states, which the decoder can partly meet from its noised input instead of the tokens.
+      <span class="ours">SemanTok</span> supervises it directly: every nested token prefix is trained to reconstruct frozen DINO features of the clip, so the <span class="sem">semantics</span> live in the tokens themselves, and pixel detail is deferred to later ones.
       The gain is one that scale does not buy back: our smallest AR model (49M) beats a <b>47&times; larger</b> <span class="base">VideoFlexTok</span> AR model (2.29B) in <span class="sem">semantic alignment</span>, and a 201M SemanTok model matches or beats a <span class="base">VideoFlexTok</span> model 3.4&times; its size in <span class="fid">fidelity</span> as well.</p>
     </div>
 
