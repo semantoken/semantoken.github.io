@@ -184,7 +184,7 @@
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 
   /* architecture */
-  .intro-new { margin: 18px 0 0; font-size: 15px; color: var(--ours); }
+  .intro-new { margin: 18px 0 0; font-size: 15px; color: var(--ink); }
   .arch-points { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 22px 0 6px; }
   .arch-points div { border-left: 3px solid var(--ours); padding: 2px 0 2px 12px; font-size: 15px; }
   .arch-points div b { display: block; margin-bottom: 2px; color: var(--ours); }
@@ -359,9 +359,9 @@
       <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg?v=4f8fa2e9" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
     </figure>
 
-    <p class="intro-new"><b>Our argument:</b> semantics should be supervised <i>directly on the nested tokens</i>, not hoped for.
-      <span class="base">VideoFlexTok</span> only aligns early decoder states with DINO (decoder REPA), and the decoder can partly meet that loss from its noised input,
-      so nothing forces the semantics into the tokens themselves. SemanTok closes this gap with two changes:</p>
+    <p class="intro-new">We advocate direct, explicit <span class="ours">semantic supervision</span> of the nested tokens.
+      If the first tokens already narrow down what the clip is, the AR model commits to the right content early and later tokens only refine it,
+      giving better semantic alignment and easier rollouts with fewer compounding errors. <span class="base">VideoFlexTok</span> supervises semantics only indirectly, through its decoder. SemanTok adds two changes:</p>
     <div class="arch-points">
       <div><b>Semantic Alignment &middot; the supervision</b>A Dense and a Class DINO head, each two cross-attention layers, must reconstruct the DINO patch features and class token
         from the kept token prefix alone. They never see the noised latent, so the only way to lower their loss is to put semantics into the tokens, at every prefix length nested dropout samples.</div>
