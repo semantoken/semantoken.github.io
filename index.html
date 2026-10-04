@@ -361,7 +361,7 @@
 
     <p class="intro-new">We advocate direct, explicit <span class="ours">semantic supervision</span> of the nested tokens.
       If the first tokens already narrow down what the clip is, the AR model commits to the right content early and later tokens only refine it,
-      giving better semantic alignment and easier rollouts with fewer compounding errors. <span class="base">VideoFlexTok</span> supervises semantics only indirectly, through its decoder. SemanTok adds two changes:</p>
+      giving better semantic alignment and easier rollouts with fewer compounding errors. <span class="base">VideoFlexTok</span> supervises semantics only indirectly, through REPA on its decoder. SemanTok adds two changes:</p>
     <div class="arch-points">
       <div><b>Semantic Alignment &middot; the supervision</b>A Dense and a Class DINO head, each two cross-attention layers, must reconstruct the DINO patch features and class token
         from the kept token prefix alone. They never see the noised latent, so the only way to lower their loss is to put semantics into the tokens, at every prefix length nested dropout samples.</div>
