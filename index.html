@@ -352,21 +352,24 @@
 <section id="method">
   <div class="container">
     <h2>How it works</h2>
-    <p class="lead">Previous flexible tokenizers (e.g., <span class="base">VideoFlexTok</span>) encode each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
-      decodes to a video. The AR model predicts tokens coarse to fine, up to the budget <i>k</i> chosen at inference.</p>
+    <p class="lead">Flexible tokenizers (e.g., <span class="base">VideoFlexTok</span>) encode each latent frame into 256 ordered tokens, and any prefix of <i>k</i> tokens per frame
+      decodes to a video. The AR model predicts tokens coarse to fine, up to the budget <i>k</i> chosen at inference.
+      At a small budget, those first tokens are all the AR model ever generates, so they must carry what the clip <i>is</i>, not just how it looks.</p>
     <figure>
       <object class="svgfig" type="image/svg+xml" data="static/img/overview.svg?v=4f8fa2e9" style="aspect-ratio: 504.57 / 76.81" aria-label="Overview: (1) tokenizer training with semantic supervision; (2) AR generation of token prefixes rendered by the diffusion decoder."></object>
     </figure>
 
-    <p class="intro-new"><b>We introduce</b> two blocks on top of it:</p>
+    <p class="intro-new"><b>Our argument:</b> semantics should be supervised <i>directly on the nested tokens</i>, not hoped for.
+      <span class="base">VideoFlexTok</span> only aligns early decoder states with DINO (decoder REPA), and the decoder can partly meet that loss from its noised input,
+      so nothing forces the semantics into the tokens themselves. SemanTok closes this gap with two changes:</p>
     <div class="arch-points">
-      <div><b>Semantic Encoder</b>Frozen DINOv2 patch features are concatenated with each VAE latent patch before the input projection.
-        A zero-initialized projection of each frame's DINO class token is added to that frame's first register token.</div>
-      <div><b>Semantic Alignment</b>A Dense and a Class DINO head, each two cross-attention layers, reconstruct the DINO patch features and class token
-        from the kept token prefix alone. Unlike decoder REPA, they never see the noised latent, so only the tokens can lower their loss.</div>
+      <div><b>Semantic Alignment &middot; the supervision</b>A Dense and a Class DINO head, each two cross-attention layers, must reconstruct the DINO patch features and class token
+        from the kept token prefix alone. They never see the noised latent, so the only way to lower their loss is to put semantics into the tokens, at every prefix length nested dropout samples.</div>
+      <div><b>Semantic Encoder &middot; the means</b>So the encoder can meet that target, frozen DINOv2 patch features are concatenated with each VAE latent patch before the input projection,
+        and a zero-initialized projection of each frame's DINO class token is added to that frame's first register token.</div>
     </div>
     <p class="caption" style="margin-top:10px;font-size:11.6px;font-style:italic">Everything else is unchanged: SemanTok keeps VideoFlexTok's FSQ codebook (64k codes), sequence length, nested dropout, native decoder and its losses,
-      so both tokenizers are compared under the same AR models and training recipe.</p>
+      and both tokenizers are compared under the same AR models and training recipe, so the gains isolate the effect of supervising semantics directly on the tokens.</p>
     <p class="caption" style="font-size:11.6px;font-style:italic;font-weight:700">No loss assigns information to particular tokens; nested dropout naturally concentrates the most relevant information in the earliest ones.</p>
 
     <details class="more">
