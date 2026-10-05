@@ -611,20 +611,6 @@
     <article class="finding" id="f7" style="--c:var(--f7)">
       <div class="finding-head"><span class="badge" style="background:var(--f7)">7</span>
         <h3 style="color:var(--f7)">SemanTok with one token per frame struggles to serve every objective.</h3></div>
-      <figure class="fig">
-        <object class="svgfig" type="image/svg+xml" data="static/img/ci_diff_strip.svg?v=e9868115" style="aspect-ratio: 396.00 / 108.00" aria-label="SemanTok's advantage over VideoFlexTok versus k with 95% bootstrap intervals."></object>
-        <p class="caption">SemanTok's advantage over VideoFlexTok at equal AR size vs. <i>k</i>, signed so that positive values favour SemanTok.
-          Bands: 95% paired-bootstrap intervals over evaluation clips; the grey line marks no difference.</p>
-      </figure>
-      <ul class="points below">
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">SemanTok's losses to VideoFlexTok that clear the bootstrap intervals are all on uCO3D at <i>k</i> &le; 4, mostly gFID and ClipV at <i>k</i>=1.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">On Kinetics-600, SemanTok is never significantly worse. SemanTok's fidelity lead follows at larger budgets (<a href="#f1">Finding 1</a>).</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">Decoder REPA shows the same budget limit.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">At <i>k</i>=1, SemanTok's pure-noise readout leads by only 0.01&ndash;0.02 DINOv2 cosine, against 0.04&ndash;0.08 from <i>k</i>=16.
-            With a mostly clean latent (&sigma;=0.25), SemanTok's readout is lower up to <i>k</i>=4 on uCO3D and <i>k</i>=8 on Kinetics-600.</div></div></li>
-        <li><button class="pt" aria-expanded="false"><span class="dot"></span><span class="txt">A token carries at most about 16 bits, too few to satisfy flow matching, decoder REPA and semantic supervision at the same time.</span><span class="chev">&#9656;</span></button>
-          <div class="detail"><div class="d">SemanTok still never falls behind in class accuracy, at any budget or AR size.</div></div></li>
-      </ul>
     </article>
 
     <p class="limit"><b>Limitation.</b> Because SemanTok prioritizes semantic alignment over reconstruction, it struggles to reconstruct the same colours and appearance details at lower token budgets.</p>
